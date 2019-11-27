@@ -1,0 +1,168 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+ol,
+ul,
+li {
+  list-style-type: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+}
+img {
+  border: none;
+}
+html,
+body {
+  font-size: 16px;
+}
+.clearfix::after {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  clear: both;
+}
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.w980 {
+  width: 980px;
+  float: right;
+  box-sizing: border-box;
+  margin-left: 0 !important;
+}
+
+@font-face {
+  font-family: "iconfont"; /* project id 1405698 */
+  src: url("//at.alicdn.com/t/font_1405698_04oj08o0xw1a.eot");
+  src: url("//at.alicdn.com/t/font_1405698_04oj08o0xw1a.eot?#iefix") format("embedded-opentype"),
+    url("//at.alicdn.com/t/font_1405698_04oj08o0xw1a.woff2") format("woff2"),
+    url("//at.alicdn.com/t/font_1405698_04oj08o0xw1a.woff") format("woff"),
+    url("//at.alicdn.com/t/font_1405698_04oj08o0xw1a.ttf") format("truetype"),
+    url("//at.alicdn.com/t/font_1405698_04oj08o0xw1a.svg#iconfont") format("svg");
+}
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: inherit;
+  font-style: normal;
+}
+
+.banner_wrap {
+  min-width: 1200px;
+  height: 436px;
+  background-color: #b2b2b2;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.area-box {
+  margin-top: 20px;
+  .area-head {
+    margin-bottom: 6px;
+    height: 24px;
+    line-height: 24px;
+    overflow: hidden;
+    .ah-title,
+    .ah-sub-title {
+      float: left;
+    }
+    .ah-title {
+      position: relative;
+      margin-right: 10px;
+      font-size: 16px;
+      padding-left: 6px;
+      color: #333;
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 2px;
+        height: 16px;
+        transform: translateY(-50%);
+        background: $primarycolor;
+      }
+    }
+    .ah-sub-title {
+      font-size: 12px;
+      color: #999;
+    }
+    .btn-enter-area {
+      float: right;
+      font-size: 12px;
+      color: #999;
+      a:hover {
+        color: $primarycolor;
+      }
+      span {
+        font-family: serif;
+        font-weight: bold;
+      }
+    }
+  }
+}
+/*分页*/
+.pagination {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 0;
+  .pagination-button {
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 4px;
+    margin: 0 5px;
+    overflow: hidden;
+    text-align: center;
+    a {
+      display: block;
+      min-width: 36px;
+      height: 36px;
+      line-height: 36px;
+      font-size: 16px;
+      padding: 0 4px;
+      box-sizing: border-box;
+      color: #666;
+      &:hover {
+        color: $primarycolor;
+      }
+    }
+    &.active {
+      background-color: $primarycolor;
+      a {
+        color: #fff;
+      }
+    }
+    &.prev a,
+    &.next a {
+      padding: 0 14px;
+    }
+    &.disabled a {
+      color: #c0c4cc;
+      cursor: not-allowed;
+    }
+  }
+  .more {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    font-size: 16px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    color: #666;
+    overflow: hidden;
+  }
+}
