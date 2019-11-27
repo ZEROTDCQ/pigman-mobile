@@ -127,18 +127,30 @@ export default {};
       color: #999;
     }
     .btn-buy {
+      position: relative;
       float: right;
       width: 50px;
       height: 16px;
-      font-size: 10px;
       line-height: 16px;
+      font-size: 10px;
       text-align: center;
       color: #999;
-      border: 1px solid #999;
       background: #fff;
-      border-radius: 12px;
+      border-radius: 8px;
       box-sizing: border-box;
       transition: all 0.2s ease;
+      outline: none;
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        border: 1px solid #999;
+        border-radius: 8px;
+        box-sizing: border-box;
+      }
       span {
         font-family: serif;
         font-weight: bold;
@@ -150,10 +162,12 @@ export default {};
   .pro-price {
     .btn-buy {
       color: #f26161;
-      border-color: #f26161;
       &:hover {
         background: #f26161;
         color: #fff;
+      }
+      &::before {
+        border-color: #f26161;
       }
     }
   }

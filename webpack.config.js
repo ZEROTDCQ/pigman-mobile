@@ -34,7 +34,8 @@ module.exports = {
 	// production, development
 	mode: 'development',
 	entry: {
-		Home: './src/views/Home/home.js',			//首页
+		Home: './src/views/Home/home.js',		//首页
+		HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
 	},
 	output: {
 		path: resolve('dist'),
@@ -259,6 +260,11 @@ const pages = [
 		template: './src/views/Home/home.html',
 		filename: 'home.html',
 		chunks: ['reset', 'Home']
+	},
+	{
+		template: './src/views/HomeHeader/header.html',
+		filename: 'header.html',
+		chunks: ['reset', 'HomeHeader']
 	},
 ]
 

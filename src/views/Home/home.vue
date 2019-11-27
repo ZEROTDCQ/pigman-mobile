@@ -47,18 +47,20 @@ export default {
     HomeFlash,
     HomeBooking,
     HomeNewtaset,
+    HomeSellWell,
+    HomeMember,
     HomeOneYuan,
     HomeHelpFree,
     HomeMore
   },
   created() {
-    this.$instance
-      .post("/api/api/modular", {
-        type: 1
-      })
-      .then(res => {
-        console.log(res);
-      });
+    // this.$instance
+    //   .post("/api/api/modular", {
+    //     type: 1
+    //   })
+    //   .then(res => {
+    //     console.log(res);
+    //   });
   }
 };
 </script>

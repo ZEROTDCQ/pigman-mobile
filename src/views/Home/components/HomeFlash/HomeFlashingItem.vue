@@ -16,7 +16,7 @@
       <div class="pro-progress">
         <div class="precent-back">
           <div class="precent-front" :style="{width: 60 + '%'}"></div>
-          <div class="precent-value">阿萨德</div>
+          <div class="precent-value">{{60}}%</div>
         </div>
         <span class="had-saled">已抢{{126}}件</span>
       </div>
@@ -90,7 +90,9 @@ export default {};
       overflow: hidden;
       .precent-front {
         position: absolute;
-        height: 10px;
+        top: 0;
+        left: 0;
+        height: 100%;
         border-radius: 8px;
         background: #54b64f;
       }
@@ -103,11 +105,13 @@ export default {};
         font-size: 8px;
         transform: translateX(-50%);
         display: flex;
-        align-items: flex-start;
+        flex-direction: column;
+        align-content: center;
       }
     }
     .had-saled {
       float: right;
+      height: 100%;
       font-size: 9px;
       color: #999;
     }
@@ -138,8 +142,8 @@ export default {};
       font-size: 10px;
       text-align: center;
       color: #999;
-      // border: 1px solid #999;
       background: #fff;
+      border-radius: 8px;
       box-sizing: border-box;
       transition: all 0.2s ease;
       outline: none;
@@ -151,7 +155,7 @@ export default {};
         width: 100%;
         height: 100%;
         border: 1px solid #999;
-        border-radius: 12px;
+        border-radius: 8px;
         box-sizing: border-box;
       }
       span {
