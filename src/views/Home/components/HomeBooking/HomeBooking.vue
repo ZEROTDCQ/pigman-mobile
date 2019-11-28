@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import BookingItem from "./HomeBookingItem";
+import BookingItem from "@/components/ProCard/Small/Booking/BookingItem";
 export default {
   components: {
     BookingItem
@@ -27,10 +27,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.pro-list {
+/deep/.pro-list {
   margin-top: -10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  .pro-item {
+    margin-top: 10px;
+  }
 }
 </style>

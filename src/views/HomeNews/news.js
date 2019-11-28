@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './home.vue'
+import App from './news.vue'
 
 import '@/assets/css/common/reset.scss'
 

@@ -1,6 +1,6 @@
 <template>
-  <!-- 限时秒杀-正在疯抢组件 -->
-  <div class="pro-item on-sale">
+  <!-- 限时秒杀 - 正在疯抢小卡片 -->
+  <div class="pro-item card-flashing on-sale">
     <div class="pro-img">
       <a href="javascript:;">
         <img
@@ -36,20 +36,23 @@
 export default {};
 </script>
 
-<style lang="scss" scoped>
-.pro-item {
-  margin-top: 10px;
+<style lang="scss">
+.card-flashing {
   width: 172px;
   border-radius: 5px;
   background: #fff;
   overflow: hidden;
   .pro-img {
+    position: relative;
     height: 120px;
     overflow: hidden;
     img {
-      display: block;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
       width: 100%;
-      height: 100%;
+      min-height: 100%;
     }
   }
   .pro-info {
@@ -62,7 +65,7 @@ export default {};
     max-height: 28px;
     font-size: 12px;
     text-align: justify;
-    color: #000;
+    color: #333;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
@@ -75,16 +78,16 @@ export default {};
   }
   .pro-progress {
     margin-bottom: 10px;
-    height: 10px;
-    line-height: 10px;
+    height: 12px;
+    line-height: 12px;
     overflow: hidden;
     .precent-back {
       float: left;
       position: relative;
-      width: 90px;
-      height: 10px;
+      width: 100px;
+      height: 12px;
       text-align: center;
-      border-radius: 8px;
+      border-radius: 6px;
       color: #fff;
       background: #aef3ab;
       overflow: hidden;
@@ -104,15 +107,12 @@ export default {};
         height: 100%;
         font-size: 8px;
         transform: translateX(-50%);
-        display: flex;
-        flex-direction: column;
-        align-content: center;
       }
     }
     .had-saled {
       float: right;
       height: 100%;
-      font-size: 9px;
+      font-size: 10px;
       color: #999;
     }
   }
@@ -130,7 +130,7 @@ export default {};
     }
     del {
       float: left;
-      font-size: 8px;
+      font-size: 10px;
       color: #999;
     }
     .btn-buy {
@@ -165,7 +165,7 @@ export default {};
     }
   }
 }
-.pro-item.on-sale {
+.card-flashing.on-sale {
   .pro-price {
     .btn-buy {
       color: #f26161;

@@ -12,25 +12,28 @@
       </p>
     </div>
     <div class="area-body pro-list">
-      <MemberItem v-for="i in 4" :key="i" />
+      <MemberExclusiveItem v-for="i in 4" :key="i" />
     </div>
   </div>
 </template>
 
 <script>
-import MemberItem from "./HomeMemberItem";
+import MemberExclusiveItem from "@/components/ProCard/Small/Member/MemberExclusiveItem";
 export default {
   components: {
-    MemberItem
+    MemberExclusiveItem
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.pro-list {
+/deep/.pro-list {
   margin-top: -10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  .pro-item {
+    margin-top: 10px;
+  }
 }
 </style>

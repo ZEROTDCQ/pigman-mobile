@@ -1,9 +1,10 @@
 <template>
-  <div class="pro-item on-sale">
+  <!-- 会员专享商品 -->
+  <div class="pro-item card-helpfree on-sale">
     <div class="pro-img">
       <a href="javascript:;">
         <img
-          :src="baseUrl + '/uploads/admin/images/20191030/9e439d9d2cec951ecbd156e354e2616b.jpg'"
+          :src="baseUrl + '/uploads/admin/images/20191031/82351f96a23b68aee0a223826bffd1fe.jpg'"
           alt
         />
       </a>
@@ -12,46 +13,69 @@
       <p class="pro-name">
         <a href="javascript:;" title>【买5斤送5斤】攀枝花凯特新鲜大芒果</a>
       </p>
-      <div class="pro-progress">
-        <div class="countdown">
-          <span style="color: #666;margin-right: 5px;">剩余</span>
-          <span class="countdown-item hours">{{22}}</span>
-          <span class="sep">:</span>
-          <span class="countdown-item minutes">{{20}}</span>
-          <span class="sep">:</span>
-          <span class="countdown-item seconds">{{44}}</span>
-        </div>
-        <span class="had-booked">已有{{38}}人预定</span>
+      <div class="pro-tag">
+        <span class="tag-item" v-for="i in 2" :key="i">满30返2</span>
       </div>
       <div class="pro-price">
-        <em>¥{{33.5}}</em>
-        <del class="today-price">今日价{{38.5}}</del>
-        <a href="javascript:;" class="btn-buy">
-          马上定
-          <span>&gt;</span>
-        </a>
+        <p class="normal-price">
+          原价：¥{{35.5}}
+          <span class="had-buy">已领{{88}}件</span>
+        </p>
+        <p class="activity-price">
+          <em>¥{{25.5}}</em>
+          <a href="javascript:;" class="btn-buy">
+            免费领
+            <span>&gt;</span>
+          </a>
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  // props: {
+  //   data: {
+  //     type: Object
+  //   }
+  // },
+  // data() {
+  //   return {
+  //     status: 1, // 商品状态：0，已售罄，1：正在销售
+  //     statusClass: "on-sale"
+  //   };
+  // },
+  // created() {
+  //   // 判断当前商品状态
+  //   if (this.data.purchased < this.data.limited) {
+  //     this.status = 1;
+  //     this.statusClass = "on-sale";
+  //   } else {
+  //     this.status = 0;
+  //     this.statusClass = "sale-out";
+  //   }
+  // }
+};
 </script>
 
 <style lang="scss" scoped>
-.pro-item {
+.card-helpfree {
   width: 172px;
-  margin-top: 10px;
+  border-radius: 5px;
   background: #fff;
   overflow: hidden;
   .pro-img {
+    position: relative;
     height: 120px;
     overflow: hidden;
     img {
-      display: block;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
       width: 100%;
-      height: 100%;
+      min-height: 100%;
     }
   }
   .pro-info {
@@ -75,51 +99,48 @@ export default {};
       color: $primarycolor;
     }
   }
-  .pro-progress {
+  .pro-tag {
     height: 12px;
-    line-height: 12px;
     overflow: hidden;
-    .had-booked {
-      float: right;
-      font-size: 9px;
-      color: #999;
-    }
-    .countdown {
+    .tag-item {
       float: left;
+      margin-right: 5px;
+      padding: 0 2px;
+      height: 12px;
       line-height: 12px;
       font-size: 8px;
-      span {
-        float: left;
-      }
-      .sep{
-        margin: 0 2px;
-      }
-      .countdown-item {
-        width: 12px;
-        height: 12px;
-        text-align: center;
-        color: #fff;
-        background: #999;
-      }
+      color: #fff;
+      background: $primarycolor;
+      border: 1px solid $primarycolor;
+      box-sizing: border-box;
+      vertical-align: middle;
     }
   }
   .pro-price {
-    margin-top: 10px;
-    height: 16px;
-    line-height: 16px;
+    margin-top: 5px;
+    line-height: 24px;
     overflow: hidden;
-    em {
-      float: left;
-      margin-right: 4px;
-      font-style: normal;
-      font-size: 16px;
-      font-weight: bold;
-      color: #f26161;
-    }
-    del {
-      float: left;
-      font-size: 8px;
+    .normal-price {
+      line-height: 12px;
+      font-size: 10px;
       color: #999;
+      .had-buy {
+        float: right;
+      }
+    }
+    .activity-price {
+      margin-top: 5px;
+      height: 16px;
+      line-height: 16px;
+      overflow: hidden;
+      em {
+        float: left;
+        margin-right: 4px;
+        font-style: normal;
+        font-size: 14px;
+        font-weight: bold;
+        color: #f26161;
+      }
     }
     .btn-buy {
       position: relative;
@@ -153,14 +174,7 @@ export default {};
     }
   }
 }
-.pro-item.on-sale {
-  .pro-progress {
-    .countdown {
-      .countdown-item {
-        background: $primarycolor;
-      }
-    }
-  }
+.card-helpfree.on-sale {
   .pro-price {
     .btn-buy {
       color: #f26161;

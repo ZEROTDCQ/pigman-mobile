@@ -36,6 +36,12 @@ module.exports = {
 	entry: {
 		Home: './src/views/Home/home.js',		//首页
 		HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
+		HomeNews: './src/views/HomeNews/news.js',		//首页头部
+		Flash: './src/views/Flash/flash.js',		//限时抢购
+		Resume: './src/views/Resume/resume.js',		//公司介绍
+		Activity: './src/views/Activity/activity.js',		//活动专区
+		Member: './src/views/Member/member.js',		//活动专区
+		test: './src/views/test/test.js',		//商品卡片测试页面
 	},
 	output: {
 		path: resolve('dist'),
@@ -110,7 +116,7 @@ module.exports = {
 			// 设置代理
 			// proxy all requests starting with /api to jsonplaceholder
 			'/api': {
-				target: 'http://192.168.0.106/', //真实请求的目标地址
+				target: 'http://192.168.0.105/', //真实请求的目标地址
 				changeOrigin: true,
 				pathRewrite: {
 					'^/api': '/api'
@@ -129,6 +135,7 @@ module.exports = {
 		// 配置了该项后，项目中可以无需引入而直接使用以下配置的模块，改为html中script引入资源
 		// 当webpack打包构建时，会跳过以下模块，不对他们进行打包，因为他们是通过cdn线上资源引入的，而非依赖于node_modules里面的模块
 		vue: 'Vue',
+		'vue-router': 'VueRouter',
 		"element-ui": 'ELEMENT',
 		axios: 'axios'
 	},
@@ -265,6 +272,36 @@ const pages = [
 		template: './src/views/HomeHeader/header.html',
 		filename: 'header.html',
 		chunks: ['reset', 'HomeHeader']
+	},
+	{
+		template: './src/views/HomeNews/news.html',
+		filename: 'news.html',
+		chunks: ['reset', 'HomeNews']
+	},
+	{
+		template: './src/views/Flash/flash.html',
+		filename: 'flash.html',
+		chunks: ['reset', 'Flash']
+	},
+	{
+		template: './src/views/Resume/resume.html',
+		filename: 'resume.html',
+		chunks: ['reset', 'Resume']
+	},
+	{
+		template: './src/views/Activity/activity.html',
+		filename: 'activity.html',
+		chunks: ['reset', 'Activity']
+	},
+	{
+		template: './src/views/Member/member.html',
+		filename: 'member.html',
+		chunks: ['reset', 'Member']
+	},
+	{
+		template: './src/views/test/test.html',
+		filename: 'test.html',
+		chunks: ['reset', 'test']
 	},
 ]
 

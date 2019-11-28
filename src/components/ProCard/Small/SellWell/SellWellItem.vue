@@ -1,6 +1,6 @@
 <template>
   <!-- 新品尝鲜产品组件 -->
-  <div class="pro-item on-sale">
+  <div class="pro-item card-sellwell on-sale">
     <div class="pro-img">
       <a href="javascript:;">
         <img
@@ -54,20 +54,23 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.pro-item {
-  margin-top: 10px;
+<style lang="scss">
+.card-sellwell {
   width: 172px;
   border-radius: 5px;
   background: #fff;
   overflow: hidden;
   .pro-img {
+    position: relative;
     height: 120px;
     overflow: hidden;
     img {
-      display: block;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
       width: 100%;
-      height: 100%;
+      min-height: 100%;
     }
   }
   .pro-info {
@@ -92,14 +95,14 @@ export default {
     }
   }
   .pro-tag {
-    height: 14px;
+    height: 12px;
     overflow: hidden;
     .tag-item {
       float: left;
       margin-right: 5px;
       padding: 0 2px;
-      height: 14px;
-      line-height: 14px;
+      height: 12px;
+      line-height: 12px;
       font-size: 8px;
       color: #fff;
       background: $primarycolor;
@@ -123,8 +126,10 @@ export default {
     }
     .num {
       float: left;
-      font-size: 8px;
+      max-width: 60px;
+      font-size: 10px;
       color: #999;
+      overflow: hidden;
     }
     .btn-buy {
       position: relative;
@@ -158,7 +163,7 @@ export default {
     }
   }
 }
-.pro-item.on-sale {
+.card-sellwell.on-sale {
   .pro-price {
     .btn-buy {
       color: #f26161;

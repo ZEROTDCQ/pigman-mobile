@@ -1,10 +1,10 @@
 <template>
-  <!-- 会员专享商品 -->
-  <div class="pro-item on-sale">
+  <!-- 新品尝鲜产品组件 -->
+  <div class="pro-item card-newtaste on-sale">
     <div class="pro-img">
       <a href="javascript:;">
         <img
-          :src="baseUrl + '/uploads/admin/images/20191031/82351f96a23b68aee0a223826bffd1fe.jpg'"
+          :src="baseUrl + '/uploads/admin/images/20191031/292aa6d65be65dba1ed2b1842728d344.jpg'"
           alt
         />
       </a>
@@ -14,20 +14,15 @@
         <a href="javascript:;" title>【买5斤送5斤】攀枝花凯特新鲜大芒果</a>
       </p>
       <div class="pro-tag">
-        <span class="tag-item" v-for="i in 2" :key="i">满30返2</span>
+        <span class="tag-item" v-for="i in 3" :key="i">满30返2</span>
       </div>
       <div class="pro-price">
-        <p class="normal-price">
-          原价：¥{{35.5}}
-          <span class="had-buy">已领{{88}}件</span>
-        </p>
-        <p class="activity-price">
-          <em>¥{{25.5}}</em>
-          <a href="javascript:;" class="btn-buy">
-            免费领
-            <span>&gt;</span>
-          </a>
-        </p>
+        <em>¥{{35.5}}</em>
+        <span class="num">已拼10万+件</span>
+        <a href="javascript:;" class="btn-buy">
+          马上抢
+          <span>&gt;</span>
+        </a>
       </div>
     </div>
   </div>
@@ -59,20 +54,23 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.pro-item {
-  margin-top: 10px;
+<style lang="scss">
+.card-newtaste {
   width: 172px;
   border-radius: 5px;
   background: #fff;
   overflow: hidden;
   .pro-img {
+    position: relative;
     height: 120px;
     overflow: hidden;
     img {
-      display: block;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
       width: 100%;
-      height: 100%;
+      min-height: 100%;
     }
   }
   .pro-info {
@@ -97,14 +95,14 @@ export default {
     }
   }
   .pro-tag {
-    height: 14px;
+    height: 12px;
     overflow: hidden;
     .tag-item {
       float: left;
       margin-right: 5px;
       padding: 0 2px;
-      height: 14px;
-      line-height: 14px;
+      height: 12px;
+      line-height: 12px;
       font-size: 8px;
       color: #fff;
       background: $primarycolor;
@@ -114,30 +112,24 @@ export default {
     }
   }
   .pro-price {
-    margin-top: 5px;
-    line-height: 24px;
+    margin-top: 10px;
+    height: 16px;
+    line-height: 16px;
     overflow: hidden;
-    .normal-price {
-      line-height: 12px;
-      font-size: 8px;
-      color: #999;
-      .had-buy {
-        float: right;
-      }
+    em {
+      float: left;
+      margin-right: 4px;
+      font-style: normal;
+      font-size: 16px;
+      font-weight: bold;
+      color: #f26161;
     }
-    .activity-price {
-      margin-top: 5px;
-      height: 16px;
-      line-height: 16px;
+    .num {
+      float: left;
+      max-width: 60px;
+      font-size: 10px;
+      color: #999;
       overflow: hidden;
-      em {
-        float: left;
-        margin-right: 4px;
-        font-style: normal;
-        font-size: 14px;
-        font-weight: bold;
-        color: #f26161;
-      }
     }
     .btn-buy {
       position: relative;
@@ -171,7 +163,7 @@ export default {
     }
   }
 }
-.pro-item.on-sale {
+.card-newtaste.on-sale {
   .pro-price {
     .btn-buy {
       color: #f26161;

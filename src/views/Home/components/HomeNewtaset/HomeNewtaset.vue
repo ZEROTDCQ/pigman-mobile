@@ -12,25 +12,28 @@
       </p>
     </div>
     <div class="area-body pro-list">
-      <NewtasetItem v-for="i in 4" :key="i" />
+      <NewtasteItem v-for="i in 4" :key="i" />
     </div>
   </div>
 </template>
 
 <script>
-import NewtasetItem from "./HomeNewtasetItem";
+import NewtasteItem from "@/components/ProCard/Small/Newtaste/NewtasteItem";
 export default {
   components: {
-    NewtasetItem
+    NewtasteItem
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.pro-list {
+/deep/.pro-list {
   margin-top: -10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  .pro-item {
+    margin-top: 10px;
+  }
 }
 </style>

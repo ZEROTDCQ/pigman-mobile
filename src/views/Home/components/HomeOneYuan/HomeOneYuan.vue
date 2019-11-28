@@ -1,5 +1,5 @@
 <template>
-<!-- 一元购 -->
+  <!-- 一元购 -->
   <div class="area-box">
     <div class="area-head clearfix">
       <h3 class="ah-title">一元购</h3>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import OneYuanItem from "./HomeOneYuanItem";
+import OneYuanItem from "@/components/ProCard/Small/Oneyuan/OneYuanItem";
 export default {
   components: {
     OneYuanItem
@@ -27,10 +27,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.pro-list{
+/deep/.pro-list {
   margin-top: -10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  .pro-item {
+    margin-top: 10px;
+  }
 }
 </style>
