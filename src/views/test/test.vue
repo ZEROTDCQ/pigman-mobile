@@ -24,6 +24,11 @@
       <HelpFreeBig />
       <ScoreChangeBig />
     </div>
+
+    <a href="javascript:;" id="test">
+      <div></div>
+      <div></div>
+    </a>
   </div>
 </template>
 

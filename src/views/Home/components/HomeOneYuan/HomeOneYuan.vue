@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import OneYuanItem from "@/components/ProCard/Small/Oneyuan/OneYuanItem";
+import OneYuanItem from "@/components/ProCard/Small/Oneyuan/OneyuanItem";
 export default {
   components: {
     OneYuanItem
