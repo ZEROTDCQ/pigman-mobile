@@ -36,7 +36,8 @@ module.exports = {
 	entry: {
 		Home: './src/views/Home/home.js',		//首页
 		HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
-		HomeNews: './src/views/HomeNews/news.js',		//首页头部
+		HomeSearch: './src/views/HomeSearch/search.js',		//主站搜索页
+		HomeNews: './src/views/HomeNews/news.js',		//主站新闻
 		Flash: './src/views/Flash/flash.js',		//限时抢购
 		Resume: './src/views/Resume/resume.js',		//公司介绍
 		Activity: './src/views/Activity/activity.js',		//活动专区
@@ -47,11 +48,12 @@ module.exports = {
 
 		// ----------------------------------- 饮食指南 -----------------------------------
 		MenuHome: './src/views/Menu/Home/home.js',		//饮食指南首页
+		MenuDetail: './src/views/Menu/MenuDetail/MenuDetail.js',		//菜谱详情
 	},
 	output: {
 		path: resolve('dist'),
-		filename: 'js/[name].js',
-		chunkFilename: 'js/[name].chunk.js',
+		filename: 'js/[name].[hash:8].js',
+		chunkFilename: 'js/[name].chunk.[hash:8].js',
 		//在开发模式下，项目运行的地址将基于publicPath，http://devServer.host:devServer.port/publicPath/dir   默认''
 		//在生产模式下，构建后会用该值代替html中的静态资源引用的相对路径，即静态资源将要部署至线上的位置，
 		//该值还决定了通过import()异步加载的静态文件(js,css)的路径，同时决定了css文件中引入的资源路径
@@ -121,7 +123,7 @@ module.exports = {
 			// 设置代理
 			// proxy all requests starting with /api to jsonplaceholder
 			'/api': {
-				target: 'http://192.168.0.104/', //真实请求的目标地址
+				target: 'http://192.168.0.105/', //真实请求的目标地址
 				changeOrigin: true,
 				pathRewrite: {
 					'^/api': '/api'
@@ -180,7 +182,7 @@ module.exports = {
 		]),
 		new MiniCssExtractPlugin({
 			filename: 'css/[name].css',
-			chunkFilename: 'css/[name].chunk.css'
+			chunkFilename: 'css/[name].chunk.[hash:8].css'
 		}),
 		new webpack.ProvidePlugin({
 			'_': 'lodash', //当模块中使用了_时，会自动引入lodash并赋值给_，因此在模块中无需引入lodash也可以使用
@@ -279,8 +281,13 @@ const pages = [
 		chunks: ['reset', 'HomeHeader']
 	},
 	{
+		template: './src/views/HomeSearch/search.html',
+		filename: 'home_search.html',
+		chunks: ['reset', 'HomeSearch']
+	},
+	{
 		template: './src/views/HomeNews/news.html',
-		filename: 'news.html',
+		filename: 'home_news.html',
 		chunks: ['reset', 'HomeNews']
 	},
 	{
@@ -319,6 +326,11 @@ const pages = [
 		template: './src/views/Menu/Home/home.html',
 		filename: 'menu_home.html',
 		chunks: ['reset', 'MenuHome']
+	},
+	{
+		template: './src/views/Menu/MenuDetail/MenuDetail.html',
+		filename: 'menu_detail.html',
+		chunks: ['reset', 'MenuDetail']
 	}
 ]
 
