@@ -41,8 +41,9 @@ module.exports = {
 		Flash: './src/views/Flash/flash.js',		//限时抢购
 		Resume: './src/views/Resume/resume.js',		//公司介绍
 		Activity: './src/views/Activity/activity.js',		//活动专区
-		Member: './src/views/Member/member.js',		//活动专区
-		Category: './src/views/Category/category.js',		//活动专区
+		Member: './src/views/Member/member.js',		//会员专区
+		Category: './src/views/Category/category.js',		//产品分类
+		Detail: './src/views/Detail/detail.js',		//商品详情
 		test: './src/views/test/test.js',		//商品卡片测试页面
 
 
@@ -123,7 +124,7 @@ module.exports = {
 			// 设置代理
 			// proxy all requests starting with /api to jsonplaceholder
 			'/api': {
-				target: 'http://192.168.0.105/', //真实请求的目标地址
+				target: 'http://192.168.0.106/', //真实请求的目标地址
 				changeOrigin: true,
 				pathRewrite: {
 					'^/api': '/api'
@@ -314,6 +315,11 @@ const pages = [
 		template: './src/views/Member/member.html',
 		filename: 'member.html',
 		chunks: ['reset', 'Member']
+	},
+	{
+		template: './src/views/Detail/detail.html',
+		filename: 'detail.html',
+		chunks: ['reset', 'Detail']
 	},
 	{
 		template: './src/views/test/test.html',
