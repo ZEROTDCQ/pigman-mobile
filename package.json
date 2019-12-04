@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/polyfill": "^7.7.0"
+    "@babel/polyfill": "^7.7.0",
+    "vue": "^2.6.10"
   },
   "devDependencies": {
     "@babel/core": "^7.7.4",

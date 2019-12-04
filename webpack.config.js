@@ -45,7 +45,7 @@ module.exports = {
 		// Category: './src/views/Category/category.js',		//产品分类
 		// Detail: './src/views/Detail/detail.js',		//商品详情
 		Job: './src/views/Job/job.js',		//人才招聘
-		JobDetail: './src/views/JobDetail/jobdetail.js',		//人才招聘
+		// JobDetail: './src/views/JobDetail/jobdetail.js',		//职位详情
 		// test: './src/views/test/test.js',		//商品卡片测试页面
 
 
@@ -170,6 +170,7 @@ module.exports = {
 	externals: {
 		// 配置了该项后，项目中可以无需引入而直接使用以下配置的模块，改为html中script引入资源
 		// 当webpack打包构建时，会跳过以下模块，不对他们进行打包，因为他们是通过cdn线上资源引入的，而非依赖于node_modules里面的模块
+		// from要引入的模块名: import导入的变量名
 		vue: 'Vue',
 		'vue-router': 'VueRouter',
 		"element-ui": 'ELEMENT',
@@ -354,11 +355,11 @@ const pages = [
 		filename: 'job.html',
 		chunks: ['reset', 'Job']
 	},
-	{
-		template: './src/views/JobDetail/jobdetail.html',
-		filename: 'jobdetail.html',
-		chunks: ['reset', 'JobDetail']
-	},
+	// {
+	// 	template: './src/views/JobDetail/jobdetail.html',
+	// 	filename: 'jobdetail.html',
+	// 	chunks: ['reset', 'JobDetail']
+	// },
 	// {
 	// 	template: './src/views/test/test.html',
 	// 	filename: 'test.html',
