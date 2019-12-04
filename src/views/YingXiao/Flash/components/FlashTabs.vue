@@ -1,5 +1,5 @@
 <template>
-  <div class="news-tabs-wrap">
+  <div class="flash-tabs-wrap">
     <ul class="tabs-list">
       <li
         :class="['tl-item', {active: activeIndex == index}]"
@@ -7,7 +7,7 @@
         :key="index"
         @click="changeTab(index)"
       >
-        <a href="javascript:;">{{item.label}}</a>
+        <router-link :to="{name: item.routerName}">{{item.label}}</router-link>
       </li>
     </ul>
   </div>
@@ -20,23 +20,18 @@ export default {
       tabList: [
         {
           id: 0,
-          label: "综合新闻"
+          label: "正在疯抢",
+          routerName: "flashIng"
         },
         {
           id: 1,
-          label: "饮食资讯"
+          label: "即将开抢",
+          routerName: "flashSoon"
         },
         {
           id: 2,
-          label: "行业资讯"
-        },
-        {
-          id: 3,
-          label: "公司新闻"
-        },
-        {
-          id: 4,
-          label: "活动新闻"
+          label: "明日预告",
+          routerName: "flashNextDay"
         }
       ],
       activeIndex: 0
@@ -52,57 +47,33 @@ export default {
 
 <style lang="scss">
 .tabs-list {
-  height: 49px;
   display: flex;
   background: #fff;
   .tl-item {
-    position: relative;
     flex: 1;
-    text-align: center;
     a {
+      position: relative;
       display: block;
-      height: 49px;
-      line-height: 49px;
       font-size: 14px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
       color: #4d4d4d;
     }
-    &::after {
-      content: "";
-      display: block;
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 1px;
-      height: 80%;
-      background: linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(179, 179, 179, 1) 50%,
-        rgba(255, 255, 255, 1) 100%
-      );
-    }
-    &:last-child {
-      &::after {
-        content: none;
-      }
-    }
-  }
-  .tl-item.active {
-    a {
+    .router-link-exact-active {
       font-size: 16px;
       color: $primarycolor;
       &::after {
         content: "";
         position: absolute;
         bottom: 0;
-        left: 10px;
-        right: 10px;
+        left: 20px;
+        right: 20px;
         height: 2px;
         background: $primarycolor;
       }
       &::before {
-        content: "";
+        // content: "";
         position: absolute;
         left: 50%;
         bottom: -4px;

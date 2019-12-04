@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './activity.vue'
+import App from './flash.vue'
 import router from './router'
 
 import '@/assets/css/common/reset.scss'

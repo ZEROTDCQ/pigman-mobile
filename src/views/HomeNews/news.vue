@@ -1,6 +1,5 @@
 <template>
   <div class="news">
-    <NewsTabs />
     <div class="news-main">
       <div class="banner-wrap news-banner news-swiper swiper-container" ref="swiper">
         <div class="swiper-wrapper">
@@ -13,6 +12,7 @@
         <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
       </div>
+      <NewsTabs />
       <div class="news-list">
         <NewsItem v-for="i in 5" :key="i" />
       </div>
@@ -30,10 +30,10 @@ export default {
     NewsTabs,
     NewsItem
   },
-  data(){
+  data() {
     return {
       swiper: null
-    }
+    };
   },
   mounted() {
     this.swiper = new Swiper(this.$refs.swiper, {
@@ -56,7 +56,6 @@ body {
   background: #f5f5f5;
 }
 .banner-wrap {
-  margin: 10px 0;
   height: 168px;
   overflow: hidden;
   img {

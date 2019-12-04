@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import App from './flash.vue'
-
 import '@/assets/css/common/reset.scss'
+import Vue from 'vue'
+import App from './booking.vue'
 
-import {instance} from '@/http.js'
+
+import { instance } from '@/http.js'
 Vue.prototype.$instance = instance;
 
 Vue.prototype.baseUrl = 'http://192.168.0.105/'

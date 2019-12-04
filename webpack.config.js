@@ -34,22 +34,31 @@ module.exports = {
 	// production, development
 	mode: 'development',
 	entry: {
-		Home: './src/views/Home/home.js',		//首页
-		HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
-		HomeSearch: './src/views/HomeSearch/search.js',		//主站搜索页
-		HomeNews: './src/views/HomeNews/news.js',		//主站新闻
-		Flash: './src/views/Flash/flash.js',		//限时抢购
-		Resume: './src/views/Resume/resume.js',		//公司介绍
-		Activity: './src/views/Activity/activity.js',		//活动专区
-		Member: './src/views/Member/member.js',		//会员专区
-		Category: './src/views/Category/category.js',		//产品分类
-		Detail: './src/views/Detail/detail.js',		//商品详情
-		test: './src/views/test/test.js',		//商品卡片测试页面
+		// Home: './src/views/Home/home.js',		//首页
+		// HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
+		// HomeSearch: './src/views/HomeSearch/search.js',		//主站搜索页
+		// HomeNews: './src/views/HomeNews/news.js',		//主站新闻，热门资讯
+		// NewsDetail: './src/views/NewsDetail/newsdetail.js',		//新闻详情
+		// Resume: './src/views/Resume/resume.js',		//公司介绍
+		// Activity: './src/views/Activity/activity.js',		//活动专区
+		// Member: './src/views/Member/member.js',		//会员专区
+		// Category: './src/views/Category/category.js',		//产品分类
+		// Detail: './src/views/Detail/detail.js',		//商品详情
+		Job: './src/views/Job/job.js',		//人才招聘
+		JobDetail: './src/views/JobDetail/jobdetail.js',		//人才招聘
+		// test: './src/views/test/test.js',		//商品卡片测试页面
+
+
+		// ----------------------------------- 营销活动 -----------------------------------
+		// Flash: './src/views/YingXiao/Flash/flash.js',		//限时抢购
+		// OneYuan: './src/views/YingXiao/OneYuan/oneyuan.js',		//一元购
+		// Booking: './src/views/YingXiao/Booking/booking.js',		//预定商品
+		// HelpFree: './src/views/YingXiao/HelpFree/helpfree.js',		//助力免费拿
 
 
 		// ----------------------------------- 饮食指南 -----------------------------------
-		MenuHome: './src/views/Menu/Home/home.js',		//饮食指南首页
-		MenuDetail: './src/views/Menu/MenuDetail/MenuDetail.js',		//菜谱详情
+		// MenuHome: './src/views/Menu/Home/home.js',		//饮食指南首页
+		// MenuDetail: './src/views/Menu/MenuDetail/MenuDetail.js',		//菜谱详情
 	},
 	output: {
 		path: resolve('dist'),
@@ -90,23 +99,42 @@ module.exports = {
 				}]
 			},
 			{
-				test: /\.(gif|jpe?g|png|bmp|svg)$/,
+				test: /\.(gif|jpe?g|png|bmp|webp|svg)(\?.*)?$/,
 				use: [{
-					loader: 'url-loader', options: {
-						limit: 5 * 1024,
+					loader: 'url-loader',
+					options: {
+						limit: 4 * 1024,
 						name: 'img/[name].[hash:8].[ext]',
-						// publicPath: '/',//将css中引用的背景图片打包到output.path + publicPath + name
+						// publicPath: 'img/',//将css中引用的背景图片打包到output.path + publicPath + name
 						// outputPath: ''
+
+						// fallback: { //此处无需配置file-loader的回调也可正常构建，url-loader会自动调用，并共享name等配置项目
+						// 	loader: 'file-loader',
+						// 	options: {
+						// 		name: 'img/[name].[hash:8].[ext]',
+						// 		// publicPath: 'img/',//将css中引用的背景图片打包到output.path + publicPath + name
+						// 		// outputPath: ''
+						// 	}
+						// }
 					}
 				}]
 			},
 			{
-				test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-				loader: 'url-loader',
-				options: {
-					limit: 10000,
-					name: 'fonts/[name].[hash:7].[ext]'
-				}
+				test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
+				use: [
+					{
+						loader: 'url-loader',
+						options: {
+							limit: 4096,
+							fallback: {
+								loader: 'file-loader',
+								options: {
+									name: 'fonts/[name].[hash:7].[ext]'
+								}
+							}
+						}
+					}
+				]
 			}
 		]
 	},
@@ -124,7 +152,7 @@ module.exports = {
 			// 设置代理
 			// proxy all requests starting with /api to jsonplaceholder
 			'/api': {
-				target: 'http://192.168.0.106/', //真实请求的目标地址
+				target: 'http://192.168.0.105/', //真实请求的目标地址
 				changeOrigin: true,
 				pathRewrite: {
 					'^/api': '/api'
@@ -271,73 +299,105 @@ module.exports = {
 
 
 const pages = [
+	// {
+	// 	template: './src/views/Home/home.html',
+	// 	filename: 'home.html',
+	// 	chunks: ['reset', 'Home']
+	// },
+	// {
+	// 	template: './src/views/HomeHeader/header.html',
+	// 	filename: 'header.html',
+	// 	chunks: ['reset', 'HomeHeader']
+	// },
+	// {
+	// 	template: './src/views/HomeSearch/search.html',
+	// 	filename: 'home_search.html',
+	// 	chunks: ['reset', 'HomeSearch']
+	// },
+	// {
+	// 	template: './src/views/HomeNews/news.html',
+	// 	filename: 'home_news.html',
+	// 	chunks: ['reset', 'HomeNews']
+	// },
+	// {
+	// 	template: './src/views/NewsDetail/newsdetail.html',
+	// 	filename: 'news_detail.html',
+	// 	chunks: ['reset', 'NewsDetail']
+	// },
+	// {
+	// 	template: './src/views/Resume/resume.html',
+	// 	filename: 'resume.html',
+	// 	chunks: ['reset', 'Resume']
+	// },
+	// {
+	// 	template: './src/views/Activity/activity.html',
+	// 	filename: 'activity.html',
+	// 	chunks: ['reset', 'Activity']
+	// },
+	// {
+	// 	template: './src/views/Category/category.html',
+	// 	filename: 'category.html',
+	// 	chunks: ['reset', 'Category']
+	// },
+	// {
+	// 	template: './src/views/Member/member.html',
+	// 	filename: 'member.html',
+	// 	chunks: ['reset', 'Member']
+	// },
+	// {
+	// 	template: './src/views/Detail/detail.html',
+	// 	filename: 'detail.html',
+	// 	chunks: ['reset', 'Detail']
+	// },
 	{
-		template: './src/views/Home/home.html',
-		filename: 'home.html',
-		chunks: ['reset', 'Home']
+		template: './src/views/Job/job.html',
+		filename: 'job.html',
+		chunks: ['reset', 'Job']
 	},
 	{
-		template: './src/views/HomeHeader/header.html',
-		filename: 'header.html',
-		chunks: ['reset', 'HomeHeader']
+		template: './src/views/JobDetail/jobdetail.html',
+		filename: 'jobdetail.html',
+		chunks: ['reset', 'JobDetail']
 	},
-	{
-		template: './src/views/HomeSearch/search.html',
-		filename: 'home_search.html',
-		chunks: ['reset', 'HomeSearch']
-	},
-	{
-		template: './src/views/HomeNews/news.html',
-		filename: 'home_news.html',
-		chunks: ['reset', 'HomeNews']
-	},
-	{
-		template: './src/views/Flash/flash.html',
-		filename: 'flash.html',
-		chunks: ['reset', 'Flash']
-	},
-	{
-		template: './src/views/Resume/resume.html',
-		filename: 'resume.html',
-		chunks: ['reset', 'Resume']
-	},
-	{
-		template: './src/views/Activity/activity.html',
-		filename: 'activity.html',
-		chunks: ['reset', 'Activity']
-	},
-	{
-		template: './src/views/Category/category.html',
-		filename: 'category.html',
-		chunks: ['reset', 'Category']
-	},
-	{
-		template: './src/views/Member/member.html',
-		filename: 'member.html',
-		chunks: ['reset', 'Member']
-	},
-	{
-		template: './src/views/Detail/detail.html',
-		filename: 'detail.html',
-		chunks: ['reset', 'Detail']
-	},
-	{
-		template: './src/views/test/test.html',
-		filename: 'test.html',
-		chunks: ['reset', 'test']
-	},
+	// {
+	// 	template: './src/views/test/test.html',
+	// 	filename: 'test.html',
+	// 	chunks: ['reset', 'test']
+	// },
+
+	// ----------------------------------- 营销活动 -----------------------------------
+	// {
+	// 	template: './src/views/YingXiao/Flash/flash.html',
+	// 	filename: 'flash.html',
+	// 	chunks: ['reset', 'Flash']
+	// },
+	// {
+	// 	template: './src/views/YingXiao/OneYuan/oneyuan.html',
+	// 	filename: 'oneyuan.html',
+	// 	chunks: ['reset', 'OneYuan']
+	// },
+	// {
+	// 	template: './src/views/YingXiao/Booking/booking.html',
+	// 	filename: 'booking.html',
+	// 	chunks: ['reset', 'Booking']
+	// },
+	// {
+	// 	template: './src/views/YingXiao/HelpFree/helpfree.html',
+	// 	filename: 'helpfree.html',
+	// 	chunks: ['reset', 'HelpFree']
+	// },
 
 	// ----------------------------------- 饮食指南 -----------------------------------
-	{
-		template: './src/views/Menu/Home/home.html',
-		filename: 'menu_home.html',
-		chunks: ['reset', 'MenuHome']
-	},
-	{
-		template: './src/views/Menu/MenuDetail/MenuDetail.html',
-		filename: 'menu_detail.html',
-		chunks: ['reset', 'MenuDetail']
-	}
+	// {
+	// 	template: './src/views/Menu/Home/home.html',
+	// 	filename: 'menu_home.html',
+	// 	chunks: ['reset', 'MenuHome']
+	// },
+	// {
+	// 	template: './src/views/Menu/MenuDetail/MenuDetail.html',
+	// 	filename: 'menu_detail.html',
+	// 	chunks: ['reset', 'MenuDetail']
+	// }
 ]
 
 function createHtml({ template, filename, chunks }) {
@@ -361,5 +421,8 @@ pages.forEach(element => {
  * 解决方法：查看入口文件是否循环依赖某一模块，如果没有，可能是某个入口文件中使用了懒加载模块，
  *          其webpackChunkName与其它入口文件中引用的模块名冲突，可在htmlWebpackPlugin中加入chunksSortMode: 'none'配置项进行检查。
  *
- *
+ * 问题描述：img标签图片引入
+ * 报错提示：在html或.vue中的img标签引入图片，编译后代码变为<img src="[object Module]" alt="">，无法正常解析路径。
+ * 解决方法：当图片大小 > url-loader.options.limit时，url-loader会自动将图片传递给file-loader，因此项目中没有安装file-loader则会出现以上问题。
+ * 					如果安装了file-loader仍然出现以上问题，则是url-loader版本与file-loader版本不兼容，重装相兼容版本(url-loader@2+  file-loader@4.+)即可。
  */
