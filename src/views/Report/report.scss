@@ -1,0 +1,20 @@
+.banner {
+  height: 168px;
+  background: url("~@/assets/img/page/report/banner.png") no-repeat;
+  background-size: cover;
+}
+.report-con {
+  padding: 10px;
+  .area-box:first-child {
+    margin-top: 0;
+  }
+  .area-body {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+    p {
+      text-align: justify;
+      margin-bottom: 15px;
+    }
+  }
+}
