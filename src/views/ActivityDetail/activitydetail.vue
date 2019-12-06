@@ -14,83 +14,81 @@
         </a>
       </div>
     </div>
-    <div class="poster_img_outside">
-      <img
-        src="https://img-qn.hudongba.com/upload/_oss/userposterimageimg/201911/23/81574490954489_posterimage8_6056.jpg@!wap-detail-post-image"
-        alt="海报"
-      />
-    </div>
-    <div class="dit-wrap">
-      <div class="detail_info_top">
-        <div class="detail_title">
-          <div id="dt_title" class="detail_title_h1">
-            <span class="detail_title_h1_bar">2019AI刷脸支付万亿财富大会</span>
+    <transition name="poster-scale">
+      <div v-if="activityData.picture" class="poster_img_outside">
+        <img :src="baseUrl + activityData.picture" alt="海报" />
+      </div>
+    </transition>
+    <transition name="fade-down">
+      <div v-if="activityData.picture" class="dit-wrap">
+        <div class="detail_info_top">
+          <div class="detail_title">
+            <div id="dt_title" class="detail_title_h1">
+              <span class="detail_title_h1_bar">{{activityData.title}}</span>
+            </div>
+          </div>
+          <div class="mb_share_wrap">
+            <div class="where">
+              <span>猪先生</span>
+            </div>
+            <div class="icon-num ll">
+              <i class="iconfont">&#xe629;</i>
+              <span>{{activityData.read_count}}</span>
+            </div>
+            <div class="refund">
+              <i class="iconfont">&#xe659;</i>
+              不支持退款
+            </div>
           </div>
         </div>
-        <div class="mb_share_wrap">
-          <div class="where">
-            <span>猪先生</span>
+        <div class="detail_time_attr_join">
+          <div class="field_row time">
+            <div class="fr-icon">
+              <i class="iconfont">&#xe675;</i>
+            </div>
+            <div class="fr-con">12-08 14:00 至 19:00</div>
           </div>
-          <div class="icon-num ll">
-            <i class="iconfont">&#xe629;</i>
-            <span>2120</span>
+          <div class="field_row address" @click="skipToMap">
+            <div class="fr-icon">
+              <i class="iconfont">&#xe734;</i>
+            </div>
+            <div class="fr-con">{{activityData.address}}</div>
+            <div class="fr-icon right">
+              <i class="iconfont">&#xe735;</i>
+            </div>
           </div>
-          <div class="refund">
-            <i class="iconfont">&#xe659;</i>
-            不支持退款
+          <div class="field_row time">
+            <div class="fr-icon">
+              <i class="iconfont">&#xe663;</i>
+            </div>
+            <div class="fr-con">已报名{{activityData.number}}人</div>
+          </div>
+          <div class="field_row time">
+            <div class="fr-icon">
+              <i class="iconfont">&#xe666;</i>
+            </div>
+            <div class="fr-con">
+              <span class="money">¥{{activityData.price}}</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="detail_time_attr_join">
-        <div class="field_row time">
-          <div class="fr-icon">
-            <i class="iconfont">&#xe675;</i>
-          </div>
-          <div class="fr-con">12-08 14:00 至 19:00</div>
-        </div>
-        <div class="field_row address">
-          <div class="fr-icon">
-            <i class="iconfont">&#xe734;</i>
-          </div>
-          <div class="fr-con">北京朝阳区瑰丽酒店</div>
-          <div class="fr-icon right">
-            <i class="iconfont">&#xe735;</i>
-          </div>
-        </div>
-        <div class="field_row time">
-          <div class="fr-icon">
-            <i class="iconfont">&#xe663;</i>
-          </div>
-          <div class="fr-con">已报名117人</div>
-        </div>
-        <div class="field_row time">
-          <div class="fr-icon">
-            <i class="iconfont">&#xe666;</i>
-          </div>
-          <div class="fr-con">
-            <span class="money">¥0.00</span>
-          </div>
-        </div>
+    </transition>
+    <transition name="fade-up">
+      <div v-if="activityData.picture" class="ad-content" v-html="activityData.content"></div>
+    </transition>
+    <transition name="action-up">
+      <div v-if="activityData.picture" class="ad-actions">
+        <a class="action-btn" href="javascript:;">
+          <i class="iconfont">&#xe6bc;</i>
+          <span class="action-txt">在线咨询</span>
+        </a>
+        <a class="action-btn apply" href="javascript:;">
+          <i class="iconfont">&#xe639;</i>
+          <span class="action-txt">我要报名</span>
+        </a>
       </div>
-    </div>
-    <div class="ad-content">
-      <p>活动详情</p>
-      <img
-        src="https://img-user-qn.hudongba.com/upload/_oss/userarticleimg/201911/23/91574491178080_article9_6102.jpg"
-        alt
-      />
-    </div>
-    <div class="ad-actions">
-      <a class="action-btn" href="javascript:;">
-        <i class="iconfont">&#xe6bc;</i>
-        <span class="action-txt">在线咨询</span>
-      </a>
-      <a class="action-btn apply" href="javascript:;">
-        <i class="iconfont">&#xe639;</i>
-        <span class="action-txt">我要报名</span>
-      </a>
-    </div>
-
+    </transition>
     <ShareTool title="分享活动" ref="shareTool" />
   </div>
 </template>
@@ -101,18 +99,44 @@ export default {
   components: { ShareTool },
   data() {
     return {
-      bgWhite: false
+      bgWhite: false,
+      activityData: {}
     };
   },
   methods: {
     shareAction() {
       this.$refs.shareTool.sharePopup();
+    },
+    getData(id) {
+      this.$instance
+        .post("/api/api/ActivityDetail", {
+          id: id
+        })
+        .then(res => {
+          console.log(res);
+          let data = res.data.data;
+          this.activityData = data;
+        });
+    },
+    skipToMap() {
+      location.href = `https://m.amap.com/search/mapview/keywords=${
+        this.activityData.address
+      }&cluster_state=5&pagenum=1`;
+    }
+  },
+  created() {
+    let reg = /\?id=(\d+)/;
+    // let reg = /[\\\/]detail[\\\/]+(\d+)/;
+    let id = location.href.match(reg) ? location.href.match(reg)[1] : null;
+    if (id) {
+      this.getData(id);
+    } else {
+      location.href = "/sc/activity";
     }
   },
   mounted() {
     let flag = (document.documentElement.clientWidth / 375) * 44;
     $(document).on("scroll", () => {
-      console.log($(document).scrollTop());
       if ($(document).scrollTop() >= flag) {
         this.bgWhite = true;
       } else {
@@ -124,6 +148,33 @@ export default {
 </script>
 
 <style lang="scss">
+.poster-scale-enter {
+  transform: scale(0.5);
+  opacity: 0;
+}
+.poster-scale-enter-active {
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+.fade-down-enter {
+  transform: translateY(-25px);
+  opacity: 0;
+}
+.fade-up-enter {
+  transform: translateY(25px);
+  opacity: 0;
+}
+.fade-down-enter-active,
+.fade-up-enter-active {
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  transition-delay: 0.2s;
+}
+.action-up-enter {
+  transform: translateY(100%);
+}
+.action-up-enter-active {
+  transition: transform 0.25s ease-in-out;
+  transition-delay: 0.7s;
+}
 .activity_detail {
   background: #f5f5f5;
 }

@@ -1,22 +1,33 @@
 <template>
   <!-- 推荐、会员活动项组件 -->
-  <div class="activity-item style1">
-    <div class="ai-feature"></div>
-    <div class="ai-text">
-      <h3 class="at-title">古德菲力健身×锐步莱美“动·无边界∞”运动古德菲力健身×锐步莱美“动·无边界∞”运动</h3>
-      <p
-        class="at-abstract"
-      >来这里看达利最新画作，给您最新来这里看达利最新画作，给您最新来这里看达利最新画作，给您最新来这里看达利最新画作，给您最新来这里看达利最新画作，给您最新</p>
-      <div class="at-ticket-info">
-        <em class="ticket-price">¥100.00</em>
-        <span class="have-booked">60人已报名</span>
+  <transition appear appear-class="appear" appear-active-class="appear-active">
+    <div class="activity-item style1" :style="{transitionDelay: index * 100 + 'ms'}">
+      <div class="ai-feature">
+        <img :src="baseUrl + data.picture" :alt="data.title" />
+      </div>
+      <div class="ai-text">
+        <h3 class="at-title">{{data.title}}</h3>
+        <p class="at-abstract">{{data.sketch}}</p>
+        <div class="at-ticket-info">
+          <em class="ticket-price">¥{{data.price}}</em>
+          <span class="have-booked">{{data.haveJoin}}人已报名</span>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    index: {
+      type: Number
+    },
+    data: {
+      type: Object
+    }
+  }
+};
 </script>
 
 <style lang="scss">
@@ -26,11 +37,21 @@ export default {};
   margin-top: 6px;
   overflow: hidden;
   .ai-feature {
+    position: relative;
     margin-right: 10px;
     float: left;
     width: 140px;
     height: 140px;
     background: #ccc;
+    overflow: hidden;
+    img {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 100%;
+      min-height: 100%;
+    }
   }
   .ai-text {
     overflow: hidden;

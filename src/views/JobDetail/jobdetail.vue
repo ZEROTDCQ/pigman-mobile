@@ -109,7 +109,7 @@ export default {
   },
   methods: {
     shareAction() {
-      this.$refs.sharePopup();
+      this.$refs.shareTool.sharePopup();
     }
   }
 };

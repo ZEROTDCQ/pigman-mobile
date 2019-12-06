@@ -26,11 +26,11 @@
       <div class="area-head clearfix">
         <h3 class="ah-title">招聘职位</h3>
       </div>
-      <div class="area-body">
-        <JobItem v-for="i in 8" :key="i" />
+      <div class="area-body job_list">
+        <JobItem v-for="(data, index) in jobData" :key="index" :data="data" />
       </div>
     </div>
-    <div class="area-footer">下拉加载更多</div>
+    <div class="area-footer" ref="loadStatus">{{statusTxt}}</div>
   </div>
 </template>
 
@@ -39,6 +39,83 @@ import JobItem from "./components/JobItem";
 export default {
   components: {
     JobItem
+  },
+  data() {
+    return {
+      // 职位数据加载状态0：没有更多数据，1：等待下拉加载更多，2：加载中
+      loadStatus: 1,
+      page: 1,
+      limit: 2,
+      total: 0,
+      jobData: [],
+      handleScroll: null
+    };
+  },
+  computed: {
+    statusTxt() {
+      let txt = "下拉加载更多";
+      switch (this.loadStatus) {
+        case 0:
+          txt = "没有更多数据了";
+          break;
+        case 1:
+          txt = "下拉加载更多";
+          break;
+        case 2:
+          txt = "加载中";
+          break;
+      }
+      return txt;
+    }
+  },
+  methods: {
+    getJobData() {
+      this.loadStatus = 2;
+      this.$instance
+        .post("/api/api/position", {
+          page: this.page,
+          limit: this.limit
+        })
+        .then(res => {
+          console.log(res);
+          let data = res.data.data;
+          this.total = data.total;
+          this.jobData.splice(this.jobData.length, 0, ...data.data);
+        })
+        .finally(() => {
+          if (this.jobData.length == this.total) {
+            // 没有更多数据
+            this.loadStatus = 0;
+            // 解除监听事件
+            document.removeEventListener("scroll", this.handleScroll);
+          } else {
+            this.loadStatus = 1;
+          }
+        });
+    },
+    handleScrollAction() {
+      // 底部offsetTop
+      let footerTop = $(".area-footer").offset().top;
+      let clientHeight = document.documentElement.clientHeight;
+      let scrollTop = $(document).scrollTop();
+      if (
+        clientHeight + scrollTop >= footerTop - 30 &&
+        this.jobData.length > 0 &&
+        this.loadStatus == 1
+      ) {
+        this.page += 1;
+        this.getJobData();
+      }
+    }
+  },
+  created() {
+    this.getJobData();
+  },
+  mounted() {
+    this.handleScroll = () => {
+      this.handleScrollAction();
+    };
+    document.addEventListener("scroll", this.handleScroll);
   }
 };
 </script>
@@ -78,7 +155,31 @@ export default {
     font-size: 14px;
     text-align: justify;
     color: #666;
+    p {
+      &::after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 1) 0%,
+          #54b64f 50%,
+          rgba(255, 255, 255, 1) 100%
+        );
+        margin: 8px 0;
+        transform: scaleY(0.5);
+      }
+      &:last-child {
+        &::after {
+          content: none;
+        }
+      }
+    }
   }
+}
+.job_list {
+  overflow: hidden;
 }
 .area-footer {
   margin: 0 -10px;
