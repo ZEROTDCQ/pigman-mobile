@@ -1,30 +1,27 @@
 <template>
-  <!-- 限时秒杀 - 正在疯抢小卡片 -->
-  <div class="pro-item card-oneyuan on-sale">
+  <!-- 元购小卡片 -->
+  <div class="pro-item card-flashing">
     <div class="pro-img">
       <a href="javascript:;">
-        <img
-          :src="baseUrl + '/uploads/admin/images/20191107/6142f198ea658934e0b987b45a0dad72.jpg'"
-          alt
-        />
+        <img :src="baseUrl +data.picture" :alt="data.name" />
       </a>
     </div>
     <div class="pro-info">
       <p class="pro-name">
-        <a href="javascript:;" title>【买5斤送5斤】攀枝花凯特新鲜大芒果</a>
+        <a :href="'details?id='+data.id" title>{{data.name}}</a>
       </p>
       <div class="pro-progress">
         <div class="precent-back">
-          <div class="precent-front" :style="{width: 60 + '%'}"></div>
-          <div class="precent-value">{{60}}%</div>
+          <div class="precent-front" :style="{width: ratio + '%'}"></div>
+          <div class="precent-value">{{ratio}}%</div>
         </div>
-        <span class="had-saled">已抢{{126}}件</span>
+        <span class="had-saled">已抢{{keqian}}件</span>
       </div>
       <div class="pro-price">
-        <em>¥{{1.00}}</em>
-        <del>¥{{35.6}}</del>
-        <a href="javascript:;" class="btn-buy">
-          马上抢
+        <em>¥{{data.activity_price}}</em>
+        <del>¥{{data.original_price}}</del>
+        <a :href="'details?id='+data.id" :class="{'btn-buy':true,[statusClass]:true} ">
+          {{statusTile}}
           <span>&gt;</span>
         </a>
       </div>
@@ -33,7 +30,49 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    data: {
+      type: Object
+    }
+  },
+  data() {
+    return {
+      status: 1, // 商品状态：0，已售罄，1：正在销售，2：未开始
+      statusClass: "on-sale"
+    };
+  },
+  created() {
+    // 判断当前商品状态
+    if (this.data.purchased < this.data.limited) {
+      this.status = 1;
+      this.statusClass = "on-sale";
+    }
+    else {
+      this.status = 0;
+      this.statusClass = "sale-out";
+    }
+  },
+  computed: {
+    ratio() {
+      return Math.floor((this.data.purchased / this.data.limited) * 100);
+    },
+    keqian() {
+      if (this.data.purchased <= 10000) {
+        return this.data.purchased;
+      } else {
+        return Math.floor(this.data.purchased / 10000) + "万+";
+      }
+    },
+    statusTile(){
+      switch(this.status){
+        case 0: return "已售完";
+        case 1: return "马上抢";
+        case 2: return "未开始";
+      }
+    }
+  }
+};
 </script>
 
 <style lang="scss">
@@ -165,9 +204,9 @@ export default {};
     }
   }
 }
-.card-oneyuan.on-sale {
+.pro-item {
   .pro-price {
-    .btn-buy {
+    .on-sale {
       color: #f26161;
       &:hover {
         background: #f26161;

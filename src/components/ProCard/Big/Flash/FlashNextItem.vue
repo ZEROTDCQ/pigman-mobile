@@ -3,23 +3,20 @@
   <div class="pro-item card-flashnext-row">
     <div class="pro-feature">
       <a href="javascript:;">
-        <img
-          :src="baseUrl + '/uploads/admin/images/20191107/6142f198ea658934e0b987b45a0dad72.jpg'"
-          alt
-        />
+        <img :src="baseUrl + data.picture" alt />
       </a>
     </div>
     <div class="pro-info-wrap">
       <p class="pro-name">
-        <a href="javascript:;" title>【买5斤送5斤】攀枝花凯特新鲜大芒果</a>
+        <a href="javascript:;" title>{{data.cate_name}}</a>
       </p>
       <div>
-        <p class="desc">限量{{20}}件 | 今天16:00开始</p>
+        <p class="desc">限量{{keqian}}件 | {{when()}}</p>
         <p class="origin-price">
-          <del>原价：¥{{45.5}}</del>
+          <del>原价：¥{{data.original_price}}</del>
         </p>
         <div class="pro-price">
-          <em>¥{{35.5}}</em>
+          <em>¥{{data.activity_price}}</em>
           <a href="javascript:;" class="btn-buy">
             <i class="iconfont">&#xe619;</i>提醒我
           </a>
@@ -31,40 +28,52 @@
 
 <script>
 export default {
-  // props: {
-  //   data: {
-  //     type: Object
-  //   }
-  // },
-  // data() {
-  //   return {
-  //     when() {
-  //       var server_time = this.data.time + "";
-  //       var start_time = this.data.start_time + "";
-  //       if (start_time.length == 10) {
-  //         // php unix时间戳(s)转js时间戳(ms)
-  //         server_time = server_time + "000";
-  //         start_time = start_time + "000";
-  //       }
-  //       var serverDate = new Date(Number(server_time));
-  //       var startDate = new Date(Number(start_time));
-  //       // 判断今天还是明天
-  //       var date = "今天";
-  //       if (startDate.getDate() > serverDate.getDate()) {
-  //         date = "明天";
-  //       }
-  //       var hours =
-  //         startDate.getHours() < 10
-  //           ? "0" + startDate.getHours()
-  //           : startDate.getHours();
-  //       var minutes =
-  //         startDate.getMinutes() < 10
-  //           ? "0" + startDate.getMinutes()
-  //           : startDate.getMinutes();
-  //       return date + [hours, minutes].join(":") + "开始";
-  //     }
-  //   };
-  // }
+  props: {
+    data: {
+      type: Object
+    },
+    time: {
+      type: Number
+    },
+    start_time: {
+      type: Number
+    }
+  },
+  data() {
+    return {
+      when() {
+        var server_time = this.time + "";
+        var start_time = this.start_time + "";
+        if (start_time.length == 10) {
+          // php unix时间戳(s)转js时间戳(ms)
+          server_time = server_time + "000";
+          start_time = start_time + "000";
+        }
+        var serverDate = new Date(Number(server_time));
+        var startDate = new Date(Number(start_time));
+        // 判断今天还是明天
+        var date = "今天";
+        if (startDate.getDate() > serverDate.getDate()) {
+          date = "明天";
+        }
+        var hours =
+          startDate.getHours() < 10
+            ? "0" + startDate.getHours()
+            : startDate.getHours();
+        var minutes =
+          startDate.getMinutes() < 10
+            ? "0" + startDate.getMinutes()
+            : startDate.getMinutes();
+        return date + [hours, minutes].join(":") + "开始";
+      }
+    };
+  },
+  mounted() {},
+  computed: {
+    keqian() {
+      return this.data.limited - this.data.purchased;
+    }
+  }
 };
 </script>
 

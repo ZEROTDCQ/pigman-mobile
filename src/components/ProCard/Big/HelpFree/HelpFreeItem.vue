@@ -3,26 +3,23 @@
   <div class="pro-item card-helpfree-row on-sale">
     <div class="pro-feature">
       <a href="javascript:;">
-        <img
-          :src="baseUrl + '/uploads/admin/images/20191031/82351f96a23b68aee0a223826bffd1fe.jpg'"
-          alt
-        />
+        <img :src="baseUrl + data.picture"  :alt="data.name"  />
       </a>
     </div>
     <div class="pro-info-wrap">
       <p class="pro-name">
-        <a href="javascript:;" title>【买5斤送5斤】攀枝花凯特新鲜大芒果</a>
+        <a :href="'details?id='+data.id" title>{{data.name}}</a>
       </p>
       <div>
         <div class="tags">
-          <span class="tag-item" v-for="i in 2" :key="i">满30返2</span>
+          <span class="tag-item" v-for="(item,i) in data.overview" :key="i">{{item}}</span>
         </div>
         <p class="price-count">
-          <del>原价：¥{{35.5}}</del>
-          <span>已领{{88}}件</span>
+          <del>原价：¥{{data.original_price}}</del>
+          <span>已领{{data.purchased}}件</span>
         </p>
         <div class="pro-price">
-          <em>¥{{25.5}}</em>
+          <em>¥{{data.activity_price}}</em>
           <a href="javascript:;" class="btn-buy">
             免费领
             <span>&gt;</span>
@@ -35,27 +32,27 @@
 
 <script>
 export default {
-  // props: {
-  //   data: {
-  //     type: Object
-  //   }
-  // },
-  // data() {
-  //   return {
-  //     status: 1, // 商品状态：0，已售罄，1：正在销售
-  //     statusClass: "on-sale"
-  //   };
-  // },
-  // created() {
-  //   // 判断当前商品状态
-  //   if (this.data.purchased < this.data.limited) {
-  //     this.status = 1;
-  //     this.statusClass = "on-sale";
-  //   } else {
-  //     this.status = 0;
-  //     this.statusClass = "sale-out";
-  //   }
-  // }
+  props: {
+    data: {
+      type: Object
+    }
+  },
+  data() {
+    return {
+      status: 1, // 商品状态：0，已售罄，1：正在销售
+      statusClass: "on-sale"
+    };
+  },
+  created() {
+    // 判断当前商品状态
+    if (this.data.purchased < this.data.limited) {
+      this.status = 1;
+      this.statusClass = "on-sale";
+    } else {
+      this.status = 0;
+      this.statusClass = "sale-out";
+    }
+  }
 };
 </script>
 

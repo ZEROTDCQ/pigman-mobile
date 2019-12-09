@@ -1,17 +1,17 @@
 <template>
   <div class="area-box">
     <div class="area-head clearfix">
-      <h3 class="ah-title">限时抢购</h3>
-      <div class="ah-sub-title">全场超低价，过时不候~</div>
+      <h3 class="ah-title">{{data.title}}</h3>
+      <div class="ah-sub-title">{{data.sketch}}</div>
       <p class="btn-enter-area">
-        <a href="/sc/flash">
+        <a href="/flash.html">
           进入专区
           <span>&gt;</span>
         </a>
       </p>
     </div>
     <div class="area-body pro-list">
-      <FlashIng v-for="i in 4" :key="i" />
+      <FlashIng v-for="(item,index) in data.son" :key="index" :data="item" />
     </div>
   </div>
 </template>
@@ -21,6 +21,9 @@ import FlashIng from "@/components/ProCard/Small/Flash/FlashingItem";
 export default {
   components: {
     FlashIng
+  },
+  props: {
+    data: Object
   }
 };
 </script>

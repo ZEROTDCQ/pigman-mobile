@@ -5,9 +5,9 @@
         :class="['tl-item', {active: activeIndex == index}]"
         v-for="(item, index) in tabList"
         :key="index"
-        @click="changeTab(index)"
+        @click="changeTab(index,item.id)"
       >
-        <a href="javascript:;">{{item.label}}</a>
+        <a href="javascript:;">{{item.title}}</a>
       </li>
     </ul>
   </div>
@@ -17,35 +17,25 @@
 export default {
   data() {
     return {
-      tabList: [
-        {
-          id: 0,
-          label: "综合新闻"
-        },
-        {
-          id: 1,
-          label: "饮食资讯"
-        },
-        {
-          id: 2,
-          label: "行业资讯"
-        },
-        {
-          id: 3,
-          label: "公司新闻"
-        },
-        {
-          id: 4,
-          label: "活动新闻"
-        }
-      ],
-      activeIndex: 0
+      tabList: [],
+      activeIndex: 0,
     };
   },
   methods: {
-    changeTab(index) {
+    changeTab(index,id) {
       this.activeIndex = index;
+      this.$emit("upData",id);
     }
+  },
+  beforeCreate() {
+    this.$instance
+      .post("api/mobileapi/newTop", {
+        type: 0
+      })
+      .then(res => {
+        let data = res.data.data;
+        this.tabList = data;
+      });
   }
 };
 </script>

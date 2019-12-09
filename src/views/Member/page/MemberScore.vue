@@ -1,7 +1,7 @@
 <template>
   <div class="activity-recommend">
-    <div class="ar-list activity-list">
-      <MemberScoreChangeItem v-for="i in 4" :key="i" />
+    <div class="ar-list activity-list" v-if="memData">
+      <MemberScoreChangeItem v-for="(item,index) in memData.son" :key="index" :data="item" />
     </div>
   </div>
 </template>
@@ -11,6 +11,23 @@ import MemberScoreChangeItem from "@/components/ProCard/Big/Member/MemberScoreCh
 export default {
   components: {
     MemberScoreChangeItem
+  },
+  data() {
+    return {
+      memData: null
+    };
+  },
+  mounted() {
+    this.getData();
+  },
+  methods: {
+    getData() {
+      this.$instance.post("api/api/activityArea").then(res => {
+        let data = res.data.data;
+        this.memData = data.top[0];
+        console.log(this.memData);
+      });
+    }
   }
 };
 </script>

@@ -2,32 +2,25 @@
   <!-- 会员专属商品 -->
   <div class="pro-item card-exclusive-row">
     <div class="pro-feature">
-      <a href="javascript:;">
-        <img
-          :src="baseUrl + '/uploads/admin/images/20191107/6142f198ea658934e0b987b45a0dad72.jpg'"
-          alt
-        />
+      <a :href="'details?id='+data.id">
+        <img :src="baseUrl + data.picture" alt />
       </a>
     </div>
     <div class="pro-info-wrap">
       <p class="pro-name">
-        <a href="javascript:;">【买5斤送5斤】攀枝花凯特新 鲜大芒果新 鲜大芒果新 鲜大芒果新 鲜大芒果新 鲜大芒果</a>
+        <a :href="'details?id='+data.id">{{data.cate_name}}</a>
       </p>
       <div>
         <div class="tags">
-          <span>第二件五折</span>
-          <span>满30返2</span>
+          <span v-for="(item,index) in data.overview" :key="index">{{item}}</span>
         </div>
         <p class="price-count">
-          <span>非会员价：¥40.5</span>
-          <span>已有9人购买</span>
+          <span>非会员价：¥{{data.original_price}}</span>
+          <span>已有{{data.purchased}}人购买</span>
         </p>
         <div class="vip-price">
-          <em>¥35.5</em>
-          <a href="javascript:;" class="btn-buy">
-            马上抢
-            <span>&gt;</span>
-          </a>
+          <em>¥{{data.activity_price}}</em>
+          <a :href="'details?id='+data.id" :class="['btn-buy',statusClass] ">{{btnName}}</a>
         </div>
       </div>
     </div>
@@ -35,7 +28,39 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    data: {
+      type: Object
+    }
+  },
+  data() {
+    return {
+      status: 1, // 商品状态：0，已售罄，1：正在销售
+      statusClass: "on-sale"
+    };
+  },
+  created() {
+    // 判断当前商品状态
+    if (this.data.purchased < this.data.limited) {
+      this.status = 1;
+      this.statusClass = "on-sale";
+    } else {
+      this.status = 0;
+      this.statusClass = "sale-out";
+    }
+  },
+  computed: {
+    btnName() {
+      switch (this.status) {
+        case 0:
+          return "已抢完";
+        case 1:
+          return "马上抢";
+      }
+    }
+  }
+};
 </script>
 
 <style lang="scss">
@@ -141,6 +166,17 @@ export default {};
       border: 1px solid #f26161;
       box-sizing: border-box;
       border-radius: 11px;
+    }
+  }
+  .sale-out {
+    color: #666;
+
+    &:hover {
+      background: #666;
+    }
+
+    &::after {
+      border-color: #666;
     }
   }
 }

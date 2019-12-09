@@ -2,22 +2,19 @@
   <!-- 会员专享商品 -->
   <div class="pro-item card-score-row">
     <div class="pro-feature">
-      <a href="javascript:;">
-        <img
-          :src="baseUrl + '/uploads/admin/images/20191031/82351f96a23b68aee0a223826bffd1fe.jpg'"
-          alt
-        />
+      <a :href="'details?id='+data.id">
+        <img :src="baseUrl + data.picture" alt />
       </a>
     </div>
     <div class="pro-info-wrap">
       <p class="pro-name">
-        <a href="javascript:;" title>【买5斤送5斤】攀枝花凯特新鲜大芒果</a>
+        <a :href="'details?id='+data.id" title>{{data.cate_name}}</a>
       </p>
       <div>
-        <p class="have-exchange">已兑258件</p>
+        <p class="have-exchange">已兑{{data.purchased}}件</p>
         <div class="pro-price">
-          <em>{{25.5}}积分</em>
-          <a href="javascript:;" class="btn-buy">立即兑换</a>
+          <em>{{data.integral}}积分</em>
+          <a :href="'details?id='+data.id" :class="['btn-buy',statusClass] ">{{btnName}}</a>
         </div>
       </div>
     </div>
@@ -26,27 +23,37 @@
 
 <script>
 export default {
-  // props: {
-  //   data: {
-  //     type: Object
-  //   }
-  // },
-  // data() {
-  //   return {
-  //     status: 1, // 商品状态：0，已售罄，1：正在销售
-  //     statusClass: "on-sale"
-  //   };
-  // },
-  // created() {
-  //   // 判断当前商品状态
-  //   if (this.data.purchased < this.data.limited) {
-  //     this.status = 1;
-  //     this.statusClass = "on-sale";
-  //   } else {
-  //     this.status = 0;
-  //     this.statusClass = "sale-out";
-  //   }
-  // }
+  props: {
+    data: {
+      type: Object
+    }
+  },
+  data() {
+    return {
+      status: 1, // 商品状态：0，已售罄，1：正在销售
+      statusClass: "on-sale"
+    };
+  },
+  created() {
+    // 判断当前商品状态
+    if (this.data.purchased < this.data.limited) {
+      this.status = 1;
+      this.statusClass = "on-sale";
+    } else {
+      this.status = 0;
+      this.statusClass = "sale-out";
+    }
+  },
+  computed: {
+    btnName() {
+      switch (this.status) {
+        case 0:
+          return "已无商品";
+        case 1:
+          return "立即兑换";
+      }
+    }
+  }
 };
 </script>
 
@@ -116,6 +123,7 @@ export default {
     line-height: 20px;
     font-size: 14px;
     text-align: center;
+    padding: 0 5px;
     border-radius: 11px;
     span {
       font-family: serif;
@@ -134,6 +142,17 @@ export default {
       border: 1px solid #f26161;
       box-sizing: border-box;
       border-radius: 11px;
+    }
+  }
+  .sale-out {
+    color: #666;
+
+    &:hover {
+      background: #666;
+    }
+
+    &::after {
+      border-color: #666;
     }
   }
 }

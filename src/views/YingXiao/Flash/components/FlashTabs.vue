@@ -1,20 +1,22 @@
 <template>
   <div class="flash-tabs-wrap">
     <ul class="tabs-list">
-      <li
-        :class="['tl-item', {active: activeIndex == index}]"
-        v-for="(item, index) in tabList"
-        :key="index"
-        @click="changeTab(index)"
-      >
-        <router-link :to="{name: item.routerName}">{{item.label}}</router-link>
-      </li>
+      <template v-for="(item, index) in tabList">
+        <li
+          :class="['tl-item', {active: activeIndex == index}]"
+          :key="index"
+          @click="changeTab(index)"
+        >
+          <router-link :to="{name: item.routerName}">{{item.label}}</router-link>
+        </li>
+      </template>
     </ul>
   </div>
 </template>
 
 <script>
 export default {
+  props: {},
   data() {
     return {
       tabList: [
@@ -40,6 +42,7 @@ export default {
   methods: {
     changeTab(index) {
       this.activeIndex = index;
+      this.$emit("stater", index);
     }
   }
 };

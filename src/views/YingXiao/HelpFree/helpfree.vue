@@ -1,17 +1,50 @@
 <template>
   <div class="booking">
     <div class="rules banner"></div>
-    <div class="pro-list">
-      <HelpFreeItem v-for="i in 4" :key="i" />
+    <CommodityFilter @sortFather="receive" data-id="37" />
+    <div class="pro-list" v-if="goodsData">
+      <HelpFreeItem v-for="(item,index) in goodsData.son" :key="index" :data="item" />
     </div>
   </div>
 </template>
 
 <script>
 import HelpFreeItem from "@/components/ProCard/Big/HelpFree/HelpFreeItem.vue";
+import CommodityFilter from "@/components/ComPublic/YinXiao/CommodityFilter.vue";
 export default {
   components: {
-    HelpFreeItem
+    HelpFreeItem,
+    CommodityFilter
+  },
+  data() {
+    return {
+      page: 1,
+      limit: 8,
+      //---商品数据
+      goodsData: null
+    };
+  },
+  mounted() {
+    this.getData(0);
+  },
+  methods: {
+    receive(son) {
+      this.getData(son);
+    },
+    getData(cateId) {
+      this.$instance
+        .post("api/api/YdScreen", {
+          page: this.page,
+          limit: this.limit,
+          yd_id: 37, //活动id
+          cate_id: cateId //分类id
+        })
+        .then(res => {
+          let data = res.data.data;
+          this.goodsData = data;
+          console.log(this.goodsData);
+        });
+    }
   }
 };
 </script>

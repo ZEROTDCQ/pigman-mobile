@@ -2,19 +2,21 @@
   <div class="news">
     <div class="news-main">
       <div class="banner-wrap news-banner news-swiper swiper-container" ref="swiper">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide" v-for="i in 3" :key="i">
+        <div class="swiper-wrapper" v-if="brannerData">
+          <div class="swiper-slide" v-for="(item,index) in brannerData" :key="index">
             <a href="javascript:;" title>
-              <img src="https://img.zcool.cn/community/0118cf5837d75ea801219c77f35e67.jpg" alt />
+              <img :src="baseUrl+item.picture" alt width="100%" height="100%" />
             </a>
           </div>
         </div>
         <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
       </div>
-      <NewsTabs />
+      <NewsTabs @upData="eventData" />
       <div class="news-list">
-        <NewsItem v-for="i in 5" :key="i" />
+        <template v-if="bottomData">
+          <NewsItem v-for="(item,index) in bottomData" :key="index" :data="item" />
+        </template>
       </div>
     </div>
   </div>
@@ -32,21 +34,54 @@ export default {
   },
   data() {
     return {
-      swiper: null
+      swiper: null,
+      bottomData: null,
+      brannerData: null,
+      page: 1,
+      limit: 6
     };
   },
-  mounted() {
-    this.swiper = new Swiper(this.$refs.swiper, {
-      loop: true,
-      autoplay: {
-        delay: 2500,
-        disableOnInteraction: false
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true
-      }
-    });
+  created() {
+    //----初始化轮播图和新闻列表
+    this.getSectData(5);
+  },
+  mounted() {},
+  updated() {
+    this.initSwiper();
+  },
+  methods: {
+    getSectData(id) {
+      this.$instance
+        .post("api/mobileapi/news", {
+          id: id,
+          lang: "sc",
+          page: this.page,
+          limit: this.limit,
+          type: 0 //主站新闻
+        })
+        .then(res => {
+          let data = res.data.data;
+          this.brannerData = data.adv;
+          this.bottomData = data.news;
+        });
+    },
+    eventData(son) {
+      this.getSectData(son);
+    },
+    initSwiper() {
+      console.log("初始化");
+      this.swiper = new Swiper(this.$refs.swiper, {
+        loop: true,
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true
+        }
+      });
+    }
   }
 };
 </script>

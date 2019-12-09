@@ -32,21 +32,25 @@ $primarywidth: 100px;
     margin: $margin;
     padding: $padding;
   }
+
   /deep/.el-pagination.is-background {
     .btn-next,
     .btn-prev,
     .el-pager li {
       background: #fff;
     }
+
     .btn-next,
     .btn-prev,
     .el-pager {
       padding: 0 6px;
     }
+
     .el-pager li.active {
       background: $primarycolor;
       color: #fff !important;
     }
+
     .btn-next:not(:disabled):hover,
     .btn-prev:not(:disabled):hover,
     .el-pager li:hover {
@@ -61,15 +65,18 @@ $primarywidth: 100px;
     background-color: $primarycolor;
     border-color: $primarycolor;
   }
+
   .el-button--primary:focus,
   .el-button--primary:hover {
     background-color: $hovercolor;
     border-color: $hovercolor;
   }
+
   .el-button--primary:active {
     background-color: $activecolor;
     border-color: $activecolor;
   }
+
   .el-button--primary.is-disabled,
   .el-button--primary.is-disabled:active,
   .el-button--primary.is-disabled:focus,
@@ -79,26 +86,32 @@ $primarywidth: 100px;
     color: $disabletext;
   }
 }
+
 @mixin el_button_default {
+
   .el-button--default:not(.is-disabled):focus,
   .el-button--default:not(.is-disabled):hover {
     color: #67c23a;
     background-color: #f0f9eb;
     border-color: #c2e7b0;
   }
+
   .el-button--default:not(.is-disabled):active {
     color: $primarycolor;
     border-color: $primarycolor;
   }
 }
+
 @mixin el_button_text {
   .el-button--text {
     color: $primarycolor;
   }
+
   .el-button--text:focus,
   .el-button--text:hover {
     color: $hovercolor;
   }
+
   .el-button--text:active {
     color: green;
   }
@@ -109,11 +122,13 @@ $primarywidth: 100px;
   .el-select {
     width: 100%;
   }
+
   .el-select /deep/ .el-input.is-focus .el-input__inner,
   .el-select /deep/ .el-input__inner:focus {
     border-color: $primarycolor;
   }
 }
+
 @mixin el_select_dropdown {
   .el-select-dropdown__item.selected {
     color: $primarycolor;
@@ -122,10 +137,12 @@ $primarywidth: 100px;
 
 // 重写input、textarea
 @mixin el_input_textarea {
+
   .el-input.is-active .el-input__inner,
   .el-input__inner:focus {
     border-color: $primarycolor;
   }
+
   .el-textarea__inner:focus {
     border-color: $primarycolor;
   }
@@ -133,21 +150,25 @@ $primarywidth: 100px;
 
 // 重写radio
 @mixin el_radio_button {
-  /deep/ .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+  /deep/ .el-radio-button__orig-radio:checked+.el-radio-button__inner {
     background-color: $hovercolor;
     border-color: $hovercolor;
     color: #fff !important;
   }
+
   /deep/ .el-radio-button__inner:hover {
     color: $hovercolor;
   }
+
   .el-radio__input.is-checked .el-radio__inner {
     background-color: $primarycolor;
     border-color: $primarycolor;
   }
-  .el-radio__input.is-checked + .el-radio__label {
+
+  .el-radio__input.is-checked+.el-radio__label {
     color: $primarycolor;
   }
+
   .el-radio__inner:hover {
     border-color: $primarycolor;
   }
@@ -156,12 +177,14 @@ $primarywidth: 100px;
 // 自定义dialog样式
 @mixin diy_dialog {
   @include el_select_dropdown;
+
   .dialog_wrap {
     background: #fff;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
     .dialog_title {
       height: 58px;
       line-height: 58px;
@@ -169,10 +192,12 @@ $primarywidth: 100px;
       color: #fefefe;
       padding: 0 24px;
       position: relative;
+
       h4 {
         font-size: 16px;
         font-weight: normal;
       }
+
       .dialog_close {
         position: absolute;
         width: 14px;
@@ -183,25 +208,31 @@ $primarywidth: 100px;
         margin-top: -7px;
       }
     }
+
     /deep/ .dialog_body {
       min-width: 530px;
       padding: 40px 80px;
       box-sizing: border-box;
+
       .notice {
         font-size: 14px;
         line-height: 1.5;
         color: #333;
       }
+
       .green {
         color: $primarycolor;
       }
+
       .bold {
         font-weight: bold;
       }
+
       .el-button.code {
         padding: 12px 0;
         width: 100%;
       }
+
       @include el_button_primary;
       @include el_button_default;
       @include el_input_textarea;
@@ -213,10 +244,12 @@ $primarywidth: 100px;
         }
       }
     }
+
     .dialog_btns {
       margin-top: 40px;
       text-align: center;
       @include el_button_primary;
+
       .el-button {
         min-width: 124px;
       }
@@ -235,6 +268,7 @@ $primarywidth: 100px;
       border-radius: 8px;
       overflow: hidden;
     }
+
     .el-dialog__header {
       height: 58px;
       line-height: 58px;
@@ -242,6 +276,7 @@ $primarywidth: 100px;
       padding: 0 24px;
       position: relative;
     }
+
     .el-dialog__title {
       color: #fff;
       font-size: 16px;
@@ -249,37 +284,46 @@ $primarywidth: 100px;
       height: 58px;
       line-height: 58px;
     }
+
     .el-dialog__close {
       color: #fff;
     }
+
     .el-dialog__headerbtn:hover {
       transform: scale(1.1);
     }
+
     .el-dialog__body {
       width: 530px;
       padding: 40px 80px;
       box-sizing: border-box;
+
       h1.dialog__title {
         font-size: 22px;
         font-weight: normal;
         line-height: 36px;
         color: #333;
       }
+
       .notice {
         font-size: 14px;
         line-height: 1.5;
         color: #333;
       }
+
       .green {
         color: $primarycolor;
       }
+
       .bold {
         font-weight: bold;
       }
+
       .el-button.code {
         padding: 12px 0;
         width: 100%;
       }
+
       @include el_button_primary;
       @include el_input_textarea;
       @include el_select;
@@ -290,21 +334,26 @@ $primarywidth: 100px;
         }
       }
     }
+
     .el-dialog__footer {
       padding: 0;
       margin-bottom: 40px;
       text-align: center;
+
       .dialog_btns {
         @include el_button_primary;
+
         .el-button {
           min-width: 124px;
         }
+
         .el-button--default:focus,
         .el-button--default:hover {
           color: #67c23a;
           background-color: #f0f9eb;
           border-color: #c2e7b0;
         }
+
         .el-button--default:active {
           color: $primarycolor;
           border-color: $primarycolor;
@@ -320,14 +369,17 @@ $primarywidth: 100px;
     .el-checkbox__inner:hover {
       border-color: $primarycolor;
     }
+
     .el-checkbox__input.is-checked .el-checkbox__inner {
       background-color: $primarycolor;
       border-color: $primarycolor;
     }
+
     .el-checkbox__input.is-focus .el-checkbox__inner {
       border-color: $primarycolor;
     }
-    .el-checkbox__input.is-checked + .el-checkbox__label {
+
+    .el-checkbox__input.is-checked+.el-checkbox__label {
       color: $primarycolor;
     }
   }
@@ -343,5 +395,109 @@ $primarywidth: 100px;
     width: 35px;
     height: 6px;
     background: $primarycolor;
+  }
+}
+
+//自定义加载动画
+@mixin lord_modal() {
+  #load {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff;
+    color: #fff;
+    z-index: 999;
+
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: auto;
+      transform: translate(-50%, -50%);
+      padding: 10px 20px;
+      display: inline-block;
+      text-overflow: ellipsis;
+      border-radius: 5px;
+      text-align: center;
+      font-size: 14px;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+  }
+
+
+  .load-box {
+    display: flex;
+    justify-content: center;
+
+    span {
+      margin: auto 0;
+    }
+
+    .spinner {
+      margin: auto 0;
+      width: 50px;
+      line-height: 21px;
+      height: 17px;
+      text-align: center;
+      font-size: 10px;
+    }
+
+    .spinner>div {
+      background-color: #fff;
+      height: 100%;
+      width: 3px;
+      display: inline-block;
+      -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+      animation: stretchdelay 1.2s infinite ease-in-out;
+    }
+
+    .spinner .rect2 {
+      -webkit-animation-delay: -1.1s;
+      animation-delay: -1.1s;
+    }
+
+    .spinner .rect3 {
+      -webkit-animation-delay: -1.0s;
+      animation-delay: -1.0s;
+    }
+
+    .spinner .rect4 {
+      -webkit-animation-delay: -0.9s;
+      animation-delay: -0.9s;
+    }
+
+    .spinner .rect5 {
+      -webkit-animation-delay: -0.8s;
+      animation-delay: -0.8s;
+    }
+
+    @-webkit-keyframes stretchdelay {
+
+      0%,
+      40%,
+      100% {
+        -webkit-transform: scaleY(0.4)
+      }
+
+      20% {
+        -webkit-transform: scaleY(1.0)
+      }
+    }
+
+    @keyframes stretchdelay {
+
+      0%,
+      40%,
+      100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+      }
+
+      20% {
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+      }
+    }
   }
 }

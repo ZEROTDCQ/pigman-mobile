@@ -8,11 +8,13 @@ body,
 
 .news_detail {
   position: relative;
+
   .head {
     position: absolute;
     top: 0;
     left: 0;
   }
+
   .main {
     position: absolute;
     top: 44px;
@@ -23,6 +25,7 @@ body,
     overflow-y: auto;
   }
 }
+
 .head {
   width: 100%;
   height: 44px;
@@ -30,6 +33,7 @@ body,
   font-size: 16px;
   background: #fff;
   justify-content: space-between;
+
   &::after {
     content: "";
     position: absolute;
@@ -40,20 +44,25 @@ body,
     border-top: 1px solid #ccc;
     transform: scaleY(0.5);
   }
+
   .h-btn {
     position: absolute;
     top: 0;
+
     a {
       display: block;
       padding: 0 10px;
     }
   }
+
   .fl {
     left: 0;
   }
+
   .fr {
     right: 0;
   }
+
   .h-tit {
     margin: 0 44px;
     font-size: 16px;
@@ -65,6 +74,7 @@ body,
 .main_content {
   padding: 10px;
   background: #fff;
+
   .title {
     margin-bottom: 10px;
     font-size: 16px;
@@ -72,15 +82,18 @@ body,
     font-weight: normal;
     color: #333;
   }
+
   .news_info {
     margin-bottom: 10px;
     font-size: 12px;
     line-height: 1.5;
     color: #999;
     overflow: hidden;
+
     span {
       float: left;
       margin-right: 25px;
+
       i {
         margin-right: 10px;
       }
@@ -91,6 +104,7 @@ body,
 .related {
   margin-top: 6px;
   background: #fff;
+
   .tit {
     position: relative;
     padding: 0 10px;
@@ -99,6 +113,7 @@ body,
     font-size: 14px;
     font-weight: bold;
     color: #333;
+
     &::after {
       content: "";
       position: absolute;
@@ -116,6 +131,7 @@ body,
   position: relative;
   padding: 10px;
   display: flex;
+
   &::after {
     content: "";
     position: absolute;
@@ -126,11 +142,13 @@ body,
     border-bottom: 1px solid #ccc;
     transform: scaleY(0.5);
   }
+
   &:last-child {
     &::after {
       content: none;
     }
   }
+
   .news-feature {
     flex-shrink: 0;
     position: relative;
@@ -138,6 +156,7 @@ body,
     width: 100px;
     height: 100px;
     overflow: hidden;
+
     img {
       position: absolute;
       top: 50%;
@@ -147,33 +166,41 @@ body,
       transform: translate(-50%, -50%);
     }
   }
+
   .news-txt {
     padding: 5px 0;
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
     .news-tit {
       margin-bottom: 5px;
       font-size: 14px;
       font-weight: normal;
       color: #333;
+      @include text_ellipsis(1);
     }
+
     .news-info {
       overflow: hidden;
       font-size: 12px;
       color: #999;
+
       span {
         float: left;
         margin-right: 25px;
+
         i {
           margin-right: 10px;
         }
+
         &:last-child {
           margin-right: 0;
         }
       }
     }
+
     .news-desc {
       font-size: 12px;
       display: -webkit-box;
@@ -184,3 +211,22 @@ body,
     }
   }
 }
+
+//重定义新闻详情样式
+.article {
+  p {
+    margin-bottom: 15px !important;
+  }
+
+  p,
+  span {
+    font-size: 14px !important;
+    height: 100%;
+  }
+
+  img {
+    width: 100% !important;
+  }
+}
+
+@include lord_modal();

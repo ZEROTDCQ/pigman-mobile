@@ -1,7 +1,13 @@
 <template>
   <!-- 即将开抢 -->
   <div class="flash-soon">
-    <FlashNextItem v-for="i in 4" :key="i" />
+    <FlashNextItem
+      v-for="(item,index) in datar.son"
+      :key="index"
+      :data="item"
+      :time="datar.time"
+      :start_time="datar.start_time"
+    />
   </div>
 </template>
 
@@ -10,6 +16,9 @@ import FlashNextItem from "@/components/ProCard/Big/Flash/FlashNextItem.vue";
 export default {
   components: {
     FlashNextItem
+  },
+  props: {
+    datar: Object
   }
 };
 </script>

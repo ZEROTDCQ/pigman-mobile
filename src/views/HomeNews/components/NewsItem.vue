@@ -1,21 +1,44 @@
 <template>
-  <div class="news-item">
-    <div class="ni-feature"></div>
+  <div class="news-item" v-if="data">
+    <div class="ni-feature">
+      <img :src="baseUrl+data.picture" :alt="data.title" width="100%" height="100%" />
+    </div>
     <div class="ni-text">
       <h3 class="nt-title">
-        <a href="javascript:;">电商卖房，全速竞逐“双十一”</a>
+        <a :href="'/news_detail.html?id='+data.id">{{data.title}}</a>
       </h3>
       <div class="nt-info">
-        <span>猪先生</span>
-        <span>2019-11-05</span>
+        <span>{{data.from_where}}</span>
+        <span>{{timeCo(data.publish_time)}}</span>
       </div>
-      <p class="nt-abstract">记者从兰州海关获悉，日前，900公斤秦安蜜桃经兰州海关“秒放行”空运出口新加口新加口新加口新加</p>
+      <p class="nt-abstract">{{data.simple_desc}}</p>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    data: Object
+  },
+  computed: {},
+  mounted() {
+    console.log(this.data);
+  },
+  methods: {
+    //时间搓转时间格式
+    timeCo(dater) {
+      var date = new Date(dater * 1000); //如果date为13位不需要乘1000
+      var Y = date.getFullYear() + "-";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      var D = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+      return Y + M + D;
+    }
+  }
+};
 </script>
 
 <style lang="scss">
@@ -50,6 +73,8 @@ export default {};
         margin-left: 25px;
         &:first-child {
           margin-left: 0;
+          min-width: 50px;
+          display: inline-block;
         }
       }
     }

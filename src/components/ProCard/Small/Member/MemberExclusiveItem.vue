@@ -1,30 +1,27 @@
 <template>
   <!-- 会员专享商品 -->
-  <div class="pro-item card-exclusive on-sale">
+  <div class="pro-item card-exclusive">
     <div class="pro-img">
       <a href="javascript:;">
-        <img
-          :src="baseUrl + '/uploads/admin/images/20191031/82351f96a23b68aee0a223826bffd1fe.jpg'"
-          alt
-        />
+        <img :src="baseUrl +data.picture" :alt="data.name" />
       </a>
     </div>
     <div class="pro-info">
       <p class="pro-name">
-        <a href="javascript:;" title>【买5斤送5斤】攀枝花凯特新鲜大芒果</a>
+        <a :href="'details?id='+data.id" title>{{data.name}}</a>
       </p>
       <div class="pro-tag">
-        <span class="tag-item" v-for="i in 2" :key="i">满30返2</span>
+        <span class="tag-item" v-for="(item,index) in data.overview" :key="index">{{item}}</span>
       </div>
       <div class="pro-price">
         <p class="normal-price">
-          非会员价：¥{{35.5}}
-          <span class="had-buy">已有{{88}}人购买</span>
+          非会员价：¥{{data.original_price}}
+          <span class="had-buy">已有{{data.purchased}}人购买</span>
         </p>
         <p class="vip-price">
-          <em>¥{{25.5}}</em>
-          <a href="javascript:;" class="btn-buy">
-            马上抢
+          <em>¥{{data.activity_price}}</em>
+          <a :href="'details?id='+data.id" :class="{'btn-buy':true,[statusClass]:true} ">
+            {{status ? "马上抢" : "已售完"}}
             <span>&gt;</span>
           </a>
         </p>
@@ -35,27 +32,27 @@
 
 <script>
 export default {
-  // props: {
-  //   data: {
-  //     type: Object
-  //   }
-  // },
-  // data() {
-  //   return {
-  //     status: 1, // 商品状态：0，已售罄，1：正在销售
-  //     statusClass: "on-sale"
-  //   };
-  // },
-  // created() {
-  //   // 判断当前商品状态
-  //   if (this.data.purchased < this.data.limited) {
-  //     this.status = 1;
-  //     this.statusClass = "on-sale";
-  //   } else {
-  //     this.status = 0;
-  //     this.statusClass = "sale-out";
-  //   }
-  // }
+  props: {
+    data: {
+      type: Object
+    }
+  },
+  data() {
+    return {
+      status: 1, // 商品状态：0，已售罄，1：正在销售
+      statusClass: "on-sale"
+    };
+  },
+  created() {
+    // 判断当前商品状态
+    if (this.data.purchased < this.data.limited) {
+      this.status = 1;
+      this.statusClass = "on-sale";
+    } else {
+      this.status = 0;
+      this.statusClass = "sale-out";
+    }
+  }
 };
 </script>
 
@@ -174,9 +171,9 @@ export default {
     }
   }
 }
-.card-exclusive.on-sale {
+.pro-item {
   .pro-price {
-    .btn-buy {
+    .on-sale {
       color: #f26161;
       &:hover {
         background: #f26161;
