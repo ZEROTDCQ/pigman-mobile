@@ -68,7 +68,7 @@ news.prototype = {
   shareClick: function () {
     newsri.qqShare({
       title: '我的第一次移动端分享开发',
-      url: 'http://192.168.0.114:3000/news_detail.html?id=2',
+      url: window.history.href,
       desc: '来来来，块来围观啦！',
       img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1573827701439&di=768680de5e63e50dc8e7601199fe3ec9&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F4009952ada95f6e21c9631d07ec2cf05dff90180.jpg',
       type: 0
