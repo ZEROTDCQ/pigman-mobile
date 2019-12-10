@@ -45,7 +45,7 @@
         </div>
       </div>
       <div class="form-blick gap bg-fff">
-        <van-cell title="个人信息" is-link value="点击填写" :to="{name: 'person'}" />
+        <van-cell title="个人信息" is-link :value="personInfoStatus" :to="{name: 'person'}" />
       </div>
       <div class="form-block gap bg-fff">
         <div class="form-head">
@@ -124,12 +124,14 @@
         </div>
       </div>
     </div>
-
-    <router-view />
+    <transition name="slide-left">
+      <router-view />
+    </transition>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -138,6 +140,9 @@ export default {
         { url: "https://img.yzcdn.cn/vant/leaf.jpg" }
       ]
     };
+  },
+  computed: {
+    ...mapGetters(["personInfoStatus"])
   },
   methods: {
     backAction() {
@@ -148,6 +153,14 @@ export default {
 </script>
 
 <style lang="scss">
+.slide-left-enter,
+.slide-left-leave-to {
+  transform: translateX(100%);
+}
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: all 0.24s ease-in-out;
+}
 .info-item {
   .add-info-btn {
     display: block;
@@ -348,6 +361,10 @@ body,
 .van-uploader__upload-icon {
   color: #969799;
   font-size: 24px;
+}
+.van-image-preview__index {
+  top: 10px;
+  font-size: 14px;
 }
 
 .van-cell {

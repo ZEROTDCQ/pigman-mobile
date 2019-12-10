@@ -69,6 +69,9 @@
           />
         </van-cell-group>
       </div>
+      <div class="bottom-btn">
+        <a class="btn-primary" href="javascript:;" @click="saveAction">确定</a>
+      </div>
     </div>
   </div>
 </template>
@@ -79,16 +82,16 @@ export default {
   data() {
     return {
       formData: {
-        grxm: "",
-        grsjhm: "",
-        gryx: "",
-        grxb: "",
-        grnl: "",
-        grgzjy: "",
-        grzgxl: "",
-        grszd: "",
-        grzjgs: "",
-        grzjhm: ""
+        grxm: this.$store.state.name,
+        grsjhm: this.$store.state.phone,
+        gryx: this.$store.state.email,
+        grxb: this.$store.state.sex,
+        grnl: this.$store.state.age,
+        grgzjy: this.$store.state.experience,
+        grzgxl: this.$store.state.top_education,
+        grszd: this.$store.state.address,
+        grzjgs: this.$store.state.recen_company,
+        grzjhm: this.$store.state.idcard
       },
       errors: []
     };
@@ -100,7 +103,7 @@ export default {
     handleErrors(errors, fields) {
       this.errors = fields;
     },
-    saveAction() {
+    validate() {
       var descriptor = {
         grxm: {
           type: "string",
@@ -182,7 +185,7 @@ export default {
         }
       };
       var validator = new schema(descriptor);
-      validator.validate(
+      return validator.validate(
         {
           grxm: this.formData.grxm,
           grsjhm: this.formData.grsjhm,
@@ -203,9 +206,32 @@ export default {
             return this.handleErrors(errors, fields);
           }
           //验证通过
-          this.errors = [];
+          // this.errors = [];
         }
       );
+    },
+    saveAction() {
+      this.validate()
+        .then(res => {
+          this.errors = [];
+          let formData = this.formData;
+          this.$store.commit("setFormState", {
+            name: formData.grxm,
+            phone: formData.grsjhm,
+            email: formData.gryx,
+            sex: formData.grxb,
+            age: formData.grnl,
+            experience: formData.grgzjy,
+            top_education: formData.grzgxl,
+            address: formData.grszd,
+            recen_company: formData.grzjgs,
+            idcard: formData.grzjhm
+          });
+          this.$router.back();
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -218,5 +244,21 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.bottom-btn {
+  padding: 10px;
+  .btn-primary {
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 16px;
+    color: #fff;
+    background: $primarycolor;
+    border-radius: 2px;
+    &:active {
+      background: #4aa046;
+    }
+  }
+}
 </style>
