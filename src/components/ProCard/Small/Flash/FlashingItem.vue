@@ -3,27 +3,24 @@
   <div class="pro-item card-flashing on-sale">
     <div class="pro-img">
       <a href="javascript:;">
-        <img
-          :src="baseUrl + '/uploads/admin/images/20191107/6142f198ea658934e0b987b45a0dad72.jpg'"
-          alt
-        />
+        <img :src="baseUrl +data.picture" :alt="data.name" />
       </a>
     </div>
     <div class="pro-info">
       <p class="pro-name">
-        <a href="javascript:;" title>【买5斤送5斤】攀枝花凯特新鲜大芒果</a>
+        <a :href="'details?id='+data.id" title>{{data.name}}</a>
       </p>
       <div class="pro-progress">
         <div class="precent-back">
-          <div class="precent-front" :style="{width: 60 + '%'}"></div>
-          <div class="precent-value">{{60}}%</div>
+          <div class="precent-front" :style="{width: ratio + '%'}"></div>
+          <div class="precent-value">{{ratio}}%</div>
         </div>
-        <span class="had-saled">已抢{{126}}件</span>
+        <span class="had-saled">已抢{{keqian}}件</span>
       </div>
       <div class="pro-price">
-        <em>¥{{35.5}}</em>
-        <del>¥{{35.6}}</del>
-        <a href="javascript:;" class="btn-buy">
+        <em>¥{{data.activity_price}}</em>
+        <del>¥{{data.original_price}}</del>
+        <a :href="'details?id='+data.id" class="btn-buy">
           马上抢
           <span>&gt;</span>
         </a>
@@ -33,7 +30,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    data: Object
+  },
+  computed: {
+    ratio() {
+      return Math.floor((this.data.purchased / this.data.limited) * 100);
+    },
+    keqian() {
+      return this.data.purchased;
+    }
+  }
+};
 </script>
 
 <style lang="scss">

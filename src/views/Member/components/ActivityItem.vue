@@ -1,22 +1,28 @@
 <template>
   <!-- 推荐、会员活动项组件 -->
   <div class="activity-item style1">
-    <div class="ai-feature"></div>
+    <div class="ai-feature">
+      <img :src="baseUrl + data.picture" alt />
+    </div>
     <div class="ai-text">
-      <h3 class="at-title">古德菲力健身×锐步莱美“动·无边界∞”运动古德菲力健身×锐步莱美“动·无边界∞”运动</h3>
-      <p
-        class="at-abstract"
-      >来这里看达利最新画作，给您最新来这里看达利最新画作，给您最新来这里看达利最新画作，给您最新来这里看达利最新画作，给您最新来这里看达利最新画作，给您最新</p>
+      <h3 class="at-title">{{data.title}}</h3>
+      <p class="at-abstract">{{data.sketch}}</p>
       <div class="at-ticket-info">
-        <em class="ticket-price">¥100.00</em>
-        <span class="have-booked">60人已报名</span>
+        <em class="ticket-price">¥{{data.price}}</em>
+        <span class="have-booked">{{data.number}}人已报名</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    data: {
+      type: Object
+    }
+  }
+};
 </script>
 
 <style lang="scss">
@@ -31,6 +37,10 @@ export default {};
     width: 140px;
     height: 140px;
     background: #ccc;
+    img{
+      width: 100%;
+      height: 100%;
+    }
   }
   .ai-text {
     overflow: hidden;

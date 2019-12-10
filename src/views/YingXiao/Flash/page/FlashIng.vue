@@ -1,7 +1,7 @@
 <template>
   <!-- 正在疯抢 -->
   <div class="flash-ing">
-    <FlashingItem v-for="i in 4" :key="i" />
+    <FlashingItem v-for="(item,index) in datar.son" :key="index" :data="item"/>
   </div>
 </template>
 
@@ -11,7 +11,11 @@ import FlashingItem from "@/components/ProCard/Big/Flash/FlashingItem.vue";
 export default {
   components: {
     FlashingItem
-  }
+  },
+  props: {
+    datar: Object
+  },
+  mounted() {}
 };
 </script>
 

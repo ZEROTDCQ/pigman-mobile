@@ -2,8 +2,8 @@
   <!-- 会员专享 -->
   <div class="area-box">
     <div class="area-head clearfix">
-      <h3 class="ah-title">会员专享</h3>
-      <div class="ah-sub-title">只有会员才能享受到的特价商品~</div>
+      <h3 class="ah-title">{{data.title}}</h3>
+      <div class="ah-sub-title">{{data.sketch}}</div>
       <p class="btn-enter-area">
         <a href="/sc/flash">
           进入专区
@@ -12,7 +12,7 @@
       </p>
     </div>
     <div class="area-body pro-list">
-      <MemberExclusiveItem v-for="i in 4" :key="i" />
+      <MemberExclusiveItem v-for="(item,index) in data.son" :key="index" :data="item" />
     </div>
   </div>
 </template>
@@ -22,6 +22,9 @@ import MemberExclusiveItem from "@/components/ProCard/Small/Member/MemberExclusi
 export default {
   components: {
     MemberExclusiveItem
+  },
+  props: {
+    data: Object
   }
 };
 </script>

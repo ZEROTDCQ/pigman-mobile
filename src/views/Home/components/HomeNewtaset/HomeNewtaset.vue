@@ -2,8 +2,8 @@
   <!-- 新品尝鲜 -->
   <div class="area-box">
     <div class="area-head clearfix">
-      <h3 class="ah-title">新品尝鲜</h3>
-      <div class="ah-sub-title">新品上市，限时低价抢~</div>
+      <h3 class="ah-title">{{data.title}}</h3>
+      <div class="ah-sub-title">{{data.sketch}}</div>
       <p class="btn-enter-area">
         <a href="/sc/flash">
           进入专区
@@ -12,7 +12,7 @@
       </p>
     </div>
     <div class="area-body pro-list">
-      <NewtasteItem v-for="i in 4" :key="i" />
+      <NewtasteItem v-for="(item,index) in data.son" :key="index" :data="item" />
     </div>
   </div>
 </template>
@@ -22,6 +22,9 @@ import NewtasteItem from "@/components/ProCard/Small/Newtaste/NewtasteItem";
 export default {
   components: {
     NewtasteItem
+  },
+  props: {
+    data: Object
   }
 };
 </script>

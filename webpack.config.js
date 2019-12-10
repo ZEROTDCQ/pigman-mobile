@@ -27,18 +27,20 @@ const htmlWebpackPlugin = require('html-webpack-plugin')
 const vueLoaderPlugin = require('vue-loader/lib/plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const {
+	CleanWebpackPlugin
+} = require('clean-webpack-plugin')
 // 显示项目构建后的模块分布情况
 const WebpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = {
 	// production, development
 	mode: 'development',
 	entry: {
-		// Home: './src/views/Home/home.js',		//首页
+		// Home: './src/views/Home/home.js',		//首页--@
 		// HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
 		// HomeSearch: './src/views/HomeSearch/search.js',		//主站搜索页
-		// HomeNews: './src/views/HomeNews/news.js',		//主站新闻，热门资讯
-		// NewsDetail: './src/views/NewsDetail/newsdetail.js',		//新闻详情
+		HomeNews: './src/views/HomeNews/news.js', //主站新闻，热门资讯--@
+		NewsDetail: './src/views/NewsDetail/newsdetail.js',		//新闻详情
 		// Resume: './src/views/Resume/resume.js',		//公司介绍
 		// Activity: './src/views/Activity/activity.js',		//活动专区
 		// ActivityDetail: './src/views/ActivityDetail/activitydetail.js',		//活动详情
@@ -48,15 +50,17 @@ module.exports = {
 		// Detail: './src/views/Detail/detail.js',		//商品详情
 		// Job: './src/views/Job/job.js',		//人才招聘
 		// JobDetail: './src/views/JobDetail/jobdetail.js',		//职位详情
-		// Report: './src/views/Report/report.js',		//职位详情
+		JobApply: './src/views/JobApply/JobApply.js',		//职位申请
+		// Report: './src/views/Report/report.js',		//廉政举报
+		Cooperate: './src/views/Cooperate/Cooperate.js',		//供货合作
 		// test: './src/views/test/test.js',		//商品卡片测试页面
 
 
 		// ----------------------------------- 营销活动 -----------------------------------
-		// Flash: './src/views/YingXiao/Flash/flash.js',		//限时抢购
-		// OneYuan: './src/views/YingXiao/OneYuan/oneyuan.js',		//一元购
-		// Booking: './src/views/YingXiao/Booking/booking.js',		//预定商品
-		// HelpFree: './src/views/YingXiao/HelpFree/helpfree.js',		//助力免费拿
+		// Flash: './src/views/YingXiao/Flash/flash.js', //限时抢购--@
+		// OneYuan: './src/views/YingXiao/OneYuan/oneyuan.js',		//一元购--@
+		// Booking: './src/views/YingXiao/Booking/booking.js',		//预定商品--@
+		// HelpFree: './src/views/YingXiao/HelpFree/helpfree.js',		//助力免费拿--@
 
 
 		// ----------------------------------- 饮食指南 -----------------------------------
@@ -78,71 +82,68 @@ module.exports = {
 		publicPath: ''
 	},
 	module: {
-		rules: [
-			{
-				test: /\.js$/,
-				exclude: /node_modules/,
-				loader: 'babel-loader',
-				// include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
-			},
-			{
-				test: /\.vue$/,
-				use: ['vue-loader']
-			},
-			{
-				// 打包html模板文件中img标签的图片
-				test: /\.html$/,
-				loader: "html-withimg-loader"
-			},
-			{
-				test: /\.(sc|sa|c)ss$/,
-				// MiniCssExtractPlugin.loader
-				use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader', {
-					loader: "sass-resources-loader",
-					options: {
-						// resources: [path.resolve('src/assets/css/common/config.scss')]
-						resources: ['./src/assets/css/common/config.scss']
-					}
-				}]
-			},
-			{
-				test: /\.(gif|jpe?g|png|bmp|webp|svg)(\?.*)?$/,
-				use: [{
-					loader: 'url-loader',
-					options: {
-						limit: 4 * 1024,
-						name: 'img/[name].[hash:8].[ext]',
-						// publicPath: 'img/',//将css中引用的背景图片打包到output.path + publicPath + name
-						// outputPath: ''
+		rules: [{
+			test: /\.js$/,
+			exclude: /node_modules/,
+			loader: 'babel-loader',
+			// include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+		},
+		{
+			test: /\.vue$/,
+			use: ['vue-loader']
+		},
+		{
+			// 打包html模板文件中img标签的图片
+			test: /\.html$/,
+			loader: "html-withimg-loader"
+		},
+		{
+			test: /\.(sc|sa|c)ss$/,
+			// MiniCssExtractPlugin.loader
+			use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader', {
+				loader: "sass-resources-loader",
+				options: {
+					// resources: [path.resolve('src/assets/css/common/config.scss')]
+					resources: ['./src/assets/css/common/config.scss']
+				}
+			}]
+		},
+		{
+			test: /\.(gif|jpe?g|png|bmp|webp|svg)(\?.*)?$/,
+			use: [{
+				loader: 'url-loader',
+				options: {
+					limit: 4 * 1024,
+					name: 'img/[name].[hash:8].[ext]',
+					// publicPath: 'img/',//将css中引用的背景图片打包到output.path + publicPath + name
+					// outputPath: ''
 
-						// fallback: { //此处无需配置file-loader的回调也可正常构建，url-loader会自动调用，并共享name等配置项目
-						// 	loader: 'file-loader',
-						// 	options: {
-						// 		name: 'img/[name].[hash:8].[ext]',
-						// 		// publicPath: 'img/',//将css中引用的背景图片打包到output.path + publicPath + name
-						// 		// outputPath: ''
-						// 	}
-						// }
-					}
-				}]
-			},
-			{
-				test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
-				use: [
-					{
-						loader: 'url-loader',
+					// fallback: { //此处无需配置file-loader的回调也可正常构建，url-loader会自动调用，并共享name等配置项目
+					// 	loader: 'file-loader',
+					// 	options: {
+					// 		name: 'img/[name].[hash:8].[ext]',
+					// 		// publicPath: 'img/',//将css中引用的背景图片打包到output.path + publicPath + name
+					// 		// outputPath: ''
+					// 	}
+					// }
+				}
+			}]
+		},
+		{
+			test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
+			use: [{
+				loader: 'url-loader',
+				options: {
+					limit: 4096,
+					fallback: {
+						loader: 'file-loader',
 						options: {
-							limit: 4096,
-							fallback: {
-								loader: 'file-loader',
-								options: {
-									name: 'fonts/[name].[hash:7].[ext]'
-								}
-							}
+							name: 'fonts/[name].[hash:7].[ext]'
 						}
 					}
-				]
-			}
+				}
+			}]
+		}
 		]
 	},
 	devServer: {
@@ -211,13 +212,11 @@ module.exports = {
 	plugins: [
 		new CleanWebpackPlugin(),
 		new vueLoaderPlugin(),
-		new CopyWebpackPlugin([
-			{
-				from: path.resolve('public'),   //将当前目录下的public
-				to: 'public',                    //复制到output.path下的public
-				ignore: ['.*']
-			}
-		]),
+		new CopyWebpackPlugin([{
+			from: path.resolve('public'), //将当前目录下的public
+			to: 'public', //复制到output.path下的public
+			ignore: ['.*']
+		}]),
 		new MiniCssExtractPlugin({
 			filename: 'css/[name].css',
 			chunkFilename: 'css/[name].chunk.[hash:8].css'
@@ -323,16 +322,16 @@ const pages = [
 	// 	filename: 'home_search.html',
 	// 	chunks: ['reset', 'HomeSearch']
 	// },
-	// {
-	// 	template: './src/views/HomeNews/news.html',
-	// 	filename: 'home_news.html',
-	// 	chunks: ['reset', 'HomeNews']
-	// },
-	// {
-	// 	template: './src/views/NewsDetail/newsdetail.html',
-	// 	filename: 'news_detail.html',
-	// 	chunks: ['reset', 'NewsDetail']
-	// },
+	{
+		template: './src/views/HomeNews/news.html',
+		filename: 'home_news.html',
+		chunks: ['reset', 'HomeNews']
+	},
+	{
+		template: './src/views/NewsDetail/newsdetail.html',
+		filename: 'news_detail.html',
+		chunks: ['reset', 'NewsDetail']
+	},
 	// {
 	// 	template: './src/views/Resume/resume.html',
 	// 	filename: 'resume.html',
@@ -358,11 +357,11 @@ const pages = [
 	// 	filename: 'category.html',
 	// 	chunks: ['reset', 'Category']
 	// },
-	// {
-	// 	template: './src/views/Member/member.html',
-	// 	filename: 'member.html',
-	// 	chunks: ['reset', 'Member']
-	// },
+	{
+		template: './src/views/Member/member.html',
+		filename: 'member.html',
+		chunks: ['reset', 'Member']
+	},
 	// {
 	// 	template: './src/views/Detail/detail.html',
 	// 	filename: 'detail.html',
@@ -378,11 +377,21 @@ const pages = [
 	// 	filename: 'jobdetail.html',
 	// 	chunks: ['reset', 'JobDetail']
 	// },
+	{
+		template: './src/views/JobApply/jobapply.html',
+		filename: 'job_apply.html',
+		chunks: ['reset', 'JobApply']
+	},
 	// {
 	// 	template: './src/views/Report/report.html',
 	// 	filename: 'report.html',
 	// 	chunks: ['reset', 'Report']
 	// },
+	{
+		template: './src/views/Cooperate/cooperate.html',
+		filename: 'cooperate.html',
+		chunks: ['reset', 'Cooperate']
+	},
 	// {
 	// 	template: './src/views/test/test.html',
 	// 	filename: 'test.html',
@@ -444,7 +453,11 @@ const pages = [
 	// },
 ]
 
-function createHtml({ template, filename, chunks }) {
+function createHtml({
+	template,
+	filename,
+	chunks
+}) {
 	return new htmlWebpackPlugin({
 		template,
 		filename,
@@ -452,6 +465,7 @@ function createHtml({ template, filename, chunks }) {
 		// chunksSortMode: 'none'
 	})
 }
+
 pages.forEach(element => {
 	module.exports.plugins.push(createHtml(element))
 });

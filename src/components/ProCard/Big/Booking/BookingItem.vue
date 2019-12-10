@@ -2,34 +2,31 @@
   <div class="pro-item card-booking-row on-sale">
     <div class="pro-feature">
       <a href="javascript:;">
-        <img
-          :src="baseUrl + '/uploads/admin/images/20191030/9e439d9d2cec951ecbd156e354e2616b.jpg'"
-          alt
-        />
+        <img :src="baseUrl + data.picture" alt />
       </a>
     </div>
     <div class="pro-info-wrap">
       <p class="pro-name">
-        <a href="javascript:;" title>【买5斤送5斤】攀枝花凯特新鲜大芒果</a>
+        <a :href="'details?id='+data.id" title>{{data.name}}</a>
       </p>
       <div>
         <div class="pro-countdown">
           <div class="countdown">
             <span style="color: #666;margin-right: 5px;">剩余</span>
-            <span class="countdown-item hours">{{22}}</span>
+            <span class="countdown-item hours">{{hours}}</span>
             <span class="sep">:</span>
-            <span class="countdown-item minutes">{{20}}</span>
+            <span class="countdown-item minutes">{{minutes}}</span>
             <span class="sep">:</span>
-            <span class="countdown-item seconds">{{44}}</span>
+            <span class="countdown-item seconds">{{seconds}}</span>
           </div>
-          <span class="had-booked">已有{{38}}人预定</span>
+          <span class="had-booked">已有{{data.purchased}}人预定</span>
         </div>
         <p class="today-price">
-          <del>今日价：¥{{38.5}}</del>
+          <del>今日价：¥{{data.original_price}}</del>
         </p>
         <div class="pro-price">
-          <em>¥{{33.5}}</em>
-          <a href="javascript:;" class="btn-buy">
+          <em>¥{{data.activity_price}}</em>
+          <a :href="'details?id='+data.id" class="btn-buy">
             马上定
             <span>&gt;</span>
           </a>
@@ -40,7 +37,64 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    data: Object
+  },
+  data() {
+    return {
+      //---今日截单倒计时时间搓
+      diffTime: null,
+      timer: null
+    };
+  },
+  mounted(){
+    this.getTime(this.data.time,this.data.end_time);
+  },
+  computed: {
+    hours() {
+      // 小时倒计时
+      return Math.floor(this.diffTime / 1000 / 60 / 60) < 0
+        ? "00"
+        : this.zeroPatch(Math.floor(this.diffTime / 1000 / 60 / 60));
+    },
+    minutes() {
+      // 分钟倒计时
+      return Math.floor((this.diffTime / 1000 / 60) % 60) < 0
+        ? "00"
+        : this.zeroPatch(Math.floor((this.diffTime / 1000 / 60) % 60));
+    },
+    seconds() {
+      // 秒倒计时
+      return Math.floor((this.diffTime / 1000) % 60) < 0
+        ? "00"
+        : this.zeroPatch(Math.floor((this.diffTime / 1000) % 60));
+    }
+  },
+  methods: {
+    zeroPatch(value) {
+      if (Number(value) < 10) {
+        return "0" + value;
+      }
+      return value;
+    },
+    getTime(current, date) {
+      clearInterval(this.timer);
+      this.diffTime = date * 1000 - current * 1000;
+      // 倒计时
+      if (this.diffTime) {
+        this.timer = setInterval(() => {
+          this.diffTime -= 1000;
+          if (this.diffTime <= 0) {
+            this.diffTime = 0;
+            clearInterval(this.timer);
+            this.timer = null;
+          }
+        }, 1000);
+      }
+    }
+  }
+};
 </script>
 
 <style lang="scss">

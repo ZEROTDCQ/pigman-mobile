@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <MemberBanner />
-    <MemberTabs />
+    <MemberTabs @tabsChange="tabsFn" />
     <keep-alive>
       <router-view />
     </keep-alive>
@@ -17,6 +17,14 @@ export default {
   components: {
     MemberBanner,
     MemberTabs
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    tabsFn(son) {
+      console.log(son);
+    }
   }
 };
 </script>

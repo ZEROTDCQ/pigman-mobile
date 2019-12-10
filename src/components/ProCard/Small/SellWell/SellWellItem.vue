@@ -1,26 +1,23 @@
 <template>
   <!-- 新品尝鲜产品组件 -->
-  <div class="pro-item card-sellwell on-sale">
+  <div class="pro-item card-newtaste">
     <div class="pro-img">
       <a href="javascript:;">
-        <img
-          :src="baseUrl + '/uploads/admin/images/20191031/292aa6d65be65dba1ed2b1842728d344.jpg'"
-          alt
-        />
+        <img :src="baseUrl +data.picture" :alt="data.name" />
       </a>
     </div>
     <div class="pro-info">
       <p class="pro-name">
-        <a href="javascript:;" title>【买5斤送5斤】攀枝花凯特新鲜大芒果</a>
+        <a :href="'details?id='+data.id" title>{{data.name}}</a>
       </p>
       <div class="pro-tag">
-        <span class="tag-item" v-for="i in 3" :key="i">满30返2</span>
+        <span class="tag-item" v-for="(item,index) in data.overview" :key="index">{{item}}</span>
       </div>
       <div class="pro-price">
-        <em>¥{{35.5}}</em>
-        <span class="num">已拼10万+件</span>
-        <a href="javascript:;" class="btn-buy">
-          马上抢
+        <em>¥{{data.activity_price}}</em>
+        <span class="num">已拼{{keqian}}件</span>
+        <a :href="'details?id='+data.id" :class="{'btn-buy':true,[statusClass]:true} ">
+          {{status ? "马上抢" : "已售完"}}
           <span>&gt;</span>
         </a>
       </div>
@@ -30,32 +27,41 @@
 
 <script>
 export default {
-  // props: {
-  //   data: {
-  //     type: Object
-  //   }
-  // },
-  // data() {
-  //   return {
-  //     status: 1, // 商品状态：0，已售罄，1：正在销售
-  //     statusClass: "on-sale"
-  //   };
-  // },
-  // created() {
-  //   // 判断当前商品状态
-  //   if (this.data.purchased < this.data.limited) {
-  //     this.status = 1;
-  //     this.statusClass = "on-sale";
-  //   } else {
-  //     this.status = 0;
-  //     this.statusClass = "sale-out";
-  //   }
-  // }
+  props: {
+    data: {
+      type: Object
+    }
+  },
+  data() {
+    return {
+      status: 1, // 商品状态：0，已售罄，1：正在销售
+      statusClass: "on-sale"
+    };
+  },
+  created() {
+    // 判断当前商品状态
+    if (this.data.purchased < this.data.limited) {
+      this.status = 1;
+      this.statusClass = "on-sale";
+    } else {
+      this.status = 0;
+      this.statusClass = "sale-out";
+    }
+  },
+  computed: {
+    keqian() {
+      if (this.data.purchased <= 10000) {
+        return this.data.purchased;
+      } else {
+        return Math.floor(this.data.purchased / 10000) + "万+";
+      }
+    }
+  }
 };
 </script>
 
 <style lang="scss">
-.card-sellwell {
+.card-newtaste {
   width: 172px;
   border-radius: 5px;
   background: #fff;
@@ -163,9 +169,9 @@ export default {
     }
   }
 }
-.card-sellwell.on-sale {
+.pro-item {
   .pro-price {
-    .btn-buy {
+    .on-sale {
       color: #f26161;
       &:hover {
         background: #f26161;

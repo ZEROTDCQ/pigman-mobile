@@ -4,18 +4,18 @@
     <div class="sec-kill-status">
       <h1>限时抢购</h1>
       <div class="countdown">
-        <span class="status">距结束</span>
-        <span class="countdown-item">10</span>
+        <span class="status">{{title}}</span>
+        <span class="countdown-item">{{hours}}</span>
         <span class="sep">:</span>
-        <span class="countdown-item">20</span>
+        <span class="countdown-item">{{minutes}}</span>
         <span class="sep">:</span>
-        <span class="countdown-item">33</span>
+        <span class="countdown-item">{{seconds}}</span>
       </div>
       <p class="txt">全场超低价，过时不候~</p>
     </div>
-    <FlashTabs />
+    <FlashTabs @stater="staterFn" />
     <keep-alive>
-      <router-view />
+      <router-view v-if="limiData" :datar="limiData" />
     </keep-alive>
   </div>
 </template>
@@ -27,6 +27,160 @@ export default {
   components: {
     FlashBanner,
     FlashTabs
+  },
+  data() {
+    return {
+      msg: null,
+      //-----子页面数据
+      limiData: null,
+      diffTime: null,
+      timer: null,
+
+      //-----路由状态
+      rouState: null
+    };
+  },
+  beforeCreate() {
+    this.$instance.post("/api/api/LimitedTime").then(res => {
+      let data = res.data.data;
+      this.msg = data;
+      this.mtchState();
+    });
+  },
+  mounted() {},
+  computed: {
+    hours() {
+      // 小时倒计时
+      return Math.floor(this.diffTime / 1000 / 60 / 60) < 0
+        ? "00"
+        : this.zeroPatch(Math.floor(this.diffTime / 1000 / 60 / 60));
+    },
+    minutes() {
+      // 分钟倒计时
+      return Math.floor((this.diffTime / 1000 / 60) % 60) < 0
+        ? "00"
+        : this.zeroPatch(Math.floor((this.diffTime / 1000 / 60) % 60));
+    },
+    seconds() {
+      // 秒倒计时
+      return Math.floor((this.diffTime / 1000) % 60) < 0
+        ? "00"
+        : this.zeroPatch(Math.floor((this.diffTime / 1000) % 60));
+    },
+    title() {
+      let title = "";
+      switch (this.rouState) {
+        case 0:
+          title = "距结束";
+          break;
+        case -1:
+          title = "已结束";
+          break;
+        case -2:
+          title = "已开始";
+          break;
+        default:
+          title = "距开始";
+          break;
+      }
+      return title;
+    }
+  },
+  methods: {
+    zeroPatch(value) {
+      if (Number(value) < 10) {
+        return "0" + value;
+      }
+      return value;
+    },
+    getTime(current, date) {
+      clearInterval(this.timer);
+      this.diffTime = date * 1000 - current * 1000;
+      // 倒计时
+      if (this.diffTime) {
+        this.timer = setInterval(() => {
+          this.diffTime -= 1000;
+          if (this.diffTime <= 0) {
+            this.diffTime = 0;
+            clearInterval(this.timer);
+            this.timer = null;
+          }
+        }, 1000);
+      }
+    },
+    // 通过状态管理数据
+    stateTime(res) {
+      switch (res) {
+        case 0: {
+          if (this.msg.now) {
+            this.limiData = this.msg.now;
+            let current = this.limiData.time;
+            let date = this.limiData.end_time;
+            this.getTime(current, date);
+            break;
+          } else {
+            this.limiData = null;
+            this.getTime(0, 0);
+            this.rouState = -1;
+            break;
+          }
+        }
+        case 1: {
+          if (this.msg.soon) {
+            this.limiData = this.msg.soon;
+            let current = this.limiData.time;
+            let date = this.limiData.start_time;
+            this.getTime(current, date);
+            break;
+          } else {
+            this.limiData = null;
+            this.getTime(0, 0);
+            this.rouState = -2;
+            break;
+          }
+        }
+        case 2: {
+          if (this.msg.tomorrow) {
+            this.limiData = this.msg.tomorrow;
+            let current = this.limiData.time;
+            let date = this.limiData.start_time;
+            this.getTime(current, date);
+            break;
+          } else {
+            this.limiData = null;
+            this.getTime(0, 0);
+            this.rouState = -2;
+            break;
+          }
+        }
+      }
+      console.log(this.limiData);
+    },
+    // 获取地址信息改变数据
+    mtchState() {
+      let histry = window.location.href;
+      histry = histry.split("/")[4];
+      switch (histry) {
+        case "ing":
+          this.rouState = 0;
+          break;
+        case "soon":
+          this.rouState = 1;
+          break;
+        case "nextday":
+          this.rouState = 2;
+          break;
+      }
+    },
+    // 接收子菜单组件的传参
+    staterFn(even) {
+      this.rouState = even;
+    }
+  },
+  watch: {
+    rouState(res) {
+      this.stateTime(res);
+    }
   }
 };
 </script>

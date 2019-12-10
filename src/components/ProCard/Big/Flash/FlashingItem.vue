@@ -4,29 +4,29 @@
     <div class="pro-feature">
       <a href="javascript:;">
         <img
-          :src="baseUrl + '/uploads/admin/images/20191107/6142f198ea658934e0b987b45a0dad72.jpg'"
+          :src="baseUrl + data.picture"
           alt
         />
       </a>
     </div>
     <div class="pro-info-wrap">
       <p class="pro-name">
-        <a href="javascript:;" title>【买5斤送5斤】攀枝花凯特新鲜大芒果</a>
+        <a href="javascript:;" title>{{data.cate_name}}</a>
       </p>
       <div>
         <div class="pro-progress">
           <div class="precent-back">
-            <div class="precent-front" :style="{width: 60 + '%'}"></div>
-            <div class="precent-value">{{60}}%</div>
+            <div class="precent-front" :style="{width: ratio + '%'}"></div>
+            <div class="precent-value">{{ratio}}%</div>
           </div>
         </div>
         <p class="price-count">
-          <del>原价：¥{{35.6}}</del>
-          <span>已抢{{126}}件</span>
+          <del>原价：¥{{data.original_price}}</del>
+          <span>已抢{{keqian}}件</span>
         </p>
         <div class="pro-price">
-          <em>¥{{35.5}}</em>
-          <a href="javascript:;" class="btn-buy">
+          <em>¥{{data.activity_price}}</em>
+          <a :href="'/details?id='+data.id" class="btn-buy">
             马上抢
             <span>&gt;</span>
           </a>
@@ -37,7 +37,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    data: Object,
+  },
+  computed: {
+    ratio() {
+      return Math.floor((this.data.purchased / this.data.limited) * 100);
+    },
+    keqian() {
+      return this.data.purchased;
+    },
+  }
+};
 </script>
 
 <style lang="scss">

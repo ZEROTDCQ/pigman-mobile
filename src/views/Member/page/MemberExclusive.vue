@@ -1,8 +1,8 @@
 <template>
   <!-- 会员专享 -->
   <div class="member-exclusive">
-    <div class="me-list activity-list">
-      <MemberExclusiveItem v-for="i in 4" :key="i" />
+    <div class="me-list activity-list" v-if="memData">
+      <MemberExclusiveItem v-for="(item,index) in memData.son" :key="index" :data="item" />
     </div>
   </div>
 </template>
@@ -12,6 +12,23 @@ import MemberExclusiveItem from "@/components/ProCard/Big/Member/MemberExclusive
 export default {
   components: {
     MemberExclusiveItem
+  },
+  data(){
+    return {
+      memData: null,
+    }
+  },
+  mounted() {
+    this.getData();
+  },
+  methods: {
+    getData() {
+      this.$instance.post("api/api/activityArea").then(res => {
+        let data = res.data.data;
+        this.memData = data.top[1];
+        console.log(this.memData);
+      });
+    }
   }
 };
 </script>
