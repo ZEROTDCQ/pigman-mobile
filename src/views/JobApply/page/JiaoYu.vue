@@ -19,12 +19,12 @@
         <van-cell-group>
           <van-field
             v-model="formData.jyks"
-            placeholder="开始时间（年-月）"
+            placeholder="开始时间（yyyy-mm-dd）"
             :error-message="errors['jyks']?errors['jyks'][0].message:''"
           />
           <van-field
             v-model="formData.jyjs"
-            placeholder="结束时间（年-月）"
+            placeholder="结束时间（yyyy-mm-dd）"
             :error-message="errors['jyjs']?errors['jyjs'][0].message:''"
           />
           <van-field
@@ -44,6 +44,9 @@
           />
         </van-cell-group>
       </div>
+      <div class="bottom-btn">
+        <a class="btn-primary" href="javascript:;" @click="saveAction">确定</a>
+      </div>
     </div>
   </div>
 </template>
@@ -56,9 +59,9 @@ export default {
       formData: {
         jyks: "",
         jyjs: "",
-        jyxxmc: "",
-        jyzymc: "",
-        jyxl: ""
+        jyxxmc: this.$store.state.school,
+        jyzymc: this.$store.state.professional,
+        jyxl: this.$store.state.education
       },
       errors: []
     };
@@ -71,18 +74,29 @@ export default {
       this.errors = fields;
     },
     validate() {
+      // 验证是否符合yyyy(-|\/|\s)mm(-|\/|\s)dd格式
+      var reg = /\d{4}([-\/\s])\d{1,2}\1\d{1,2}/;
       var descriptor = {
         jyks: {
           validator: (rule, value, callback) => {
+            var date = new Date(value);
             var formData = this.formData;
             if (
               formData.jyxxmc != "" ||
               formData.jyzymc != "" ||
               formData.jyxl != "" ||
+              value != "" ||
               formData.jyjs != ""
             ) {
-              if (value == "" || new Date(value) == "Invalid Date") {
+              if (!reg.test(value) || date == "Invalid Date") {
                 callback("请输入有效时间");
+              }
+              if (value != "" && formData.jyjs != "") {
+                // 判断开始时间是否比结束时间晚
+                var jyjs = new Date(formData.jyjs).getTime();
+                if (new Date(value).getTime() > jyjs) {
+                  callback("请输入有效开始时间");
+                }
               }
             }
             callback();
@@ -90,15 +104,19 @@ export default {
         },
         jyjs: {
           validator: (rule, value, callback) => {
+            var date = new Date(value);
             var formData = this.formData;
-            if (
-              formData.jyxxmc != "" ||
-              formData.jyzymc != "" ||
-              formData.jyxl != "" ||
-              formData.jyks != ""
-            ) {
-              if (value == "" || new Date(value) == "Invalid Date") {
+            if (value != "" || formData.jyks != "") {
+              // 验证结束时间是否符合格式
+              if (!reg.test(value) || date == "Invalid Date") {
                 callback("请输入有效时间");
+              }
+            }
+            if (value != "" && formData.jyks != "") {
+              // 判断结束时间是否比开始时间早
+              var jyks = new Date(formData.jyks).getTime();
+              if (new Date(value).getTime() < jyks) {
+                callback("请输入有效结束时间");
               }
             }
             callback();
@@ -107,12 +125,7 @@ export default {
         jyxxmc: {
           validator: (rule, value, callback) => {
             var formData = this.formData;
-            if (
-              formData.jyks != "" ||
-              formData.jyjs != "" ||
-              formData.jyzymc != "" ||
-              formData.jyxl != ""
-            ) {
+            if (formData.jyks != "") {
               if (value == "") {
                 callback("请输入学校名称");
               }
@@ -123,12 +136,7 @@ export default {
         jyzymc: {
           validator: (rule, value, callback) => {
             var formData = this.formData;
-            if (
-              formData.jyks != "" ||
-              formData.jyjs != "" ||
-              formData.jyxxmc != "" ||
-              formData.jyxl != ""
-            ) {
+            if (formData.jyks != "") {
               if (value == "") {
                 callback("请输入专业名称");
               }
@@ -139,12 +147,7 @@ export default {
         jyxl: {
           validator: (rule, value, callback) => {
             var formData = this.formData;
-            if (
-              formData.jyks != "" ||
-              formData.jyjs != "" ||
-              formData.jyxxmc != "" ||
-              formData.jyzymc != ""
-            ) {
+            if (formData.jyks != "") {
               if (value == "") {
                 callback("请输入学历");
               }
@@ -178,7 +181,19 @@ export default {
       this.validate()
         .then(res => {
           this.errors = [];
-          console.log("-------");
+          let formData = this.formData;
+          let education_time = this.formatDate(formData.jyks)
+            ? this.formatDate(formData.jyks) +
+              " - " +
+              this.formatDate(formData.jyjs)
+            : "";
+          this.$store.commit("setFormState", {
+            education_time,
+            school: formData.jyxxmc,
+            professional: formData.jyzymc,
+            education: formData.jyxl
+          });
+          this.$router.back();
         })
         .catch(error => {
           console.log(error);

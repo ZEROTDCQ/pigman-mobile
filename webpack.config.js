@@ -53,6 +53,7 @@ module.exports = {
 		JobApply: './src/views/JobApply/JobApply.js',		//职位申请
 		// Report: './src/views/Report/report.js',		//廉政举报
 		Cooperate: './src/views/Cooperate/Cooperate.js',		//供货合作
+		Supply: './src/views/Supply/Supply.js',		//供货合作申请单
 		// test: './src/views/test/test.js',		//商品卡片测试页面
 
 
@@ -160,7 +161,7 @@ module.exports = {
 			// 设置代理
 			// proxy all requests starting with /api to jsonplaceholder
 			'/api': {
-				target: 'http://192.168.0.106/', //真实请求的目标地址
+				target: 'http://192.168.0.101/', //真实请求的目标地址
 				changeOrigin: true,
 				pathRewrite: {
 					'^/api': '/api'
@@ -391,6 +392,11 @@ const pages = [
 		template: './src/views/Cooperate/cooperate.html',
 		filename: 'cooperate.html',
 		chunks: ['reset', 'Cooperate']
+	},
+	{
+		template: './src/views/Supply/supply.html',
+		filename: 'supply.html',
+		chunks: ['reset', 'Supply']
 	},
 	// {
 	// 	template: './src/views/test/test.html',

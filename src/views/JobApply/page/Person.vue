@@ -245,20 +245,5 @@ export default {
 </script>
 
 <style lang="scss">
-.bottom-btn {
-  padding: 10px;
-  .btn-primary {
-    display: block;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    font-size: 16px;
-    color: #fff;
-    background: $primarycolor;
-    border-radius: 2px;
-    &:active {
-      background: #4aa046;
-    }
-  }
-}
+
 </style>
