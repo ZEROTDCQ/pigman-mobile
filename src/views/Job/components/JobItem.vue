@@ -1,25 +1,45 @@
 <template>
   <!-- 职位组件 -->
-  <div class="job_item">
-    <div class="flex-row">
-      <h3 class="job-title">web前端工程师</h3>
-      <span class="wages">7-9k</span>
+  <transition
+    appear
+    appear-class="appear"
+    appear-to-class="appear-to"
+    appear-active-class="appear-active"
+  >
+    <div class="job_item">
+      <div class="flex-row">
+        <h3 class="job-title">{{data.title}}</h3>
+        <span class="wages">{{data.salary}}</span>
+      </div>
+      <p class="job_desc">{{data.introduction}}</p>
+      <div class="job_feature">
+        <span>{{data.address}}</span>
+        <span>{{data.experience}}</span>
+        <span>{{data.certificate}}</span>
+      </div>
+      <p class="job_part">{{data.team}}</p>
     </div>
-    <p class="job_desc">职位描述asfasfasfasgasgasga</p>
-    <div class="job_feature">
-      <span>广东 深圳</span>
-      <span>1-3年</span>
-      <span>本科 应届生</span>
-    </div>
-    <p class="job_part">技术部</p>
-  </div>
+  </transition>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    data: {
+      type: Object
+    }
+  }
+};
 </script>
 
 <style lang="scss">
+.appear {
+  opacity: 0;
+  transform: scale(0.8);
+}
+.appear-active {
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
 .job_item {
   position: relative;
   padding: 10px 0;
@@ -54,6 +74,7 @@ export default {};
   }
   .job_desc {
     color: #333;
+    @include text_ellipsis(2);
   }
   .job_feature {
     margin: 5px 0;
@@ -71,6 +92,9 @@ export default {};
     }
   }
   .job_part {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: #666;
   }
 }

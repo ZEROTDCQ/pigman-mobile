@@ -1,20 +1,20 @@
 <template>
   <!-- 视频组件 -->
   <div class="video-item">
-    <a href="javascript:;">
-      <img
-        class="poster"
-        :src="baseUrl + '/uploads/admin/images/20191129/5f033941feeb2e33d98a598b576265a6.jpg'"
-        alt
-      />
+    <a :href="'menu_detail.html?id='+data.id">
+      <img class="poster" :src="baseUrl + data.picture" alt />
       <img class="icon-play" src="~@/assets/img/common/icon-videoPlay.png" alt />
-      <p class="vi-tit">海参料理</p>
+      <p class="vi-tit">{{data.title}}</p>
     </a>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    data: Object
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -32,14 +32,13 @@ export default {};
     width: 100%;
     min-height: 100%;
   }
-  .icon-play{
+  .icon-play {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     width: 47px;
     height: 47px;
-
   }
   .vi-tit {
     position: absolute;

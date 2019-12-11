@@ -1,16 +1,27 @@
 <template>
   <!-- 专题活动组件 -->
-  <div class="subject-item">
-    <img class="si-img" src alt />
-    <div class="si-cover">
-      <h6 class="si-title">交友</h6>
-      <p class="si-sub-tit">派对 旅行</p>
+  <transition appear appear-class="appear-subject" appear-active-class="appear-subject-active">
+    <div class="subject-item" :style="{transitionDelay: index * 100 + 'ms'}">
+      <img class="si-img" :src="baseUrl + data.picture" :alt="data.title" />
+      <div class="si-cover">
+        <h6 class="si-title">{{data.title}}</h6>
+        <p class="si-sub-tit">{{data.son.map(i => {return i.title}).join(' ')}}</p>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    index: {
+      type: Number
+    },
+    data: {
+      type: Object
+    }
+  }
+};
 </script>
 
 <style lang="scss">
@@ -22,6 +33,14 @@ export default {};
   border-radius: 5px;
   background: #ccc;
   overflow: hidden;
+  .si-img {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    min-height: 100%;
+    transform: translateY(-50%);
+  }
   .si-cover {
     position: absolute;
     left: 0;

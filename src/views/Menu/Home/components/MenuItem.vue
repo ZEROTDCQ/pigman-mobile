@@ -2,24 +2,42 @@
   <!-- 菜谱项组件 -->
   <div class="menu-item">
     <div class="mi-feature">
-      <img
-        :src="baseUrl + '/uploads/admin/images/20191029/3a5c1eae192ccf1fee29c97e98218c0f.jpg'"
-        alt
-      />
+      <a :href="'menu_detail.html?id='+data.id">
+        <img :src="baseUrl + data.picture" alt />
+      </a>
     </div>
     <div class="mi-text">
-      <p class="mt-tit">清蒸花蛤西葫芦</p>
-      <p class="mt-desc">清蒸花蛤西葫芦是我最喜欢我最喜我最喜</p>
+      <a :href="'menu_detail.html?id='+data.id">
+        <p class="mt-tit">{{data.title}}</p>
+      </a>
+      <p class="mt-desc">{{data.describel}}</p>
       <p class="mt-info">
-        <span>猪先生美食</span>
-        <span>2019-11-12</span>
+        <span>{{data.source}}</span>
+        <span>{{timeCo(data.create_time)}}</span>
       </p>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    data: Object
+  },
+  methods: {
+    /**时间搓转时间格式 */
+    timeCo(dater) {
+      var date = new Date(dater * 1000); //如果date为13位不需要乘1000
+      var Y = date.getFullYear() + "-";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      var D = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+      return Y + M + D;
+    }
+  }
+};
 </script>
 
 <style lang="scss">
@@ -31,6 +49,7 @@ export default {};
   .mi-feature {
     position: relative;
     height: 150px;
+    overflow: hidden;
     img {
       position: absolute;
       left: 0;

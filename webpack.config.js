@@ -39,15 +39,16 @@ module.exports = {
 		// Home: './src/views/Home/home.js',		//首页--@
 		// HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
 		// HomeSearch: './src/views/HomeSearch/search.js',		//主站搜索页
-		HomeNews: './src/views/HomeNews/news.js', //主站新闻，热门资讯--@
-		NewsDetail: './src/views/NewsDetail/newsdetail.js',		//新闻详情
+		// HomeNews: './src/views/HomeNews/news.js', //主站新闻，热门资讯--@
+		// NewsDetail: './src/views/NewsDetail/newsdetail.js',		//新闻详情--@
 		// Resume: './src/views/Resume/resume.js',		//公司介绍
 		// Activity: './src/views/Activity/activity.js',		//活动专区
-		Member: './src/views/Member/member.js',		//会员专区
+		// Member: './src/views/Member/member.js',		//会员专区--@
 		// Category: './src/views/Category/category.js',		//产品分类
 		// Detail: './src/views/Detail/detail.js',		//商品详情
 		// Job: './src/views/Job/job.js',		//人才招聘
 		// JobDetail: './src/views/JobDetail/jobdetail.js',		//职位详情
+		// Report: './src/views/Report/report.js',		//职位详情
 		// test: './src/views/test/test.js',		//商品卡片测试页面
 
 
@@ -59,8 +60,12 @@ module.exports = {
 
 
 		// ----------------------------------- 饮食指南 -----------------------------------
-		// MenuHome: './src/views/Menu/Home/home.js',		//饮食指南首页
-		// MenuDetail: './src/views/Menu/MenuDetail/MenuDetail.js',		//菜谱详情
+		MenuHome: './src/views/Menu/Home/home.js',		//饮食指南首页
+		MenuDetail: './src/views/Menu/MenuDetail/MenuDetail.js',		//菜谱详情--@
+		// MenuNews: './src/views/Menu/News/News.js',		//饮食资讯--$
+		// Video: './src/views/Menu/Video/video.js',		//视频一级--@
+		// VideoHot: './src/views/Menu/VideoHot/VideoHot.js',		//热门视频--@
+		VideoClass: './src/views/Menu/VideoClass/VideoClass.js',		//视频分类--@
 	},
 	output: {
 		path: resolve('dist'),
@@ -121,7 +126,7 @@ module.exports = {
 				}]
 			},
 			{
-				test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
+				test: /\.(woff2?|eot|ttf|otf|mp4)(\?.*)?$/i,
 				use: [{
 					loader: 'url-loader',
 					options: {
@@ -169,9 +174,10 @@ module.exports = {
 	externals: {
 		// 配置了该项后，项目中可以无需引入而直接使用以下配置的模块，改为html中script引入资源
 		// 当webpack打包构建时，会跳过以下模块，不对他们进行打包，因为他们是通过cdn线上资源引入的，而非依赖于node_modules里面的模块
-		// from要引入的模块名: import导入的变量名
+		// from要引入的模块名: 模块内部暴露的全局变量名(import导入的变量名)
 		vue: 'Vue',
 		'vue-router': 'VueRouter',
+		'vuex': 'Vuex',
 		"element-ui": 'ELEMENT',
 		axios: 'axios'
 	},
@@ -312,16 +318,16 @@ const pages = [
 	// 	filename: 'home_search.html',
 	// 	chunks: ['reset', 'HomeSearch']
 	// },
-	{
-		template: './src/views/HomeNews/news.html',
-		filename: 'home_news.html',
-		chunks: ['reset', 'HomeNews']
-	},
-	{
-		template: './src/views/NewsDetail/newsdetail.html',
-		filename: 'news_detail.html',
-		chunks: ['reset', 'NewsDetail']
-	},
+	// {
+	// 	template: './src/views/HomeNews/news.html',
+	// 	filename: 'home_news.html',
+	// 	chunks: ['reset', 'HomeNews']
+	// },
+	// {
+	// 	template: './src/views/NewsDetail/newsdetail.html',
+	// 	filename: 'news_detail.html',
+	// 	chunks: ['reset', 'NewsDetail']
+	// },
 	// {
 	// 	template: './src/views/Resume/resume.html',
 	// 	filename: 'resume.html',
@@ -333,15 +339,25 @@ const pages = [
 	// 	chunks: ['reset', 'Activity']
 	// },
 	// {
+	// 	template: './src/views/ActivityDetail/activitydetail.html',
+	// 	filename: 'activitydetail.html',
+	// 	chunks: ['reset', 'ActivityDetail']
+	// },
+	// {
+	// 	template: './src/views/ActivityApply/activityapply.html',
+	// 	filename: 'activityapply.html',
+	// 	chunks: ['reset', 'ActivityApply']
+	// },
+	// {
 	// 	template: './src/views/Category/category.html',
 	// 	filename: 'category.html',
 	// 	chunks: ['reset', 'Category']
 	// },
-	{
-		template: './src/views/Member/member.html',
-		filename: 'member.html',
-		chunks: ['reset', 'Member']
-	},
+	// {
+	// 	template: './src/views/Member/member.html',
+	// 	filename: 'member.html',
+	// 	chunks: ['reset', 'Member']
+	// },
 	// {
 	// 	template: './src/views/Detail/detail.html',
 	// 	filename: 'detail.html',
@@ -356,6 +372,11 @@ const pages = [
 	// 	template: './src/views/JobDetail/jobdetail.html',
 	// 	filename: 'jobdetail.html',
 	// 	chunks: ['reset', 'JobDetail']
+	// },
+	// {
+	// 	template: './src/views/Report/report.html',
+	// 	filename: 'report.html',
+	// 	chunks: ['reset', 'Report']
 	// },
 	// {
 	// 	template: './src/views/test/test.html',
@@ -386,16 +407,36 @@ const pages = [
 	// },
 
 	// ----------------------------------- 饮食指南 -----------------------------------
+	{
+		template: './src/views/Menu/Home/home.html',
+		filename: 'menu_home.html',
+		chunks: ['reset', 'MenuHome']
+	},
+	{
+		template: './src/views/Menu/MenuDetail/MenuDetail.html',
+		filename: 'menu_detail.html',
+		chunks: ['reset', 'MenuDetail']
+	},
 	// {
-	// 	template: './src/views/Menu/Home/home.html',
-	// 	filename: 'menu_home.html',
-	// 	chunks: ['reset', 'MenuHome']
+	// 	template: './src/views/Menu/News/news.html',
+	// 	filename: 'news.html',
+	// 	chunks: ['reset', 'MenuNews']
 	// },
 	// {
-	// 	template: './src/views/Menu/MenuDetail/MenuDetail.html',
-	// 	filename: 'menu_detail.html',
-	// 	chunks: ['reset', 'MenuDetail']
-	// }
+	// 	template: './src/views/Menu/Video/video.html',
+	// 	filename: 'video.html',
+	// 	chunks: ['reset', 'Video']
+	// },
+	// {
+	// 	template: './src/views/Menu/VideoHot/videohot.html',
+	// 	filename: 'videohot.html',
+	// 	chunks: ['reset', 'VideoHot']
+	// },
+	{
+		template: './src/views/Menu/VideoClass/videoclass.html',
+		filename: 'videoclass.html',
+		chunks: ['reset', 'VideoClass']
+	},
 ]
 
 function createHtml({

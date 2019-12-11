@@ -1,13 +1,13 @@
 <template>
   <div class="category-slide">
-    <div class="cs-swiper swiper-container" ref="swiper" v-if="formatData.length > 0">
+    <div class="cs-swiper swiper-container" ref="swiper" v-if="formatData">
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="(item, index) in formatData" :key="index">
           <ul class="ss-ul">
-            <li class="su-li" v-for="i in item" :key="i.label">
+            <li class="su-li" v-for="i in item" :key="i.label" @click="category(i.id,$event)">
               <a href="javascript:;">
                 <div class="cate-icon"></div>
-                <p class="cate-name">{{i.label}}</p>
+                <p class="cate-name">{{i.title}}</p>
               </a>
             </li>
           </ul>
@@ -23,25 +23,16 @@
 export default {
   data() {
     return {
+      topData: null,
       swiper: null,
-      categoryList: [
-        { label: "菜谱大全" },
-        { label: "主食煲汤" },
-        { label: "西餐烘焙" },
-        { label: "人群场合" },
-        { label: "口味做法" },
-        { label: "菜谱视频" },
-        { label: "饮食资讯" }
-      ],
       formatData: []
     };
   },
-  created() {
-    while (this.categoryList.length > 0) {
-      this.formatData.push(this.categoryList.splice(0, 5));
-    }
+  beforeMount() {
+    this.getTopData();
   },
-  mounted() {
+  created() {},
+  updated() {
     this.swiper = new Swiper(this.$refs.swiper, {
       loop: false,
       // autoplay: {
@@ -53,6 +44,23 @@ export default {
         clickable: true
       }
     });
+  },
+  methods: {
+    getTopData() {
+      this.$instance.post("api/Mobileapi/videoTop").then(res => {
+        let data = res.data.data;
+        this.topData = data;
+        this.$emit("category", data[0].id);
+        while (this.topData.length > 0) {
+          this.formatData.push(this.topData.splice(0, 5));
+        }
+      });
+    },
+    category(twoid, event) {
+      $(".su-li").removeClass("active");
+      $(event.path[2]).addClass("active");
+      this.$emit("category",twoid);
+    }
   }
 };
 </script>
@@ -66,8 +74,8 @@ export default {
     .ss-ul {
       display: flex;
     }
-    &::after{
-      content: '';
+    &::after {
+      content: "";
       position: absolute;
       left: 0;
       bottom: 0;
@@ -100,6 +108,12 @@ export default {
         font-size: 14px;
         line-height: 14px;
         color: #333;
+      }
+    }
+
+    .su-li.active {
+      a p{
+        color: $primarycolor;
       }
     }
   }
