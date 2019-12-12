@@ -36,36 +36,49 @@ module.exports = {
 	// production, development
 	mode: 'development',
 	entry: {
-		// Home: './src/views/Home/home.js',		//首页--@
+		// ----------------------------------- 主站页面 -----------------------------------
+		// Home: './src/views/Home/home.js',		//首页
 		// HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
 		// HomeSearch: './src/views/HomeSearch/search.js',		//主站搜索页
-		// HomeNews: './src/views/HomeNews/news.js', //主站新闻，热门资讯--@
-		// NewsDetail: './src/views/NewsDetail/newsdetail.js',		//新闻详情--@
+
+		// HomeNews: './src/views/HomeNews/news.js', //主站新闻，热门资讯
+		// NewsDetail: './src/views/NewsDetail/newsdetail.js',		//新闻详情
+		
 		// Resume: './src/views/Resume/resume.js',		//公司介绍
+
 		// Activity: './src/views/Activity/activity.js',		//活动专区
-		// Member: './src/views/Member/member.js',		//会员专区--@
-		// Category: './src/views/Category/category.js',		//产品分类
-		// Detail: './src/views/Detail/detail.js',		//商品详情
+		// ActivityDetail: './src/views/ActivityDetail/activitydetail.js',		//活动详情
+		// ActivityApply: './src/views/ActivityApply/ActivityApply.js',		//活动报名
+
+		// Member: './src/views/Member/member.js',		//会员专区
+		Category: './src/views/Category/category.js',		//产品分类
+		Detail: './src/views/Detail/detail.js',		//商品详情
+
 		// Job: './src/views/Job/job.js',		//人才招聘
 		// JobDetail: './src/views/JobDetail/jobdetail.js',		//职位详情
-		// Report: './src/views/Report/report.js',		//职位详情
+		// JobApply: './src/views/JobApply/JobApply.js', //职位申请
+		// Report: './src/views/Report/report.js',		//廉政举报
+		// Cooperate: './src/views/Cooperate/Cooperate.js', //供货合作
+
+
+		// ----------------------------------- 测试页面 -----------------------------------
 		// test: './src/views/test/test.js',		//商品卡片测试页面
 
 
-		// ----------------------------------- 营销活动 -----------------------------------
-		// Flash: './src/views/YingXiao/Flash/flash.js', //限时抢购--@
-		// OneYuan: './src/views/YingXiao/OneYuan/oneyuan.js',		//一元购--@
-		// Booking: './src/views/YingXiao/Booking/booking.js',		//预定商品--@
-		// HelpFree: './src/views/YingXiao/HelpFree/helpfree.js',		//助力免费拿--@
+		// ----------------------------------- 营销活动@ -----------------------------------
+		// Flash: './src/views/YingXiao/Flash/flash.js', //限时抢购
+		// OneYuan: './src/views/YingXiao/OneYuan/oneyuan.js',		//一元购
+		// Booking: './src/views/YingXiao/Booking/booking.js',		//预定商品
+		// HelpFree: './src/views/YingXiao/HelpFree/helpfree.js',		//助力免费拿
 
 
-		// ----------------------------------- 饮食指南 -----------------------------------
-		MenuHome: './src/views/Menu/Home/home.js',		//饮食指南首页
-		MenuDetail: './src/views/Menu/MenuDetail/MenuDetail.js',		//菜谱详情--@
-		// MenuNews: './src/views/Menu/News/News.js',		//饮食资讯--$
-		// Video: './src/views/Menu/Video/video.js',		//视频一级--@
-		// VideoHot: './src/views/Menu/VideoHot/VideoHot.js',		//热门视频--@
-		VideoClass: './src/views/Menu/VideoClass/VideoClass.js',		//视频分类--@
+		// ----------------------------------- 饮食指南@ -----------------------------------
+		// MenuHome: './src/views/Menu/Home/home.js', //饮食指南首页
+		// MenuDetail: './src/views/Menu/MenuDetail/MenuDetail.js', //菜谱详情
+		// MenuNews: './src/views/Menu/News/News.js',		//饮食资讯
+		// Video: './src/views/Menu/Video/video.js',		//视频一级
+		// VideoHot: './src/views/Menu/VideoHot/VideoHot.js',		//热门视频
+		// VideoClass: './src/views/Menu/VideoClass/VideoClass.js', //视频分类
 	},
 	output: {
 		path: resolve('dist'),
@@ -96,13 +109,19 @@ module.exports = {
 			{
 				test: /\.(sc|sa|c)ss$/,
 				// MiniCssExtractPlugin.loader
-				use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader', {
-					loader: "sass-resources-loader",
-					options: {
-						// resources: [path.resolve('src/assets/css/common/config.scss')]
-						resources: ['./src/assets/css/common/config.scss']
+				use: [
+					'style-loader',
+					'css-loader',
+					'postcss-loader',
+					'sass-loader',
+					{
+						loader: "sass-resources-loader",
+						options: {
+							// resources: [path.resolve('src/assets/css/common/config.scss')]
+							resources: ['./src/assets/css/common/config.scss']
+						}
 					}
-				}]
+				]
 			},
 			{
 				test: /\.(gif|jpe?g|png|bmp|webp|svg)(\?.*)?$/,
@@ -348,21 +367,21 @@ const pages = [
 	// 	filename: 'activityapply.html',
 	// 	chunks: ['reset', 'ActivityApply']
 	// },
-	// {
-	// 	template: './src/views/Category/category.html',
-	// 	filename: 'category.html',
-	// 	chunks: ['reset', 'Category']
-	// },
+	{
+		template: './src/views/Category/category.html',
+		filename: 'category.html',
+		chunks: ['reset', 'Category']
+	},
 	// {
 	// 	template: './src/views/Member/member.html',
 	// 	filename: 'member.html',
 	// 	chunks: ['reset', 'Member']
 	// },
-	// {
-	// 	template: './src/views/Detail/detail.html',
-	// 	filename: 'detail.html',
-	// 	chunks: ['reset', 'Detail']
-	// },
+	{
+		template: './src/views/Detail/detail.html',
+		filename: 'detail.html',
+		chunks: ['reset', 'Detail']
+	},
 	// {
 	// 	template: './src/views/Job/job.html',
 	// 	filename: 'job.html',
@@ -374,9 +393,19 @@ const pages = [
 	// 	chunks: ['reset', 'JobDetail']
 	// },
 	// {
+	// 	template: './src/views/JobApply/jobapply.html',
+	// 	filename: 'job_apply.html',
+	// 	chunks: ['reset', 'JobApply']
+	// },
+	// {
 	// 	template: './src/views/Report/report.html',
 	// 	filename: 'report.html',
 	// 	chunks: ['reset', 'Report']
+	// },
+	// {
+	// 	template: './src/views/Cooperate/cooperate.html',
+	// 	filename: 'cooperate.html',
+	// 	chunks: ['reset', 'Cooperate']
 	// },
 	// {
 	// 	template: './src/views/test/test.html',
@@ -407,16 +436,16 @@ const pages = [
 	// },
 
 	// ----------------------------------- 饮食指南 -----------------------------------
-	{
-		template: './src/views/Menu/Home/home.html',
-		filename: 'menu_home.html',
-		chunks: ['reset', 'MenuHome']
-	},
-	{
-		template: './src/views/Menu/MenuDetail/MenuDetail.html',
-		filename: 'menu_detail.html',
-		chunks: ['reset', 'MenuDetail']
-	},
+	// {
+	// 	template: './src/views/Menu/Home/home.html',
+	// 	filename: 'menu_home.html',
+	// 	chunks: ['reset', 'MenuHome']
+	// },
+	// {
+	// 	template: './src/views/Menu/MenuDetail/MenuDetail.html',
+	// 	filename: 'menu_detail.html',
+	// 	chunks: ['reset', 'MenuDetail']
+	// },
 	// {
 	// 	template: './src/views/Menu/News/news.html',
 	// 	filename: 'news.html',
@@ -432,11 +461,11 @@ const pages = [
 	// 	filename: 'videohot.html',
 	// 	chunks: ['reset', 'VideoHot']
 	// },
-	{
-		template: './src/views/Menu/VideoClass/videoclass.html',
-		filename: 'videoclass.html',
-		chunks: ['reset', 'VideoClass']
-	},
+	// {
+	// 	template: './src/views/Menu/VideoClass/videoclass.html',
+	// 	filename: 'videoclass.html',
+	// 	chunks: ['reset', 'VideoClass']
+	// },
 ]
 
 function createHtml({
