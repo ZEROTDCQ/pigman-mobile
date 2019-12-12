@@ -48,6 +48,7 @@ module.exports = {
 
 		// Activity: './src/views/Activity/activity.js',		//活动专区
 		// ActivityDetail: './src/views/ActivityDetail/activitydetail.js',		//活动详情
+<<<<<<< HEAD
 		// ActivityApply: './src/views/ActivityApply/ActivityApply.js',		//活动报名
 
 		// Member: './src/views/Member/member.js',		//会员专区
@@ -62,6 +63,18 @@ module.exports = {
 
 
 		// ----------------------------------- 测试页面 -----------------------------------
+=======
+		ActivityApply: './src/views/ActivityApply/ActivityApply.js',		//活动报名
+		// Member: './src/views/Member/member.js',		//会员专区--@
+		// Category: './src/views/Category/category.js',		//产品分类
+		// Detail: './src/views/Detail/detail.js',		//商品详情
+		// Job: './src/views/Job/job.js',		//人才招聘
+		// JobDetail: './src/views/JobDetail/jobdetail.js',		//职位详情
+		JobApply: './src/views/JobApply/JobApply.js',		//职位申请
+		// Report: './src/views/Report/report.js',		//廉政举报
+		Cooperate: './src/views/Cooperate/Cooperate.js',		//供货合作
+		Supply: './src/views/Supply/Supply.js',		//供货合作申请单
+>>>>>>> e0cef4e243c2a78b5dad97f0ffc85e3a2e641656
 		// test: './src/views/test/test.js',		//商品卡片测试页面
 
 
@@ -92,6 +105,7 @@ module.exports = {
 	},
 	module: {
 		rules: [{
+<<<<<<< HEAD
 				test: /\.js$/,
 				exclude: /node_modules/,
 				loader: 'babel-loader',
@@ -155,10 +169,68 @@ module.exports = {
 							options: {
 								name: 'fonts/[name].[hash:7].[ext]'
 							}
+=======
+			test: /\.js$/,
+			exclude: /node_modules/,
+			loader: 'babel-loader',
+			// include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+		},
+		{
+			test: /\.vue$/,
+			use: ['vue-loader']
+		},
+		{
+			// 打包html模板文件中img标签的图片
+			test: /\.html$/,
+			loader: "html-withimg-loader"
+		},
+		{
+			test: /\.(sc|sa|c)ss$/,
+			// MiniCssExtractPlugin.loader
+			use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader', {
+				loader: "sass-resources-loader",
+				options: {
+					// resources: [path.resolve('src/assets/css/common/config.scss')]
+					resources: ['./src/assets/css/common/config.scss']
+				}
+			}]
+		},
+		{
+			test: /\.(gif|jpe?g|png|bmp|webp|svg)(\?.*)?$/,
+			use: [{
+				loader: 'url-loader',
+				options: {
+					limit: 4 * 1024,
+					name: 'img/[name].[hash:8].[ext]',
+					// publicPath: 'img/',//将css中引用的背景图片打包到output.path + publicPath + name
+					// outputPath: ''
+					// fallback: { //此处无需配置file-loader的回调也可正常构建，url-loader会自动调用，并共享name等配置项目
+					// 	loader: 'file-loader',
+					// 	options: {
+					// 		name: 'img/[name].[hash:8].[ext]',
+					// 		// publicPath: 'img/',//将css中引用的背景图片打包到output.path + publicPath + name
+					// 		// outputPath: ''
+					// 	}
+					// }
+				}
+			}]
+		},
+		{
+			test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
+			use: [{
+				loader: 'url-loader',
+				options: {
+					limit: 4096,
+					fallback: {
+						loader: 'file-loader',
+						options: {
+							name: 'fonts/[name].[hash:7].[ext]'
+>>>>>>> e0cef4e243c2a78b5dad97f0ffc85e3a2e641656
 						}
 					}
-				}]
-			}
+				}
+			}]
+		}
 		]
 	},
 	devServer: {
@@ -175,7 +247,7 @@ module.exports = {
 			// 设置代理
 			// proxy all requests starting with /api to jsonplaceholder
 			'/api': {
-				target: 'http://192.168.0.106/', //真实请求的目标地址
+				target: 'http://192.168.0.101/', //真实请求的目标地址
 				changeOrigin: true,
 				pathRewrite: {
 					'^/api': '/api'
@@ -392,6 +464,11 @@ const pages = [
 	// 	filename: 'jobdetail.html',
 	// 	chunks: ['reset', 'JobDetail']
 	// },
+	{
+		template: './src/views/JobApply/jobapply.html',
+		filename: 'job_apply.html',
+		chunks: ['reset', 'JobApply']
+	},
 	// {
 	// 	template: './src/views/JobApply/jobapply.html',
 	// 	filename: 'job_apply.html',
@@ -402,6 +479,16 @@ const pages = [
 	// 	filename: 'report.html',
 	// 	chunks: ['reset', 'Report']
 	// },
+	{
+		template: './src/views/Cooperate/cooperate.html',
+		filename: 'cooperate.html',
+		chunks: ['reset', 'Cooperate']
+	},
+	{
+		template: './src/views/Supply/supply.html',
+		filename: 'supply.html',
+		chunks: ['reset', 'Supply']
+	},
 	// {
 	// 	template: './src/views/Cooperate/cooperate.html',
 	// 	filename: 'cooperate.html',

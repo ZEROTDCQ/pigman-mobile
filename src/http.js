@@ -1,7 +1,7 @@
 import axios from 'axios'
 const qs = require('qs')
-// const BASE_URL = "";
-const BASE_URL = "http://192.168.0.101/";
+const BASE_URL = "";
+// const BASE_URL = "/api";
 var instance = axios.create({
 	baseURL: BASE_URL,
 	responseType: 'json',

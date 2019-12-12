@@ -2,7 +2,11 @@ import Vuex from 'vuex'
 
 const state = {
   // ---------简历附件---------
+<<<<<<< HEAD
   resume: [],
+=======
+  // resume: [],
+>>>>>>> e0cef4e243c2a78b5dad97f0ffc85e3a2e641656
   // ---------个人信息---------
   name: '',
   phone: '',
@@ -15,9 +19,15 @@ const state = {
   recen_company: '',
   idcard: '',
   // ---------求职意向---------
+<<<<<<< HEAD
   current_salary: '',
   salary_expectation: '',
   city: '',
+=======
+  // current_salary: '',
+  // salary_expectation: '',
+  // city: '',
+>>>>>>> e0cef4e243c2a78b5dad97f0ffc85e3a2e641656
   // ---------教育背景---------
   education_time: '',
   school: '',
@@ -40,6 +50,7 @@ const state = {
   project_describe: '',
   project_duty: '',
   // ---------语言能力---------
+<<<<<<< HEAD
   language_type: '',
   language_degree: '',
   hear: '',
@@ -47,12 +58,75 @@ const state = {
   // ---------获奖经历---------
   winning_time: '',
   winning_name: ''
+=======
+  // language_type: '',
+  // language_degree: '',
+  // hear: '',
+  // read_write: '',
+  // ---------获奖经历---------
+  // winning_time: '',
+  // winning_name: ''
+>>>>>>> e0cef4e243c2a78b5dad97f0ffc85e3a2e641656
 }
 
 const getters = {
   personInfoStatus(state) {
     // 个人信息状态
+<<<<<<< HEAD
     return state.name ? '编辑' : '点击填写'
+=======
+    return state.name ? true : false
+  },
+  personInfo(state) {
+    // 个人信息
+    return {
+      name: state.name,
+      phone: state.phone,
+      email: state.email,
+      sex: state.sex,
+      age: state.age,
+      experience: state.experience,
+      top_education: state.top_education,
+      address: state.address,
+      recen_company: state.recen_company,
+      idcard: state.idcard
+    }
+  },
+  jiaoyuInfo(state) {
+    // 教育信息
+    return {
+      education_time: state.education_time,
+      school: state.school,
+      professional: state.professional,
+      education: state.education
+    }
+  },
+  shixiInfo(state) {
+    // 实习信息
+    return {
+      internship_time: state.internship_time,
+      internship_company: state.internship_company,
+      internship_name: state.internship_name,
+      internship_duty: state.internship_duty
+    }
+  },
+  gongzuoInfo(state) {
+    return {
+      work_time: state.work_time,
+      work_company: state.work_company,
+      work_name: state.work_name,
+      work_duty: state.work_duty
+    }
+  },
+  xiangmuInfo() {
+    return {
+      project_time: state.project_time,
+      project_name: state.project_name,
+      project_post: state.project_post,
+      project_describe: state.project_describe,
+      project_duty: state.project_duty
+    }
+>>>>>>> e0cef4e243c2a78b5dad97f0ffc85e3a2e641656
   },
   personName(state) {
     return state.name

@@ -245,6 +245,7 @@ export default {
 </script>
 
 <style lang="scss">
+<<<<<<< HEAD
 .bottom-btn {
   padding: 10px;
   .btn-primary {
@@ -261,4 +262,7 @@ export default {
     }
   }
 }
+=======
+
+>>>>>>> e0cef4e243c2a78b5dad97f0ffc85e3a2e641656
 </style>
