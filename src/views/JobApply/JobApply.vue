@@ -30,7 +30,7 @@
 
       <div class="form-block gap bg-fff">
         <div class="form-head">
-          <h5 class="form-title">上传*</h5>
+          <h5 class="form-title">上传</h5>
         </div>
         <div class="form-body">
           <div class="pig-cell vertical">

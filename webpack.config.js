@@ -46,23 +46,25 @@ module.exports = {
 		// Activity: './src/views/Activity/activity.js',		//活动专区
 		// ActivityDetail: './src/views/ActivityDetail/activitydetail.js',		//活动详情
 		// ActivityApply: './src/views/ActivityApply/ActivityApply.js',		//活动报名
-		// Member: './src/views/Member/member.js',		//会员专区--@
-		// Category: './src/views/Category/category.js',		//产品分类
-		// Detail: './src/views/Detail/detail.js',		//商品详情
+		// Member: './src/views/Member/member.js',		//会员专区
+		Category: './src/views/Category/category.js',		//产品分类
+		Detail: './src/views/Detail/detail.js',		//商品详情
 		// Job: './src/views/Job/job.js',		//人才招聘
 		// JobDetail: './src/views/JobDetail/jobdetail.js',		//职位详情
-		// JobApply: './src/views/JobApply/JobApply.js',		//职位申请
+		JobApply: './src/views/JobApply/JobApply.js', //职位申请
 		// Report: './src/views/Report/report.js',		//廉政举报
-		// Cooperate: './src/views/Cooperate/Cooperate.js',		//供货合作
+		// Cooperate: './src/views/Cooperate/Cooperate.js', //供货合作
 		// Supply: './src/views/Supply/Supply.js',		//供货合作申请单
+
+		// ----------------------------------- 测试页面 -----------------------------------
 		// test: './src/views/test/test.js',		//商品卡片测试页面
 
 
-		// ----------------------------------- 营销活动 -----------------------------------
-		// Flash: './src/views/YingXiao/Flash/flash.js', //限时抢购--@
-		// OneYuan: './src/views/YingXiao/OneYuan/oneyuan.js',		//一元购--@
-		// Booking: './src/views/YingXiao/Booking/booking.js',		//预定商品--@
-		// HelpFree: './src/views/YingXiao/HelpFree/helpfree.js',		//助力免费拿--@
+		// ----------------------------------- 营销活动@ -----------------------------------
+		// Flash: './src/views/YingXiao/Flash/flash.js', //限时抢购
+		// OneYuan: './src/views/YingXiao/OneYuan/oneyuan.js',		//一元购
+		// Booking: './src/views/YingXiao/Booking/booking.js',		//预定商品
+		// HelpFree: './src/views/YingXiao/HelpFree/helpfree.js',		//助力免费拿
 
 
 		// ----------------------------------- 饮食指南 -----------------------------------
@@ -102,13 +104,19 @@ module.exports = {
 		{
 			test: /\.(sc|sa|c)ss$/,
 			// MiniCssExtractPlugin.loader
-			use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader', {
-				loader: "sass-resources-loader",
-				options: {
-					// resources: [path.resolve('src/assets/css/common/config.scss')]
-					resources: ['./src/assets/css/common/config.scss']
+			use: [
+				'style-loader',
+				'css-loader',
+				'postcss-loader',
+				'sass-loader',
+				{
+					loader: "sass-resources-loader",
+					options: {
+						// resources: [path.resolve('src/assets/css/common/config.scss')]
+						resources: ['./src/assets/css/common/config.scss']
+					}
 				}
-			}]
+			]
 		},
 		{
 			test: /\.(gif|jpe?g|png|bmp|webp|svg)(\?.*)?$/,
@@ -119,6 +127,7 @@ module.exports = {
 					name: 'img/[name].[hash:8].[ext]',
 					// publicPath: 'img/',//将css中引用的背景图片打包到output.path + publicPath + name
 					// outputPath: ''
+
 					// fallback: { //此处无需配置file-loader的回调也可正常构建，url-loader会自动调用，并共享name等配置项目
 					// 	loader: 'file-loader',
 					// 	options: {
@@ -358,21 +367,21 @@ const pages = [
 	// 	filename: 'activityapply.html',
 	// 	chunks: ['reset', 'ActivityApply']
 	// },
-	// {
-	// 	template: './src/views/Category/category.html',
-	// 	filename: 'category.html',
-	// 	chunks: ['reset', 'Category']
-	// },
+	{
+		template: './src/views/Category/category.html',
+		filename: 'category.html',
+		chunks: ['reset', 'Category']
+	},
 	// {
 	// 	template: './src/views/Member/member.html',
 	// 	filename: 'member.html',
 	// 	chunks: ['reset', 'Member']
 	// },
-	// {
-	// 	template: './src/views/Detail/detail.html',
-	// 	filename: 'detail.html',
-	// 	chunks: ['reset', 'Detail']
-	// },
+	{
+		template: './src/views/Detail/detail.html',
+		filename: 'detail.html',
+		chunks: ['reset', 'Detail']
+	},
 	// {
 	// 	template: './src/views/Job/job.html',
 	// 	filename: 'job.html',
@@ -383,6 +392,11 @@ const pages = [
 	// 	filename: 'jobdetail.html',
 	// 	chunks: ['reset', 'JobDetail']
 	// },
+	{
+		template: './src/views/JobApply/jobapply.html',
+		filename: 'job_apply.html',
+		chunks: ['reset', 'JobApply']
+	},
 	// {
 	// 	template: './src/views/JobApply/jobapply.html',
 	// 	filename: 'job_apply.html',
@@ -402,6 +416,11 @@ const pages = [
 	// 	template: './src/views/Supply/supply.html',
 	// 	filename: 'supply.html',
 	// 	chunks: ['reset', 'Supply']
+	// },
+	// {
+	// 	template: './src/views/Cooperate/cooperate.html',
+	// 	filename: 'cooperate.html',
+	// 	chunks: ['reset', 'Cooperate']
 	// },
 	// {
 	// 	template: './src/views/test/test.html',

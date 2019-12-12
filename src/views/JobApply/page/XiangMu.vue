@@ -19,12 +19,12 @@
         <van-cell-group>
           <van-field
             v-model="formData.xmks"
-            placeholder="开始时间"
+            placeholder="开始时间（yyyy mm dd）"
             :error-message="errors['xmks']?errors['xmks'][0].message:''"
           />
           <van-field
             v-model="formData.xmjs"
-            placeholder="结束时间"
+            placeholder="结束时间（yyyy mm dd）"
             :error-message="errors['xmjs']?errors['xmjs'][0].message:''"
           />
           <van-field
