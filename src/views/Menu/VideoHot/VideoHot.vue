@@ -1,14 +1,14 @@
 <template>
-  <div class="video_hot page_wrap">
-    <VideoBanner />
+  <div class="video_hot page_wrap" v-show="showr">
+    <VideoBanner v-if="bannerData" :data="bannerData" />
     <div class="video-box-wrap">
       <div class="vb-head">
         <div class="left-tit">
           <h3 class="tit-txt">热门视频</h3>
         </div>
       </div>
-      <div class="vb-body vb-list">
-        <VideoItem v-for="i in 4" :key="i" />
+      <div class="vb-body vb-list" v-if="hotData">
+        <VideoItem v-for="(item,index) in hotData" :key="index" :data="item" />
       </div>
     </div>
   </div>
@@ -22,6 +22,31 @@ export default {
     VideoBanner,
     VideoItem
   },
+  data() {
+    return {
+      showr: false,
+
+      page: 1,
+      limit: 8,
+
+      bannerData: null,
+      hotData: null
+    };
+  },
+  beforeCreate() {
+    this.$instance
+      .post("api/api/videoTwo", {
+        type: 0,
+        page: this.page,
+        limit: this.limit
+      })
+      .then(res => {
+        let data = res.data.data;
+        this.hotData = data.son;
+        this.bannerData = data.adv;
+        this.showr = true;
+      });
+  }
 };
 </script>
 

@@ -1,68 +1,97 @@
-<template>
-  <div id="menuDetail" class="menu-detail">
+<template >
+  <div id="menuDetail" class="menu-detail" v-if="detailData" v-show="showr">
     <div class="menu-feature">
-      <img
-        :src="baseUrl + '/uploads/admin/images/20191129/0fed92b191015abcc40a1981657da4bd.jpg'"
-        alt
-      />
+      <!-- if -->
+      <img v-if="!ifvideo" :src="baseUrl + detailData.picture" alt />
+      <!-- else-if -->
+      <div v-else-if="ifvideo" id="video-box">
+        <video controls id="video">
+          <source :src="baseUrl + detailData.video" type="video/mp4" />
+        </video>
+        <div class="img-box" v-show="videoImg">
+          <img :src="baseUrl + detailData.picture" alt />
+          <i class="play-video" @click="playVideo"></i>
+        </div>
+      </div>
     </div>
     <div class="intro">
-      <h3 class="menu-tit">清蒸花蛤西葫芦</h3>
+      <h3 class="menu-tit">{{detailData.title}}</h3>
       <p class="from count">
-        <span>猪先生美食</span>
-        <span>21万人浏览</span>
+        <span>{{detailData.source}}</span>
+        <span>{{count}}人浏览</span>
       </p>
-      <p
-        class="menu-desc"
-      >清蒸花蛤西葫芦是我最喜欢的一道海鲜菜，其味道鲜美，营养也相当丰富。说起蛤俐的吃法很多人第一反应都是烤哈蜊，虽说烤的味道不错但分流失了很多。花蛤在清洗的过程中一定要仔细，因为他会携带很多沙子。在侵泡的过程中也时不时搅拌一下，这也是一个洗沙的过程。花蛤在清洗的过程中一定要仔细，因为他会携带很多沙子。在侵泡的过程中也时不时搅拌一下，这也是一个洗沙的过程。</p>
+      <p class="menu-desc">{{detailData.describel}}</p>
     </div>
+
+    <div class="menu-area">
+      <div class="ma-head">
+        <div class="mh-title">小技巧</div>
+      </div>
+      <div class="ma-body">
+        <div class="miyu">{{detailData.antic}}</div>
+      </div>
+    </div>
+
     <div class="menu-area">
       <div class="ma-head">
         <div class="mh-title">食材清单</div>
       </div>
       <div class="ma-body">
-        <ul class="food-list">
-          <li>
-            <span class="fl-name">花蛤蜊</span>
-            <span class="fl-count">200克</span>
+        <ul class="food-list" v-if="materialsData">
+          <li v-for="(item,index) in materialsData" :key="index">
+            <span class="fl-name">{{item.name}}</span>
+            <span class="fl-count">{{item.number}}</span>
+            <span class="fl-right">{{item.material}}</span>
           </li>
         </ul>
+        <!-- <div class="ingred-open" @click="open" v-show="openShow">
+          展开全部
+          <i>&gt;</i>
+        </div> -->
       </div>
     </div>
+
     <div class="menu-area">
       <div class="ma-head">
         <div class="mh-title">做法步骤</div>
       </div>
       <div class="ma-body">
         <div class="buzhou">
-          <div v-for="(item, index) in step" :key="index" :class="['step','step' + (index + 1)]">
-            <div class="step-icon">{{index + 1}}</div>
-            <p class="step-txt">{{item}}</p>
+          <div
+            v-for="(item, index) in detailData.practice"
+            :key="index"
+            :class="['step','step' + (index + 1)]"
+          >
+            <!-- <div class="step-icon">{{index + 1}}</div> -->
+            <p class="step-txt">
+              <span>{{index + 1}}</span>
+              {{item}}
+            </p>
           </div>
         </div>
       </div>
     </div>
+
     <div class="menu-area">
       <div class="ma-head">
         <div class="mh-title">营养密语</div>
       </div>
       <div class="ma-body">
-        <div
-          class="miyu"
-        >鸭肉，一直都是烹饪中的一个难题，因为其肥腻的脂肪和独特的膻味而让很多人敬而远之。烤鸭是中国人最具智慧的对鸭子的料理方式，皮酥肉香的烤鸭，蘸着酸甜爽口的酱料，每一口都是享受。</div>
+        <div class="miyu">{{detailData.honey}}</div>
       </div>
     </div>
+
     <div class="menu-area">
       <div class="ma-head">
         <div class="mh-title">为你推荐</div>
-        <a href="javascript:;" class="mh-link">
+        <a href="javascript:;" :class="['mh-link', {loading: loading}]" @click="changeOthers">
           换一换
-          <i class="iconfont icon-change loading">&#xe635;</i>
+          <i class="iconfont icon-change">&#xe635;</i>``
         </a>
       </div>
       <div class="ma-body">
-        <div class="tuijian">
-          <MenuItem />
+        <div class="tuijian" v-if="recommendData">
+          <MenuItem v-for="(item,index) in recommendData" :key="index" :data="item" />
         </div>
       </div>
     </div>
@@ -77,12 +106,120 @@ export default {
   },
   data() {
     return {
-      step: [
-        "首先准备好所有的食材，取碗倒入清水，并依次加入少量的盐与食用油，并取清洗干净的花蛤蜊倒入碗",
-        "西葫芦清洗干净并将其切片，将其摆放在盘子底部，并将侵泡好的哈蜊倒在西葫芦片上。",
-        "首先准备好所有的食材，取碗倒入清水，并依次加入少量的盐与食用油，并取清洗干净的花蛤蜊倒入碗。"
-      ]
+      showr: false,
+      loading: false,
+
+      ifvideo: false,
+      videoImg: true,
+      openShow: false,
+
+      detailData: null, //数据
+      materialsData: null, //用料
+      recommendData: null //底部推荐
     };
+  },
+  computed: {
+    count() {
+      let sum = this.detailData.count;
+      if (sum < 10000) {
+        return sum;
+      } else {
+        return sum % 10000 == 0
+          ? Math.floor(sum / 10000) + "万"
+          : Math.floor(sum / 10000) + "万+";
+      }
+    }
+  },
+  beforeMount() {
+    this.getData();
+    this.getAnotherChange();
+  },
+  methods: {
+    getData() {
+      let id = this.getUrlParam("id");
+      this.$instance.post("api/Mobileapi/menuDetail", { id: id }).then(res => {
+        let data = res.data.data;
+        this.detailData = data.top;
+        this.materialsData = this.getJson(data.top);
+
+        let video = this.detailData.video;
+        this.ifvideo = video == "" ? false : true;
+
+        this.showr = true;
+      });
+    },
+
+    // 推荐换一换获取数据
+    getAnotherChange() {
+      this.$instance.post("api/Mobileapi/anotherChange").then(res => {
+        let data = res.data.data;
+        this.recommendData = data;
+      });
+    },
+
+    playVideo() {
+      $("#video")[0].play();
+      this.videoImg = false;
+    },
+
+    changeOthers() {
+      this.loading = true;
+      this.getAnotherChange();
+      setTimeout(() => {
+        this.loading = false;
+      }, 1000);
+    },
+
+    /**返回地址栏指定参数 */
+    getUrlParam(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+      var r = window.location.search.substr(1).match(reg); //匹配目标参数
+      if (r != null) return unescape(r[2]);
+      return null; //返回参数值
+    },
+
+    /* 重写菜谱用料数据格式 */
+    getJson(data) {
+      let attr1 = [];
+      let attr2 = [];
+
+      if (data.used) {
+        let used = data.used; //主料
+        for (let i = 0; i < used.name.length; i++) {
+          attr1.push({});
+          attr1[i]["name"] = used.name[i];
+          attr1[i]["number"] = used.number[i] ? used.number[i] : "无";
+          attr1[i]["material"] = "主料";
+        }
+      }
+      if (!data.peiliao) {
+        null;
+      } else {
+        let peiliao = data.peiliao; //副料
+
+        for (let i = 0; i < peiliao.name.length; i++) {
+          attr2.push({});
+          attr2[i]["name"] = peiliao.name[i];
+          attr2[i]["number"] = peiliao.number[i] ? peiliao.number[i] : "无";
+          attr2[i]["material"] = "副料";
+        }
+      }
+
+      attr1 = attr1.concat(attr2);
+      if (attr1.length > 5) {
+        this.openShow = true;
+      }
+      return attr1;
+    },
+
+    /**点击展开全部 */
+    open() {
+      let li = $(".food-list").find("li");
+      let ulh = li.height() * li.length;
+
+      $(".food-list").height(ulh);
+      this.openShow = false;
+    }
   }
 };
 </script>
@@ -110,7 +247,7 @@ body {
   background: #fff;
   overflow: hidden;
   .menu-tit {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     font-size: 16px;
   }
   .from.count {
@@ -120,7 +257,7 @@ body {
     overflow: hidden;
     span {
       float: left;
-      margin-right: 20px;
+      margin-right: 10px;
       &:last-child {
         margin-right: 0;
       }
@@ -128,8 +265,10 @@ body {
   }
   .menu-desc {
     font-size: 14px;
+    height: 100%;
     white-space: pre-wrap;
     word-break: break-all;
+    text-align: justify;
   }
 }
 .menu-area {
@@ -159,13 +298,31 @@ body {
       float: right;
       font-size: 12px;
       color: #999;
-      .icon-change{
+      .icon-change {
         display: inline-block;
       }
     }
-    .icon-change.loading {
-      animation: changeRotate 1s infinite linear;
+    .mh-link.loading {
+      i {
+        animation: changeRotate 1s infinite linear;
+      }
     }
+  }
+}
+.ingred-open {
+  height: 30px;
+  width: 100%;
+  background-color: #fff;
+  line-height: 30px;
+  text-align: center;
+  font-size: 14px;
+  i {
+    content: "";
+    display: inline-block;
+    font-style: inherit;
+    margin-left: 1px;
+    font-size: 14px;
+    transform: rotate(90deg);
   }
 }
 @keyframes changeRotate {
@@ -174,12 +331,16 @@ body {
   }
 }
 .food-list {
+  // height: 150px;
+  // overflow: hidden;
+  // transition: all 0.3s;
   li {
     position: relative;
     padding: 0 10px;
     height: 30px;
     line-height: 30px;
     display: flex;
+    font-size: 14px;
     &::after {
       content: "";
       position: absolute;
@@ -191,12 +352,20 @@ body {
       transform: scaleY(0.5);
     }
     span {
-      flex: 1;
+      text-align: left;
     }
     .fl-name {
+      flex: 4;
       color: $primarycolor;
+      // color: #666;
+      letter-spacing: 0.1em;
     }
     .fl-count {
+      flex: 3;
+      color: #666;
+    }
+    .fl-right {
+      flex: 1;
       color: #666;
     }
   }
@@ -207,35 +376,39 @@ body {
   .step {
     margin-top: 10px;
     padding: 0 10px;
-    .step-icon {
-      margin-bottom: 4px;
-      width: 16px;
-      height: 16px;
-      font-size: 12px;
-      line-height: 16px;
-      text-align: center;
-      color: $primarycolor;
-    }
     .step-txt {
       font-size: 14px;
+      height: 100%;
       line-height: 20px;
       text-align: justify;
-    }
-  }
-  .step-icon {
-    position: relative;
-    &::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 200%;
-      height: 200%;
-      border: 1px solid $primarycolor;
-      border-radius: 50%;
-      box-sizing: border-box;
-      transform-origin: left top;
-      transform: scale(0.5);
+
+      span {
+        display: content;
+        display: inline-block;
+        margin-bottom: 4px;
+        width: 18px;
+        height: 18px;
+        font-size: 14px;
+        line-height: 20px;
+        text-align: center;
+        color: $primarycolor;
+        position: relative;
+        // transform: translateY(-1dpx);
+        font-weight: bold;
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 200%;
+          height: 200%;
+          border: 2px solid $primarycolor;
+          border-radius: 50%;
+          box-sizing: border-box;
+          transform-origin: left top;
+          transform: scale(0.5);
+        }
+      }
     }
   }
 }
@@ -243,6 +416,7 @@ body {
 .miyu {
   padding: 10px;
   font-size: 14px;
+  height: 100%;
   line-height: 20px;
   text-align: justify;
   white-space: pre-wrap;
@@ -253,6 +427,51 @@ body {
     margin-bottom: 6px;
     &:last-child {
       margin-bottom: 0;
+    }
+  }
+}
+
+#video-box {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  overflow: hidden;
+  background-color: rgb(25, 29, 29);
+
+  video {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+  }
+  .img-box {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+    i {
+      display: block;
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 50%;
+      background-image: url("~@/assets/img/page/video/bf_icon.png");
+      background-size: 50%;
+      background-position: 58% 50%;
+      background-repeat: no-repeat;
     }
   }
 }

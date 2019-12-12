@@ -1,11 +1,11 @@
 <template>
   <!-- 产品分类顶部筛选 -->
   <div class="category-filter">
-    <div class="cf-swiper swiper-container" ref="swiper" v-if="filterData.length > 0">
+    <div class="cf-swiper swiper-container" ref="swiper" v-if="topData">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" v-for="(item, index) in filterData" :key="index">
+        <div class="swiper-slide" v-for="(item, index) in topData" :key="index" @click="category(item.id,$event)">
           <div class="ss-icon"></div>
-          <p class="ss-name">{{item.label}}</p>
+          <p class="ss-name">{{item.title}}</p>
         </div>
       </div>
       <!-- Add Pagination -->
@@ -18,29 +18,40 @@
 export default {
   data() {
     return {
-      swiper: null,
-      filterData: [
-        { label: "热销爆品" },
-        { label: "会员特价" },
-        { label: "时令水果" },
-        { label: "肉禽蛋类" },
-        { label: "海鲜水产" },
-        { label: "热销爆品" },
-        { label: "会员特价" },
-        { label: "时令水果" },
-        { label: "肉禽蛋类" }
-      ]
+      topData: null,
+
+      swiper: null
     };
   },
-  mounted() {
+  beforeMount() {
+    this.getTopData();
+  },
+  mounted() {},
+  updated() {
+    console.log("更新");
+    $(".swiper-slide").first().addClass("active");
     this.swiper = new Swiper(this.$refs.swiper, {
       slidesPerView: "auto",
-      spaceBetween: 10,
+      spaceBetween: 10
       // pagination: {
       //   el: ".swiper-pagination",
       //   clickable: true
       // }
     });
+  },
+  methods: {
+    getTopData() {
+      this.$instance.post("api/Mobileapi/videoTop").then(res => {
+        let data = res.data.data;
+        this.topData = data;
+        this.$emit("category",data[0].id);
+      });
+    },
+    category(twoid,event){
+      $(".swiper-slide").removeClass("active");
+      $(event.path[1]).addClass("active");
+      this.$emit("category",twoid);
+    }
   }
 };
 </script>
@@ -49,13 +60,13 @@ export default {
 .category-filter {
   height: 88px;
   background: #fff;
-  .cf-swiper{
+  .cf-swiper {
     position: relative;
     padding: 10px;
     height: 100%;
     box-sizing: border-box;
-    &::after{
-      content: '';
+    &::after {
+      content: "";
       position: absolute;
       left: 0;
       bottom: 0;
@@ -83,6 +94,12 @@ export default {
       font-size: 12px;
       line-height: 1;
       color: #333;
+    }
+  }
+
+  .swiper-slide.active {
+    .ss-name {
+      color: $primarycolor;
     }
   }
 }

@@ -2,18 +2,19 @@
   <!-- 为你推荐菜谱项组件 -->
   <div class="menu-item">
     <div class="mi-feature">
-      <img
-        :src="baseUrl + '/uploads/admin/images/20191129/0fed92b191015abcc40a1981657da4bd.jpg'"
-        alt
-      />
+      <a :href="'menu_detail.html?id='+data.id">
+        <img :src="baseUrl + data.picture" alt />
+      </a>
     </div>
     <div class="mi-txt">
-      <h4 class="mt-tit">清蒸花蛤西葫芦</h4>
+      <a :href="'menu_detail.html?id='+data.id">
+        <h4 class="mt-tit">{{data.title}}</h4>
+      </a>
       <div>
-        <p class="mt-desc">清蒸花蛤西葫芦是我最喜欢的一 道海鲜菜，其味道清蒸花蛤西葫芦是我最喜欢的一 道海鲜菜，其味道</p>
+        <p class="mt-desc">{{data.describel}}</p>
         <p class="mt-info">
           <span>猪先生美食</span>
-          <span>2019-11-12</span>
+          <span>{{timeCo(data.create_time)}}</span>
         </p>
       </div>
     </div>
@@ -21,7 +22,24 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    data: Object
+  },
+  methods: {
+    /**时间搓转时间格式 */
+    timeCo(dater) {
+      var date = new Date(dater * 1000); //如果date为13位不需要乘1000
+      var Y = date.getFullYear() + "-";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      var D = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+      return Y + M + D;
+    }
+  }
+};
 </script>
 
 <style lang="scss">

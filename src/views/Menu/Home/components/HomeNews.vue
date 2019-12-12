@@ -98,6 +98,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.menu-news{
+  margin: 0 10px;
+  margin-top: 10px;
+}
 .rc-row {
   display: flex;
   justify-content: space-between;
@@ -115,6 +119,7 @@ export default {
 }
 .rc-item {
   position: relative;
+
   width: 100%;
   height: 168px;
   border-radius: 5px;

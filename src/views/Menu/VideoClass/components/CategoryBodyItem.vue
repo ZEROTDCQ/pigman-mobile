@@ -2,26 +2,44 @@
   <!-- 视频分类 视频组件 -->
   <div class="video-item">
     <div class="vi-feature">
-      <img
-        :src="baseUrl + '/uploads/admin/images/20191129/a6bde821c173e197ee5a52c993ffbd7b.jpg'"
-        alt
-      />
+      <a :href="'menu_detail.html?id='+data.id">
+        <img :src="baseUrl + data.picture" alt />
+      </a>
     </div>
     <div class="vi-text">
       <div>
-        <p class="vt-tit">清蒸花蛤西葫芦清蒸花蛤西葫芦</p>
+        <a :href="'menu_detail.html?id='+data.id">
+          <p class="vt-tit">{{data.title}}</p>
+        </a>
         <div class="vt-info">
-          <span>猪先生美食</span>
-          <span>2019-11-07</span>
+          <span>{{data.source}}</span>
+          <span>{{timeCo(data.create_time)}}</span>
         </div>
       </div>
-      <div class="vt-desc">长这么大的我从来没去过新疆，但是大学时期多次吃时期多次吃时期多次吃</div>
+      <div class="vt-desc">{{data.describel}}</div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    data: Object
+  },
+  methods: {
+    /**时间搓转时间格式 */
+    timeCo(dater) {
+      var date = new Date(dater * 1000); //如果date为13位不需要乘1000
+      var Y = date.getFullYear() + "-";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      var D = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+      return Y + M + D;
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

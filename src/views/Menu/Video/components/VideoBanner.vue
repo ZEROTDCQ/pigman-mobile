@@ -3,8 +3,8 @@
   <div class="video_banner">
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" v-for="i in loopWheel" :key="i.title">
-          <img :src="i.img" :alt="i.title" />
+        <div class="swiper-slide" v-for="(item,i) in data" :key="i">
+          <img :src="baseUrl + item.picture" :alt="item.title" />
         </div>
       </div>
       <div class="bottom_bar">
@@ -21,22 +21,13 @@
 
 <script>
 export default {
+  props: {
+    data: Array,
+  },
   data() {
     return {
       swiper: null,
       moving: false,
-      loopWheel: [
-        {
-          img:
-            "https://jet.bdstatic.com/public/static/zhaopin/common/img/sdetail_117d13d.jpg",
-          title: "东坡肉"
-        },
-        {
-          img:
-            "https://jet.bdstatic.com/public/static/zhaopin/common/img/sdetail_117d13d.jpg",
-          title: "红烧肉"
-        }
-      ]
     };
   },
   mounted() {
@@ -53,7 +44,7 @@ export default {
         // },
         slideChangeTransitionEnd: function() {
           let activeIndex = this.realIndex; //loop模式下获取真实index
-          let tit = _this.loopWheel[activeIndex].title;
+          let tit = _this.data[activeIndex].title;
           _this.$refs.videoTit.innerText = tit;
         },
         touchMove: function(event) {

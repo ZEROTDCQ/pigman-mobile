@@ -39,13 +39,13 @@ module.exports = {
 		// Home: './src/views/Home/home.js',		//首页--@
 		// HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
 		// HomeSearch: './src/views/HomeSearch/search.js',		//主站搜索页
-		HomeNews: './src/views/HomeNews/news.js', //主站新闻，热门资讯--@
-		NewsDetail: './src/views/NewsDetail/newsdetail.js',		//新闻详情
+		// HomeNews: './src/views/HomeNews/news.js', //主站新闻，热门资讯--@
+		// NewsDetail: './src/views/NewsDetail/newsdetail.js',		//新闻详情--@
 		// Resume: './src/views/Resume/resume.js',		//公司介绍
 		// Activity: './src/views/Activity/activity.js',		//活动专区
 		// ActivityDetail: './src/views/ActivityDetail/activitydetail.js',		//活动详情
 		ActivityApply: './src/views/ActivityApply/ActivityApply.js',		//活动报名
-		// Member: './src/views/Member/member.js',		//会员专区
+		// Member: './src/views/Member/member.js',		//会员专区--@
 		// Category: './src/views/Category/category.js',		//产品分类
 		// Detail: './src/views/Detail/detail.js',		//商品详情
 		// Job: './src/views/Job/job.js',		//人才招聘
@@ -65,12 +65,12 @@ module.exports = {
 
 
 		// ----------------------------------- 饮食指南 -----------------------------------
-		// MenuHome: './src/views/Menu/Home/home.js',		//饮食指南首页
-		// MenuDetail: './src/views/Menu/MenuDetail/MenuDetail.js',		//菜谱详情
-		MenuNews: './src/views/Menu/News/News.js',		//饮食资讯
-		// Video: './src/views/Menu/Video/video.js',		//视频一级
-		// VideoHot: './src/views/Menu/VideoHot/VideoHot.js',		//热门视频
-		// VideoClass: './src/views/Menu/VideoClass/VideoClass.js',		//视频分类
+		MenuHome: './src/views/Menu/Home/home.js',		//饮食指南首页
+		MenuDetail: './src/views/Menu/MenuDetail/MenuDetail.js',		//菜谱详情--@
+		// MenuNews: './src/views/Menu/News/News.js',		//饮食资讯--$
+		// Video: './src/views/Menu/Video/video.js',		//视频一级--@
+		// VideoHot: './src/views/Menu/VideoHot/VideoHot.js',		//热门视频--@
+		VideoClass: './src/views/Menu/VideoClass/VideoClass.js',		//视频分类--@
 	},
 	output: {
 		path: resolve('dist'),
@@ -118,7 +118,6 @@ module.exports = {
 					name: 'img/[name].[hash:8].[ext]',
 					// publicPath: 'img/',//将css中引用的背景图片打包到output.path + publicPath + name
 					// outputPath: ''
-
 					// fallback: { //此处无需配置file-loader的回调也可正常构建，url-loader会自动调用，并共享name等配置项目
 					// 	loader: 'file-loader',
 					// 	options: {
@@ -323,16 +322,16 @@ const pages = [
 	// 	filename: 'home_search.html',
 	// 	chunks: ['reset', 'HomeSearch']
 	// },
-	{
-		template: './src/views/HomeNews/news.html',
-		filename: 'home_news.html',
-		chunks: ['reset', 'HomeNews']
-	},
-	{
-		template: './src/views/NewsDetail/newsdetail.html',
-		filename: 'news_detail.html',
-		chunks: ['reset', 'NewsDetail']
-	},
+	// {
+	// 	template: './src/views/HomeNews/news.html',
+	// 	filename: 'home_news.html',
+	// 	chunks: ['reset', 'HomeNews']
+	// },
+	// {
+	// 	template: './src/views/NewsDetail/newsdetail.html',
+	// 	filename: 'news_detail.html',
+	// 	chunks: ['reset', 'NewsDetail']
+	// },
 	// {
 	// 	template: './src/views/Resume/resume.html',
 	// 	filename: 'resume.html',
@@ -348,21 +347,21 @@ const pages = [
 	// 	filename: 'activitydetail.html',
 	// 	chunks: ['reset', 'ActivityDetail']
 	// },
-	{
-		template: './src/views/ActivityApply/activityapply.html',
-		filename: 'activityapply.html',
-		chunks: ['reset', 'ActivityApply']
-	},
+	// {
+	// 	template: './src/views/ActivityApply/activityapply.html',
+	// 	filename: 'activityapply.html',
+	// 	chunks: ['reset', 'ActivityApply']
+	// },
 	// {
 	// 	template: './src/views/Category/category.html',
 	// 	filename: 'category.html',
 	// 	chunks: ['reset', 'Category']
 	// },
-	{
-		template: './src/views/Member/member.html',
-		filename: 'member.html',
-		chunks: ['reset', 'Member']
-	},
+	// {
+	// 	template: './src/views/Member/member.html',
+	// 	filename: 'member.html',
+	// 	chunks: ['reset', 'Member']
+	// },
 	// {
 	// 	template: './src/views/Detail/detail.html',
 	// 	filename: 'detail.html',
@@ -427,21 +426,21 @@ const pages = [
 	// },
 
 	// ----------------------------------- 饮食指南 -----------------------------------
-	// {
-	// 	template: './src/views/Menu/Home/home.html',
-	// 	filename: 'menu_home.html',
-	// 	chunks: ['reset', 'MenuHome']
-	// },
-	// {
-	// 	template: './src/views/Menu/MenuDetail/MenuDetail.html',
-	// 	filename: 'menu_detail.html',
-	// 	chunks: ['reset', 'MenuDetail']
-	// },
 	{
-		template: './src/views/Menu/News/news.html',
-		filename: 'news.html',
-		chunks: ['reset', 'MenuNews']
+		template: './src/views/Menu/Home/home.html',
+		filename: 'menu_home.html',
+		chunks: ['reset', 'MenuHome']
 	},
+	{
+		template: './src/views/Menu/MenuDetail/MenuDetail.html',
+		filename: 'menu_detail.html',
+		chunks: ['reset', 'MenuDetail']
+	},
+	// {
+	// 	template: './src/views/Menu/News/news.html',
+	// 	filename: 'news.html',
+	// 	chunks: ['reset', 'MenuNews']
+	// },
 	// {
 	// 	template: './src/views/Menu/Video/video.html',
 	// 	filename: 'video.html',
@@ -452,11 +451,11 @@ const pages = [
 	// 	filename: 'videohot.html',
 	// 	chunks: ['reset', 'VideoHot']
 	// },
-	// {
-	// 	template: './src/views/Menu/VideoClass/videoclass.html',
-	// 	filename: 'videoclass.html',
-	// 	chunks: ['reset', 'VideoClass']
-	// },
+	{
+		template: './src/views/Menu/VideoClass/videoclass.html',
+		filename: 'videoclass.html',
+		chunks: ['reset', 'VideoClass']
+	},
 ]
 
 function createHtml({
