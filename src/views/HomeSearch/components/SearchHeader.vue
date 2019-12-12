@@ -9,7 +9,15 @@
       </div>
       <div class="search-input" id="searchInput">
         <div class="search-inner">
-          <input type="text" placeholder="炸榴莲" v-model="keyword" @focus="inputClick" ref="input" />
+          <input
+            type="text"
+            placeholder="炸榴莲"
+            v-model="keyword"
+            @focus="inputClick"
+            @input="onInput"
+            @keydown="inputKeyDown"
+            ref="input"
+          />
         </div>
         <div class="search-icon">
           <i class="iconfont icon-search">&#xe630;</i>
@@ -28,7 +36,7 @@
       </div>
     </div>
     <div class="content-wrap" v-show="extend">
-      <div class="recent-search cw-box" v-show="!inputing && rencentSearch.length > 0">
+      <div class="recent-search cw-box" v-show="!inputing && searchHistory.length > 0">
         <div class="cb-head">
           <p class="ch-tit">最近搜索</p>
           <div class="ch-btn">
@@ -36,8 +44,8 @@
           </div>
         </div>
         <div class="cb-body">
-          <span v-for="i in rencentSearch" :key="i">
-            <a href="javascript:;">{{i}}</a>
+          <span v-for="(item, index) in searchHistory" :key="item + index">
+            <a href="javascript:;">{{item}}</a>
           </span>
         </div>
       </div>
@@ -46,14 +54,18 @@
           <p class="ch-tit">热门搜索</p>
         </div>
         <div class="cb-body">
-          <span v-for="i in 10" :key="i">
-            <a href="javascript:;">面包机</a>
+          <span v-for="(item, index) in hotKeyword" :key="item + index">
+            <a href="javascript:;">{{item.hot}}</a>
           </span>
         </div>
       </div>
       <ul class="keys" v-show="inputing">
-        <li>
-          <a href="javascript:;">九阳豆浆机</a>
+        <li
+          v-for="(item, index) in tempDropDownList.length > 0 ? tempDropDownList : dropDownList"
+          :key="item + index"
+          @click="searchAction(item.name)"
+        >
+          <a href="javascript:;">{{item.name}}</a>
         </li>
       </ul>
       <div class="clear-toast clearToast" ref="toast">
@@ -71,12 +83,26 @@
 
 <script>
 export default {
+  props: {
+    showResult: {
+      type: Boolean
+    }
+  },
   data() {
     return {
       extend: false,
       keyword: "",
-      tempKeyword: '',
-      rencentSearch: ['鸡腿', '猪脚']
+      tempKeyword: "",
+      dropDownList: [],
+      tempDropDownList: [],
+      matchTimer: null,
+      time: 0,
+      searchHistory: JSON.parse(
+        localStorage.getItem("search_history")
+          ? localStorage.getItem("search_history")
+          : "[]"
+      ),
+      hotKeyword: []
     };
   },
   computed: {
@@ -87,10 +113,15 @@ export default {
   methods: {
     inputClick() {
       this.extend = true;
+      this.$emit('update:showResult', false);
+      this.$emit("toggleSearchToolBar", false);
     },
     searchBack() {
       this.keyword = this.tempKeyword;
+      this.tempDropDownList = [];
       this.extend = false;
+      this.$emit('update:showResult', true);
+      this.$emit("toggleSearchToolBar", true);
     },
     clearInput() {
       this.tempKeyword = this.keyword;
@@ -103,22 +134,104 @@ export default {
     clearToastHandle(flag) {
       if (!flag) {
         this.$refs.toast.style.display = "none";
-      }else{
+      } else {
         // 清空历史搜索记录
         this.rencentSearch = [];
-        console.log(this.rencentSearch)
+        // console.log(this.rencentSearch);
         this.$refs.toast.style.display = "none";
       }
+    },
+    onInput(e) {
+      var value = e.target.value || e.srcElement.value;
+      // 搜索框正在输入事件，延迟250ms后获取相关搜索词
+      if (value.trim()) {
+        clearTimeout(this.matchTimer);
+        this.matchTimer = setTimeout(() => {
+          var time = Date.now();
+          this.getRelatedKeyWord(time, "input");
+        }, 250);
+      }
+    },
+    inputKeyDown(e) {
+      // 回车搜索事件监听
+      if (e.keyCode == 13 || e.which == 13) {
+        this.searchAction(this.keyword);
+      }
+    },
+    searchAction(kw) {
+      // 点击搜索事件，设置localStorage，记录历史搜索记录
+      var old = JSON.parse(
+        localStorage.getItem("search_history")
+          ? localStorage.getItem("search_history")
+          : "[]"
+      );
+      // 判断历史搜索里是否已存在，如果不存在向前插入最新的搜索关键词，如果存在改变原来的位置到第一位
+      var isExist = old.indexOf(kw);
+      if (isExist == -1) {
+        //不存在
+        old.unshift(kw);
+      } else {
+        if (isExist != 0) {
+          // 置顶关键词
+          old.splice(isExist, 1);
+          old.unshift(kw);
+        }
+      }
+      localStorage.setItem("search_history", JSON.stringify(old));
+      location.href = `home_search.html?keyword=${kw}`;
+    },
+    getRelatedKeyWord(time, mode) {
+      // 获取当前关键词相关的关键词
+      if (!this.keyword) {
+        return;
+      }
+      this.$instance
+        .post("/api/mobileapi/relatedWords", {
+          keyword: this.keyword
+        })
+        .then(res => {
+          // console.log(res);
+          if (time >= this.time) {
+            this.time = time;
+            // 截取结果前10条
+            if (mode == "init") {
+              this.dropDownList = res.data.data.slice(0, 10);
+            } else {
+              this.tempDropDownList = res.data.data.slice(0, 10);
+            }
+          } else {
+            console.log("我不是最后的搜索结果");
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     moreHandler() {
       console.log(111);
     }
   },
-  created(){
+  created() {
     // 获取关键字
     let reg = /\?keyword=([^&]+)/;
-    this.keyword = location.href.match(reg) ? location.href.match(reg)[1] : '关键词';
+    this.keyword = decodeURIComponent(
+      location.href.match(reg) ? location.href.match(reg)[1] : "关键词"
+    );
     this.tempKeyword = this.keyword;
+    this.getRelatedKeyWord(Date.now(), "init");
+
+    // 获取热门搜索关键词
+    this.$instance
+      .post("/api/api/hotWords", {
+        type: 0
+      })
+      .then(res => {
+        // console.log(res);
+        this.hotKeyword = res.data.data ? res.data.data : [];
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 };
 </script>
@@ -233,6 +346,8 @@ export default {
   }
 }
 .content-wrap {
+  background: #fff;
+  overflow: hidden;
   .cw-box {
     padding-left: 10px;
     margin-top: 10px;
@@ -263,7 +378,10 @@ export default {
     }
   }
   .keys {
+    position: relative;
+    z-index: 99;
     padding-left: 10px;
+    background: #fff;
     li {
       position: relative;
       padding-right: 10px;

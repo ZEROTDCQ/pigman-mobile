@@ -10,7 +10,14 @@
       </div>
       <div class="search-input" id="searchInput">
         <div class="search-inner">
-          <input type="text" placeholder="炸榴莲" v-model="keyword" @focus="inputClick" ref="input" />
+          <input
+            type="text"
+            placeholder="炸榴莲"
+            v-model="keyword"
+            @focus="inputClick"
+            @input="onInput"
+            ref="input"
+          />
         </div>
         <div class="search-icon">
           <i class="iconfont icon-search">&#xe630;</i>
@@ -29,7 +36,7 @@
       </div>
     </div>
     <div class="content-wrap" v-show="extend">
-      <div class="recent-search cw-box" v-show="!inputing && rencentSearch.length > 0">
+      <div class="recent-search cw-box" v-show="!inputing && searchHistory.length > 0">
         <div class="cb-head">
           <p class="ch-tit">最近搜索</p>
           <div class="ch-btn">
@@ -37,7 +44,7 @@
           </div>
         </div>
         <div class="cb-body">
-          <span v-for="i in rencentSearch" :key="i">
+          <span v-for="i in searchHistory" :key="i">
             <a href="javascript:;">{{i}}</a>
           </span>
         </div>
@@ -47,25 +54,28 @@
           <p class="ch-tit">热门搜索</p>
         </div>
         <div class="cb-body">
-          <span v-for="i in 10" :key="i">
-            <a href="javascript:;">面包机</a>
+          <span v-for="(item, index) in hotKeyword" :key="item + index">
+            <a href="javascript:;">{{item.hot}}</a>
           </span>
         </div>
       </div>
       <ul class="keys" v-show="inputing">
-        <li>
-          <a href="javascript:;">九阳豆浆机</a>
+        <li v-for="(item, index) in dropDownList" :key="item + index" @click="searchAction(index)">
+          <a href="javascript:;">{{item.name}}</a>
         </li>
       </ul>
-      <div class="clear-toast clearToast" ref="toast">
-        <div class="ground-toast">
+      <transition name="fade-in">
+        <div class="overlay" v-if="clearToast"></div>
+      </transition>
+      <transition name="scale-in">
+        <div class="ground-toast clear-toast" v-if="clearToast">
           <div class="toast-content">确定要清空吗?</div>
           <div class="toast-btn">
             <a class="no" id="msClearCancel" @click="clearToastHandle(0)">取消</a>
             <a class="sure" id="msClearSure" @click="clearToastHandle(1)">确定</a>
           </div>
         </div>
-      </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -76,7 +86,17 @@ export default {
     return {
       extend: false,
       keyword: "",
-      rencentSearch: ['鸡腿', '猪脚']
+      searchHistory: JSON.parse(
+        localStorage.getItem("search_history")
+          ? localStorage.getItem("search_history")
+          : "[]"
+      ),
+      hotKeyword: [],
+      clearToast: false,
+      matchTimer: null,
+      time: 0,
+      // 相关关键词
+      dropDownList: []
     };
   },
   computed: {
@@ -84,9 +104,82 @@ export default {
       return this.keyword != "";
     }
   },
+  created() {
+    // 获取热门搜索关键词
+    this.$instance
+      .post("/api/api/hotWords", {
+        type: 0
+      })
+      .then(res => {
+        console.log(res);
+        this.hotKeyword = res.data.data ? res.data.data : [];
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
   methods: {
     inputClick() {
       this.extend = true;
+    },
+    onInput(e) {
+      var value = e.target.value || e.srcElement.value;
+      // 搜索框正在输入事件，延迟250ms后获取相关搜索词
+      clearTimeout(this.matchTimer);
+      this.matchTimer = setTimeout(() => {
+        var time = Date.now();
+        this.$instance
+          .post("/api/mobileapi/relatedWords", {
+            keyword: value
+          })
+          .then(res => {
+            console.log(res);
+            if (time >= this.time) {
+              this.time = time;
+              // 截取结果前10条
+              this.dropDownList = res.data.data.slice(0, 10);
+            } else {
+              console.log("我不是最后的搜索结果");
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }, 250);
+    },
+    searchAction(index) {
+      // 点击搜索事件，设置localStorage，记录历史搜索记录
+      var kw = this.dropDownList[index].name;
+      var old = JSON.parse(
+        localStorage.getItem("search_history")
+          ? localStorage.getItem("search_history")
+          : "[]"
+      );
+      // 判断历史搜索里是否已存在，如果不存在向前插入最新的搜索关键词，如果存在改变原来的位置到第一位
+      var isExist = old.indexOf(kw);
+      if (isExist == -1) {
+        //不存在
+        old.unshift(kw);
+      } else {
+        if (isExist != 0) {
+          // 置顶关键词
+          old.splice(isExist, 1);
+          old.unshift(kw);
+        }
+      }
+      localStorage.setItem("search_history", JSON.stringify(old));
+      location.href = `home_search.html?keyword=${kw}`;
+    },
+    clearHistory() {
+      this.clearToast = true;
+    },
+    clearToastHandle(flag) {
+      if (flag) {
+        // 清空历史搜索记录
+        this.searchHistory = [];
+        localStorage.removeItem("search_history");
+      }
+      this.clearToast = false;
     },
     searchBack() {
       this.keyword = "";
@@ -96,19 +189,6 @@ export default {
       this.keyword = "";
       this.$refs.input.focus();
     },
-    clearHistory() {
-      this.$refs.toast.style.display = "flex";
-    },
-    clearToastHandle(flag) {
-      if (!flag) {
-        this.$refs.toast.style.display = "none";
-      }else{
-        // 清空历史搜索记录
-        this.rencentSearch = [];
-        console.log(this.rencentSearch)
-        this.$refs.toast.style.display = "none";
-      }
-    },
     moreHandler() {
       console.log(111);
     }
@@ -116,7 +196,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+
+
+<style lang="scss">
 .header-wrap {
   position: relative;
   height: 44px;
@@ -281,56 +363,54 @@ export default {
     }
   }
 }
+.overlay {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgba($color: #000000, $alpha: 0.75);
+}
 .clear-toast {
-  display: none;
   position: fixed;
   z-index: 1000;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba($color: #000000, $alpha: 0.75);
-  justify-content: center;
-  align-items: center;
-  .ground-toast {
-    background-color: #fff;
-    width: 88%;
-    height: auto;
-    font-size: 16px;
-    border-radius: 10px;
-    text-align: center;
-    overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  width: 88%;
+  font-size: 16px;
+  border-radius: 10px;
+  text-align: center;
+  overflow: hidden;
+  background-color: #fff;
+  .toast-content {
     position: relative;
-    z-index: 10;
-    .toast-content {
-      position: relative;
-      height: 101px;
-      line-height: 101px;
-      text-align: center;
-      color: #232326;
-      font-size: 16px;
-      &::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: -1px;
-        width: 100%;
-        height: 1px;
-        background: #e5e5e5;
-        transform: scaleY(0.5);
-      }
+    height: 101px;
+    line-height: 101px;
+    text-align: center;
+    color: #232326;
+    font-size: 16px;
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -1px;
+      width: 100%;
+      height: 1px;
+      background: #e5e5e5;
+      transform: scaleY(0.5);
     }
-    .toast-btn {
-      height: 44px;
-      display: flex;
-      a {
-        flex: 1;
-        line-height: 44px;
-      }
-      .sure {
-        color: #fff;
-        background: $primarycolor;
-      }
+  }
+  .toast-btn {
+    height: 44px;
+    display: flex;
+    a {
+      flex: 1;
+      line-height: 44px;
+    }
+    .sure {
+      color: #fff;
+      background: $primarycolor;
     }
   }
 }
@@ -361,5 +441,19 @@ export default {
       }
     }
   }
+}
+</style>
+
+<style lang="scss">
+.fade-in-enter {
+  opacity: 0;
+}
+.scale-in-enter {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.5);
+}
+.fade-in-enter-active,
+.scale-in-enter-active {
+  transition: all 0.24s ease-in-out;
 }
 </style>

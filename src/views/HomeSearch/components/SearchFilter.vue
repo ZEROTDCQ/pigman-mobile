@@ -1,67 +1,41 @@
 <template>
   <!-- 搜索页筛选组件 -->
   <div class="search-filter-wrap">
-    <div class="layer-sub-title hide" id="filterSelBlock" v-show="withSubTit">
-      <strong>已选材质：</strong>
+    <div class="layer-sub-title hide" id="filterSelBlock" v-if="withSubTit">
+      <strong>已选{{filterData[allIndex].name}}：</strong>
       <span id="filterSelTips" class="words_10">304不锈钢、316不锈钢、400系列不锈钢</span>
       <span>等3个</span>
     </div>
     <div class="layer-con" v-if="!withSubTit">
-      <ul class="mod_list">
+      <ul class="mod_list" v-for="(item, index) in filterData" :key="item.name + index">
         <li>
           <div class="list_inner li_line">
-            <div class="big">原产地</div>
+            <div class="big">{{item.name}}</div>
             <div class="right">
               <span class="words_10" style="max-width: 203px;"></span>
             </div>
           </div>
         </li>
         <div class="tags_selection">
-          <div class="J_ping option">
-            <a href="javascript:void 0;">云南</a>
+          <div class="J_ping option" v-for="(i, j) in item.son.slice(0, 8)" :key="i.name + j">
+            <a
+              href="javascript:void 0;"
+              :class="{selected: selectorData[item.column] && (selectorData[item.column].indexOf(i.scr_id)!=-1||selectorData[item.column].indexOf(i.id)!=-1)}"
+              @click="selectFilter(item.column, i.scr_id?i.scr_id:i.id,i.type)"
+            >{{i.name}}</a>
           </div>
-          <div class="J_ping option">
-            <a href="javascript:void 0;">湖南</a>
-          </div>
-          <div class="J_ping option arrow">
-            <a href="javascript:void 0;" @click="allOptions">查看全部</a>
-            <div class="big" style="display: none;">原产地</div>
-          </div>
-        </div>
-      </ul>
-      <ul class="mod_list">
-        <li>
-          <div class="list_inner li_line">
-            <div class="big">国家进口</div>
-            <div class="right">
-              <span class="words_10" style="max-width: 203px;"></span>
-            </div>
-          </div>
-        </li>
-        <div class="tags_selection">
-          <div class="J_ping option">
-            <a href="javascript:void 0;">国产</a>
-          </div>
-          <div class="J_ping option">
-            <a href="javascript:void 0;">进口</a>
+          <div class="J_ping option arrow" v-if="item.son.length > 9">
+            <a href="javascript:void 0;" @click="showAllOptions(index)">查看全部</a>
+            <!-- <div class="big" style="display: none;">原产地</div> -->
           </div>
         </div>
-      </ul>
-      <ul class="mod_list">
-        <li>
-          <div class="list_inner li_line">
-            <div class="big">价格</div>
-            <div class="right">
-              <span class="words_10" style="max-width: 203px;"></span>
-            </div>
-          </div>
-        </li>
-        <li class="filterlayer_price">
+        <li class="filterlayer_price" v-if="item.column == 'price'">
           <div class="filterlayer_price_area">
             <input
               type="tel"
               class="filterlayer_price_area_input J_ping"
               id="filterPriceMin"
+              v-model="minPrice"
               placeholder="最低价"
             />
             <div class="filterlayer_price_area_hyphen"></div>
@@ -69,6 +43,7 @@
               type="tel"
               class="filterlayer_price_area_input J_ping"
               id="filterPriceMax"
+              v-model="maxPrice"
               placeholder="最高价"
             />
           </div>
@@ -77,21 +52,27 @@
     </div>
     <div class="layer-con with_sub_title" v-else>
       <ul class="mod_list padding_left">
-        <li class="J_ping check_li" v-for="i in arr" :key="i">
+        <li
+          :class="['J_ping', 'check_li', {checked: selectorData[filterData[allIndex].column].indexOf(item.scr_id) != -1 || selectorData[filterData[allIndex].column].indexOf(item.id) != -1}]"
+          v-for="(item, index) in filterData[allIndex].son"
+          :key="item.name + index"
+          @click="selectFilter(filterData[allIndex].column, item.scr_id?item.scr_id:item.id, item.type)"
+        >
           <div class="list_inner li_line">
-            <div class="big">{{i}}</div>
+            <div class="big">{{item.name}}</div>
           </div>
         </li>
       </ul>
     </div>
     <div class="layer-buttons">
       <span class="bottom-button cancel" @click="cancelHandler">取消</span>
-      <span class="bottom-button confirm">确定</span>
+      <span class="bottom-button confirm" @click="confirmHandler">确定</span>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   props: {
     showFilter: {
@@ -100,25 +81,73 @@ export default {
   },
   data() {
     return {
+      // 选择的筛选条件暂存变量(未确定) {column: [scr_id, scr_id]}
+      tempSelector: null,
       originHtml: "",
       withSubTit: false,
-      arr: ["广东", "广西", "湖南", "湖北", "江苏", "江西"]
+      allIndex: -1,
+      tempScrollTop: 0,
+      minPrice: "",
+      maxPrice: ""
     };
   },
+  computed: {
+    ...mapGetters({
+      filterData: "getFilterData",
+      selectorData: "getSelector"
+    })
+  },
   methods: {
-    allOptions() {
-      this.withSubTit = true;
+    selectFilter(column, id, type) {
+      if(column == 'price'){
+        this.minPrice = this.maxPrice = '';
+      }
+      this.$store.commit("setSelector", { column, id, type });
     },
-    cancelHandler() {
+    showAllOptions(index) {
+      console.log(index);
+      this.tempScrollTop = $(".layer-con").scrollTop(0);
+      // 保存当前的selector
+      this.tempSelector = JSON.stringify(this.selectorData);
+      this.tempSelector = JSON.parse(this.tempSelector);
+      this.allIndex = index;
+      this.withSubTit = true;
+      this.$nextTick(() => {
+        // 返回顶部
+        $(".layer-con.with_sub_title").scrollTop(0);
+      });
+    },
+    confirmHandler() {
       // 判断是否子标题模式
       if (this.withSubTit) {
         this.withSubTit = false;
-        this.$refs.layerCon.innerHTML = this.originHtml;
+      } else {
+        // 设置最低价、最高价
+        if (
+          Number(this.minPrice.trim()) &&
+          this.minPrice.trim().toString().length > 0
+        ) {
+          this.$store.commit("diyPriceArea", {
+            min: this.minPrice,
+            max: this.maxPrice
+          });
+        }
+        // 筛选
+        this.$emit("searchAction");
+      }
+    },
+    cancelHandler() {
+      console.log(this.filterData);
+      // 判断是否子标题模式
+      if (this.withSubTit) {
+        this.withSubTit = false;
+        console.log(this.tempSelector);
+        this.$store.commit("recoverSelector", this.tempSelector);
       } else {
         this.$emit("update:showFilter", false);
       }
     }
-  },
+  }
 };
 </script>
 
@@ -355,6 +384,10 @@ export default {
       color: #666;
       background-color: #f5f5f5;
       border-radius: 4px;
+    }
+    .selected {
+      background: #8ad886;
+      color: #fff;
     }
   }
   .arrow {

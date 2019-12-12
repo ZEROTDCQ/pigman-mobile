@@ -1,12 +1,16 @@
 <template>
   <div class="filter-wrap">
     <div class="filter-items">
-      <a href="javascript:;">综合</a>
-      <a href="javascript:;">销量</a>
-      <a href="javascript:;">新品</a>
-      <a href="javascript:;" class="btn-price curr">
+      <a href="javascript:;" :class="{curr: sort == 1}" @click="changeSort(1)">综合</a>
+      <a href="javascript:;" :class="{curr: sort == 2}" @click="changeSort(2)">销量</a>
+      <a href="javascript:;" :class="{curr: sort == 3}" @click="changeSort(3)">新品</a>
+      <a
+        href="javascript:;"
+        :class="['btn-price', {curr: sort == 4 || sort == 5}]"
+        @click="changeSort(-1)"
+      >
         价格
-        <em class="fs-down">
+        <em :class="['fs', {'fs-up': sort == 4}, {'fs-down': sort == 5}]">
           <i class="iconfont arrow-top">&#xe60f;</i>
           <i class="iconfont arrow-bottom">&#xe6f5;</i>
         </em>
@@ -22,6 +26,9 @@
 <script>
 export default {
   props: {
+    sort: {
+      type: Number
+    },
     showFilter: {
       type: Boolean
     }
@@ -29,6 +36,20 @@ export default {
   methods: {
     showSide() {
       this.$emit("update:showFilter", true);
+    },
+    changeSort(sort) {
+      if(this.sort == sort){
+        return;
+      }
+      if (sort != -1) {
+        this.$emit("update:sort", sort);
+      } else {
+        if (this.sort == 4) {
+          this.$emit("update:sort", 5);
+        } else {
+          this.$emit("update:sort", 4);
+        }
+      }
     }
   }
 };
@@ -69,8 +90,7 @@ export default {
       }
     }
     .btn-price {
-      .fs-down,
-      .fs-up {
+      .fs {
         display: inline-block;
         width: 7px;
         margin-left: 5px;
