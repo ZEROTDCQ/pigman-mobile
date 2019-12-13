@@ -26,8 +26,8 @@
 <script>
 export default {
   props: {
-    sort: {
-      type: Number
+    tabsList: {
+      type: Array
     },
     showFilter: {
       type: Boolean
@@ -38,7 +38,7 @@ export default {
       this.$emit("update:showFilter", true);
     },
     changeSort(sort) {
-      if(this.sort == sort){
+      if (this.sort == sort) {
         return;
       }
       if (sort != -1) {

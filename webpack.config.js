@@ -47,14 +47,15 @@ module.exports = {
 		// ActivityDetail: './src/views/ActivityDetail/activitydetail.js',		//活动详情
 		// ActivityApply: './src/views/ActivityApply/ActivityApply.js',		//活动报名
 		// Member: './src/views/Member/member.js',		//会员专区
-		Category: './src/views/Category/category.js',		//产品分类
-		Detail: './src/views/Detail/detail.js',		//商品详情
+		// Category: './src/views/Category/category.js',		//产品分类
+		// Detail: './src/views/Detail/detail.js',		//商品详情
 		// Job: './src/views/Job/job.js',		//人才招聘
 		// JobDetail: './src/views/JobDetail/jobdetail.js',		//职位详情
-		JobApply: './src/views/JobApply/JobApply.js', //职位申请
+		// JobApply: './src/views/JobApply/JobApply.js', //职位申请
 		// Report: './src/views/Report/report.js',		//廉政举报
 		// Cooperate: './src/views/Cooperate/Cooperate.js', //供货合作
 		// Supply: './src/views/Supply/Supply.js',		//供货合作申请单
+		Footer: './src/views/Footer/Footer.js',		//公共底部
 
 		// ----------------------------------- 测试页面 -----------------------------------
 		// test: './src/views/test/test.js',		//商品卡片测试页面
@@ -69,6 +70,7 @@ module.exports = {
 
 		// ----------------------------------- 饮食指南 -----------------------------------
 		// MenuHome: './src/views/Menu/Home/home.js',		//饮食指南首页
+		MenuSearch: './src/views/Menu/Search/search.js',		//饮食指南搜索页
 		// MenuDetail: './src/views/Menu/MenuDetail/MenuDetail.js',		//菜谱详情--@
 		// MenuNews: './src/views/Menu/News/News.js',		//饮食资讯--$
 		// Video: './src/views/Menu/Video/video.js',		//视频一级--@
@@ -170,7 +172,7 @@ module.exports = {
 			// 设置代理
 			// proxy all requests starting with /api to jsonplaceholder
 			'/api': {
-				target: 'http://192.168.0.102/', //真实请求的目标地址
+				target: 'http://192.168.0.101/', //真实请求的目标地址
 				changeOrigin: true,
 				pathRewrite: {
 					'^/api': '/api'
@@ -367,21 +369,21 @@ const pages = [
 	// 	filename: 'activityapply.html',
 	// 	chunks: ['reset', 'ActivityApply']
 	// },
-	{
-		template: './src/views/Category/category.html',
-		filename: 'category.html',
-		chunks: ['reset', 'Category']
-	},
+	// {
+	// 	template: './src/views/Category/category.html',
+	// 	filename: 'category.html',
+	// 	chunks: ['reset', 'Category']
+	// },
 	// {
 	// 	template: './src/views/Member/member.html',
 	// 	filename: 'member.html',
 	// 	chunks: ['reset', 'Member']
 	// },
-	{
-		template: './src/views/Detail/detail.html',
-		filename: 'detail.html',
-		chunks: ['reset', 'Detail']
-	},
+	// {
+	// 	template: './src/views/Detail/detail.html',
+	// 	filename: 'detail.html',
+	// 	chunks: ['reset', 'Detail']
+	// },
 	// {
 	// 	template: './src/views/Job/job.html',
 	// 	filename: 'job.html',
@@ -392,11 +394,11 @@ const pages = [
 	// 	filename: 'jobdetail.html',
 	// 	chunks: ['reset', 'JobDetail']
 	// },
-	{
-		template: './src/views/JobApply/jobapply.html',
-		filename: 'job_apply.html',
-		chunks: ['reset', 'JobApply']
-	},
+	// {
+	// 	template: './src/views/JobApply/jobapply.html',
+	// 	filename: 'job_apply.html',
+	// 	chunks: ['reset', 'JobApply']
+	// },
 	// {
 	// 	template: './src/views/JobApply/jobapply.html',
 	// 	filename: 'job_apply.html',
@@ -427,6 +429,11 @@ const pages = [
 	// 	filename: 'test.html',
 	// 	chunks: ['reset', 'test']
 	// },
+	{
+		template: './src/views/Footer/footer.html',
+		filename: 'footer.html',
+		chunks: ['reset', 'Footer']
+	},
 
 	// ----------------------------------- 营销活动 -----------------------------------
 	// {
@@ -456,6 +463,11 @@ const pages = [
 	// 	filename: 'menu_home.html',
 	// 	chunks: ['reset', 'MenuHome']
 	// },
+	{
+		template: './src/views/Menu/Search/search.html',
+		filename: 'menu_search.html',
+		chunks: ['reset', 'MenuSearch']
+	},
 	// {
 	// 	template: './src/views/Menu/MenuDetail/MenuDetail.html',
 	// 	filename: 'menu_detail.html',

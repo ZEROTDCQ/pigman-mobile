@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="head-btn-right">
-        <div class="btn-more" @click="moreHandler" v-show="!extend">
+        <div class="btn-more" @click="menuHandler" v-show="!extend">
           <div class="bm-line" v-for="i in 3" :key="i"></div>
         </div>
         <div class="btn-search" v-show="extend">
@@ -77,6 +77,43 @@
         </div>
       </transition>
     </div>
+    <div class="menu-wrap" v-if="slideMenu">
+      <transition-group
+        appear
+        appear-class="menu-in"
+        appear-active-class="menu-in-active"
+        tag="div"
+      >
+        <div
+          v-for="(item, index) in menuList"
+          :key="item.label + index"
+          :style="{transitionDelay: 50 * index + 'ms', overflow: 'hidden'}"
+        >
+          <div
+            role="button"
+            tabindex="0"
+            :class="['pig-cell', 'pig-cell--clickable', {active: menuActiveIndex == index}]"
+            @click="slideDownMenu(index)"
+          >
+            <div class="pig-cell__title">
+              <span>{{item.label}}</span>
+            </div>
+            <i
+              v-if="!item.href"
+              :class="['pig-icon', 'pig-icon-arrow', 'pig-cell__right-icon', 'iconfont', {'drop-arrow': menuActiveIndex == index}]"
+            >&#xe735;</i>
+          </div>
+          <transition name="sub-slide">
+            <div
+              v-show="!item.href && menuActiveIndex == index && item.subMenu.length > 0"
+              class="sub-menu"
+            >
+              <div v-for="(i, j) in item.subMenu" :key="i.label + j" class="sm-item">{{i.label}}</div>
+            </div>
+          </transition>
+        </div>
+      </transition-group>
+    </div>
   </div>
 </template>
 
@@ -84,6 +121,26 @@
 export default {
   data() {
     return {
+      slideMenu: false,
+      menuList: [
+        { label: "首页", href: "/", subMenu: [] },
+        { label: "商品分类", href: "/production", subMenu: [] },
+        { label: "会员专区", href: "", subMenu: [] },
+        { label: "饮食指南", href: "", subMenu: [] },
+        { label: "活动专区", href: "", subMenu: [] },
+        { label: "公司介绍", href: "", subMenu: [] },
+        { label: "热门资讯", href: "", subMenu: [] },
+        {
+          label: "联系我们",
+          href: "",
+          subMenu: [
+            { label: "人才招聘", href: "" },
+            { label: "供货合作", href: "" },
+            { label: "廉政举报", href: "" }
+          ]
+        }
+      ],
+      menuActiveIndex: -1,
       extend: false,
       keyword: "",
       searchHistory: JSON.parse(
@@ -119,6 +176,20 @@ export default {
       });
   },
   methods: {
+    menuHandler() {
+      this.slideMenu = !this.slideMenu;
+    },
+    slideDownMenu(index) {
+      if (index == this.menuActiveIndex) {
+        this.menuActiveIndex = -1;
+      } else {
+        this.menuActiveIndex = index;
+      }
+      // 判断是否下拉菜单，还是跳转链接
+      if (this.menuList[index].href) {
+        location.href = this.menuList[index].href;
+      }
+    },
     inputClick() {
       this.extend = true;
     },
@@ -188,15 +259,111 @@ export default {
     clearInput() {
       this.keyword = "";
       this.$refs.input.focus();
-    },
-    moreHandler() {
-      console.log(111);
     }
   }
 };
 </script>
 
 
+<style lang="scss">
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+.menu-wrap {
+  position: fixed;
+  z-index: 1000;
+  top: 44px;
+  bottom: 0;
+  width: 100%;
+  background: #f5f5f5;
+  overflow: hidden;
+  overflow-y: auto;
+  .pig-cell {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    overflow: hidden;
+    color: #323233;
+    font-size: 14px;
+    line-height: 24px;
+    background-color: #fff;
+    outline: none;
+    &:not(:last-child):after {
+      content: "";
+      position: absolute;
+      left: 10px;
+      right: 0;
+      bottom: 0;
+      height: 0;
+      border-top: 1px solid #eee;
+      transform-origin: center bottom;
+      transform: scaleY(0.5);
+    }
+  }
+  .pig-cell--clickable {
+    &:active {
+      background-color: #f2f3f5;
+    }
+  }
+  .pig-cell__title,
+  .pig-cell__value {
+    flex: 1;
+  }
+  .pig-cell__right-icon {
+    margin-left: 5px;
+    min-width: 1em;
+    height: 24px;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+    color: #969799;
+    &.drop-arrow {
+      transform: rotate(90deg);
+      transition: transform 0.24s ease-in-out;
+    }
+  }
+  .sub-menu {
+    position: relative;
+    z-index: 0;
+    background: #f2f3f5;
+  }
+  .sm-item {
+    position: relative;
+    padding: 0 10px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 14px;
+    &:not(:last-child):after {
+      content: "";
+      position: absolute;
+      left: 10px;
+      right: 0;
+      bottom: 0;
+      height: 0;
+      border-top: 1px solid #eee;
+      transform-origin: center bottom;
+      transform: scaleY(0.5);
+    }
+  }
+}
+.menu-in {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+.menu-in-active {
+  transition: all 0.24s ease-in-out;
+}
+.sub-slide-enter {
+  transform: translateY(-100%);
+}
+.sub-slide-enter-active {
+  transition: all 0.24s ease-in-out;
+}
+</style>
 
 <style lang="scss">
 .header-wrap {
