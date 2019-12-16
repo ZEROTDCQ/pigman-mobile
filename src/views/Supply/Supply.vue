@@ -1,5 +1,5 @@
 <template>
-  <div class="supply">
+  <div class="supply" id="app">
     <div class="page-head">
       <div class="ph-btn btn-back fl">
         <a href="javascript:;" @click="backAction">

@@ -133,6 +133,7 @@ news.prototype = {
       let data = res.data.data;
 
       this.RenderingContent(data);
+      this.RenderingRecommend(data.son);
 
       this.removeLoadAnimation().hide(500);
     }).catch(res => {
@@ -189,6 +190,7 @@ news.prototype = {
                   </div>
                 </div>`
     }
+    console.log(78);
 
     this.oRecommend.html(html);
   },

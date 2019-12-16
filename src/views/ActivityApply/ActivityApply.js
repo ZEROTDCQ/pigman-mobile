@@ -9,7 +9,7 @@ Vue.prototype.$instance = instance;
 import calc from '@/utils/Calculate.js'
 Vue.prototype.$calc = calc;
 
-Vue.prototype.baseUrl = 'http://192.168.0.106/'
+Vue.prototype.baseUrl = 'http://192.168.0.102/'
 
 new Vue({
   render: h => h(App)

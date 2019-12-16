@@ -2,24 +2,28 @@
   <!-- 专属权益 -->
   <div class="member-benefits">
     <section class="image">
-      <div class="img">
-        <img src="@/assets/img/page/member/zs.png" alt />
-      </div>
-      <div class="img">
-        <img src="@/assets/img/page/member/hb.png" alt />
-      </div>
-      <div class="img">
-        <img src="@/assets/img/page/member/jf.png" alt />
-      </div>
-      <div class="img">
-        <img src="@/assets/img/page/member/zc.png" alt />
-      </div>
+      <transition-group appear appear-class="appear" appear-active-class="appear-active">
+          <div v-for="(item,inx) in image" :key="inx" class="img" :style="{transitionDelay: inx * 100 + 'ms'}">
+            <img :src="item" alt />
+          </div> 
+      </transition-group>
     </section>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      image: [
+        require("@/assets/img/page/member/zs.png"),
+        require("@/assets/img/page/member/hb.png"),
+        require("@/assets/img/page/member/jf.png"),
+        require("@/assets/img/page/member/zc.png")
+      ]
+    };
+  }
+};
 </script>
 
 <style lang="scss">
@@ -33,7 +37,7 @@ export default {};
       height: 140px;
       margin-bottom: 6px;
       padding: 0 10px;
-      img{
+      img {
         width: 100%;
         height: 100%;
       }

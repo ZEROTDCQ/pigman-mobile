@@ -182,6 +182,7 @@ export default {
     getJson(data) {
       let attr1 = [];
       let attr2 = [];
+      console.log(data);
 
       if (data.used) {
         let used = data.used; //主料

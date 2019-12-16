@@ -1,8 +1,8 @@
 <template>
-  <!-- 会员专享 -->
+  <!-- 专属商品 -->
   <div class="member-exclusive">
     <div class="me-list activity-list" v-if="memData">
-      <MemberExclusiveItem v-for="(item,index) in memData.son" :key="index" :data="item" />
+      <MemberExclusiveItem v-for="(item,index) in memData.son" :key="index" :data="item" :index="index"/>
     </div>
   </div>
 </template>

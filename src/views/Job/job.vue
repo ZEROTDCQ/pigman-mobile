@@ -156,6 +156,7 @@ export default {
     text-align: justify;
     color: #666;
     p {
+      height: 100%;
       &::after {
         content: "";
         display: block;

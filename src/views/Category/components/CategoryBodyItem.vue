@@ -3,18 +3,19 @@
   <div class="pro-item">
     <div class="pi-feature">
       <img
-        :src="baseUrl + '/uploads/admin/images/20191129/a6bde821c173e197ee5a52c993ffbd7b.jpg'"
+        :src="baseUrl + data.picture"
         alt
       />
     </div>
     <div class="pi-text">
-      <p class="pt-tit">【买5斤送5斤】攀枝花凯特 新鲜大芒果新鲜大芒果新鲜大芒果新鲜大芒果</p>
+      <p class="pt-tit">{{data.name}}</p>
       <div>
         <div class="tags">
-          <span>满30返2</span>
+          <span v-for="(item,i) in data.overview" :key="i">{{item}}</span>
         </div>
         <div class="price">
-          <em>¥35.5</em>
+          <em>¥{{data.activity_price}}</em>
+          <span class="rs">有{{data.purchased}}人买过</span>
           <a href="javascript:;" class="btn-buy">
             马上抢
             <span>></span>
@@ -26,7 +27,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    data: Object
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -45,8 +50,8 @@ export default {};
     border-bottom: 1px solid #ccc;
     transform: scaleY(0.5);
   }
-  &:last-of-type{
-    &::after{
+  &:last-of-type {
+    &::after {
       content: none;
     }
   }
@@ -69,6 +74,7 @@ export default {};
   }
   .pi-text {
     display: flex;
+    flex: 1;
     flex-direction: column;
     justify-content: space-between;
     .pt-tit {
@@ -92,6 +98,7 @@ export default {};
       }
     }
     .price {
+      width: 100%;
       height: 16px;
       line-height: 16px;
       color: #f26161;
@@ -99,6 +106,12 @@ export default {};
         float: left;
         font-style: normal;
         font-weight: bold;
+        font-size: 14px;
+      }
+      .rs{
+        float: left;
+        margin-left: 10px;
+        color: #999;
         font-size: 12px;
       }
     }

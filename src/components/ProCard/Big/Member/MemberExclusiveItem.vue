@@ -1,35 +1,40 @@
 <template>
   <!-- 会员专属商品 -->
-  <div class="pro-item card-exclusive-row">
-    <div class="pro-feature">
-      <a :href="'details?id='+data.id">
-        <img :src="baseUrl + data.picture" alt />
-      </a>
-    </div>
-    <div class="pro-info-wrap">
-      <p class="pro-name">
-        <a :href="'details?id='+data.id">{{data.cate_name}}</a>
-      </p>
-      <div>
-        <div class="tags">
-          <span v-for="(item,index) in data.overview" :key="index">{{item}}</span>
-        </div>
-        <p class="price-count">
-          <span>非会员价：¥{{data.original_price}}</span>
-          <span>已有{{data.purchased}}人购买</span>
+  <transition  appear appear-class="appear" appear-active-class="appear-active">
+    <div class="pro-item card-exclusive-row" :style="{transitionDelay: index * 100 + 'ms'}">
+      <div class="pro-feature">
+        <a :href="'details?id='+data.id">
+          <img :src="baseUrl + data.picture" alt />
+        </a>
+      </div>
+      <div class="pro-info-wrap">
+        <p class="pro-name">
+          <a :href="'details?id='+data.id">{{data.cate_name}}</a>
         </p>
-        <div class="vip-price">
-          <em>¥{{data.activity_price}}</em>
-          <a :href="'details?id='+data.id" :class="['btn-buy',statusClass] ">{{btnName}}</a>
+        <div>
+          <div class="tags">
+            <span v-for="(item,index) in data.overview" :key="index">{{item}}</span>
+          </div>
+          <p class="price-count">
+            <span>非会员价：¥{{data.original_price}}</span>
+            <span>已有{{data.purchased}}人购买</span>
+          </p>
+          <div class="vip-price">
+            <em>¥{{data.activity_price}}</em>
+            <a :href="'details?id='+data.id" :class="['btn-buy',statusClass] ">{{btnName}}</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
 export default {
   props: {
+    index: {
+      type: Number
+    },
     data: {
       type: Object
     }

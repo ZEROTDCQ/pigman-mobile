@@ -1,7 +1,8 @@
 <template>
+  <!-- 积分换购 -->
   <div class="activity-recommend">
     <div class="ar-list activity-list" v-if="memData">
-      <MemberScoreChangeItem v-for="(item,index) in memData.son" :key="index" :data="item" />
+      <MemberScoreChangeItem v-for="(item,index) in memData.son" :key="index" :data="item" :index="index"/>
     </div>
   </div>
 </template>

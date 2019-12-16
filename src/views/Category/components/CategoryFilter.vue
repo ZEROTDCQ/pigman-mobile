@@ -1,11 +1,16 @@
 <template>
   <!-- 产品分类顶部筛选 -->
   <div class="category-filter">
-    <div class="cf-swiper swiper-container" ref="swiper" v-if="filterData.length > 0">
+    <div class="cf-swiper swiper-container" ref="swiper" v-if="topData">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" v-for="(item, index) in filterData" :key="index">
-          <div class="ss-icon"></div>
-          <p class="ss-name">{{item.label}}</p>
+        <div
+          class="swiper-slide"
+          v-for="(item, index) in topData"
+          :key="index"
+          @click="category(item.id,$event)"
+        >
+          <div :class="['ss-icon',item.class]"></div>
+          <p class="ss-name">{{item.title}}</p>
         </div>
       </div>
       <!-- Add Pagination -->
@@ -18,29 +23,42 @@
 export default {
   data() {
     return {
-      swiper: null,
-      filterData: [
-        { label: "热销爆品" },
-        { label: "会员特价" },
-        { label: "时令水果" },
-        { label: "肉禽蛋类" },
-        { label: "海鲜水产" },
-        { label: "热销爆品" },
-        { label: "会员特价" },
-        { label: "时令水果" },
-        { label: "肉禽蛋类" }
-      ]
+      topData: null,
+
+      swiper: null
     };
   },
-  mounted() {
+  beforeMount() {
+    this.getTopData();
+  },
+  mounted() {},
+  updated() {
+    console.log("更新");
+    $(".swiper-slide")
+      .first()
+      .addClass("active");
     this.swiper = new Swiper(this.$refs.swiper, {
       slidesPerView: "auto",
-      spaceBetween: 10,
+      spaceBetween: 10
       // pagination: {
       //   el: ".swiper-pagination",
       //   clickable: true
       // }
     });
+  },
+  methods: {
+    getTopData() {
+      this.$instance.post("api/Mobileapi/goodsTop").then(res => {
+        let data = res.data.data;
+        this.topData = data;
+        this.$emit("category", data[0].id);
+      });
+    },
+    category(twoid, event) {
+      $(".swiper-slide").removeClass("active");
+      $(event.path[1]).addClass("active");
+      this.$emit("category", twoid);
+    }
   }
 };
 </script>
@@ -49,13 +67,13 @@ export default {
 .category-filter {
   height: 88px;
   background: #fff;
-  .cf-swiper{
+  .cf-swiper {
     position: relative;
     padding: 10px;
     height: 100%;
     box-sizing: border-box;
-    &::after{
-      content: '';
+    &::after {
+      content: "";
       position: absolute;
       left: 0;
       bottom: 0;
@@ -72,18 +90,73 @@ export default {
     justify-content: center;
     align-items: center;
     text-align: center;
+    transition: all 0.3s;
     .ss-icon {
       width: 40px;
       height: 40px;
       border-radius: 50%;
       margin-bottom: 10px;
-      background: #ccc;
+      background-color: #fff;
+      box-shadow: 0px 0px 6px 0px rgba(36, 36, 36, 0.2);
+      background-size: 70%;
+      background-repeat: no-repeat;
+      background-position: center;
     }
     .ss-name {
       font-size: 12px;
       line-height: 1;
       color: #333;
     }
+  }
+
+  .swiper-slide.active {
+    transform: scale(1.1);
+    .ss-name {
+      color: $primarycolor;
+    }
+  }
+}
+
+// 头部图标样式
+.swiper-slide {
+  .Dairy {
+    background-image: url("~@/assets/img/page/category/icon_xg.png");
+  }
+  .Seafood {
+    background-image: url("~@/assets/img/page/category/icon_hx.png");
+  }
+  .Vegetables {
+    background-image: url("~@/assets/img/page/category/icon_sc.png");
+  }
+  .CookedFood {
+    background-image: url("~@/assets/img/page/category/icon_lw.png");
+  }
+  .BakePastry {
+    background-image: url("~@/assets/img/page/category/icon_gd.png");
+  }
+  .Flowers {
+    background-image: url("~@/assets/img/page/category/icon_lz.png");
+  }
+  .Convenient {
+    background-image: url("~@/assets/img/page/category/icon_ss.png");
+  }
+  .Fruits {
+    background-image: url("~@/assets/img/page/category/icon_sg.png");
+  }
+  .flavor {
+    background-image: url("~@/assets/img/page/category/icon_ly.png");
+  }
+  .Snacks {
+    background-image: url("~@/assets/img/page/category/icon_ls.png");
+  }
+  .Beverage {
+    background-image: url("~@/assets/img/page/category/icon_yl.png");
+  }
+  .Eggs {
+    background-image: url("~@/assets/img/page/category/icon_lw.png");
+  }
+  .Clean {
+    background-image: url("~@/assets/img/page/category/icon_jj.png");
   }
 }
 </style>

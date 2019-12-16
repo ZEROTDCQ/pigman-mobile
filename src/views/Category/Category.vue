@@ -1,7 +1,7 @@
 <template>
-  <div class="category">
-    <CategoryFilter />
-    <CategoryBody />
+  <div class="category" v-show="showr">
+    <CategoryFilter @category="categoryr" />
+    <CategoryBody v-if="twoid" :twoidr="twoid" />
   </div>
 </template>
 
@@ -14,6 +14,20 @@ export default {
   components: {
     CategoryFilter,
     CategoryBody
+  },
+  data() {
+    return {
+      showr: true,
+
+      twoid: null
+    };
+  },
+  mounted() {},
+  methods: {
+    categoryr(son) {
+      this.twoid = son;
+      console.log("一级", this.twoid);
+    }
   }
 };
 </script>

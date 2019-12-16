@@ -2,9 +2,9 @@
   <div id="app">
     <MemberBanner />
     <MemberTabs @tabsChange="tabsFn" />
-    <keep-alive>
+    <!-- <keep-alive> -->
       <router-view />
-    </keep-alive>
+    <!-- </keep-alive> -->
   </div>
 </template>
 
@@ -32,5 +32,13 @@ export default {
 <style lang="scss">
 body {
   background: #f5f5f5;
+}
+
+.appear, .appear-subject {
+  transform: scale(0.8);
+  opacity: 0;
+}
+.appear-active, .appear-subject-active {
+  transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
 }
 </style>

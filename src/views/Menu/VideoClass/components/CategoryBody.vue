@@ -175,7 +175,7 @@ export default {
 
       this.$instance
         .post("api/Mobileapi/videoCateory", {
-          two_id: this.twoid,
+          // two_id: this.twoid,
           three_id: this.threeid,
           page: page,
           limit: limit

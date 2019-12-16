@@ -1,7 +1,8 @@
 <template>
+  <!-- 会员活动 -->
   <div class="activity-recommend">
     <div class="ar-list activity-list" v-if="memData">
-      <ActivityItem v-for="(item,index) in memData" :key="index" :data="item" />
+      <ActivityItem v-for="(item,index) in memData" :key="index" :data="item" :index="index"/>
     </div>
   </div>
 </template>

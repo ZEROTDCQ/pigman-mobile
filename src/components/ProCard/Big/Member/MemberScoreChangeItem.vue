@@ -1,29 +1,34 @@
 <template>
   <!-- 会员专享商品 -->
-  <div class="pro-item card-score-row">
-    <div class="pro-feature">
-      <a :href="'details?id='+data.id">
-        <img :src="baseUrl + data.picture" alt />
-      </a>
-    </div>
-    <div class="pro-info-wrap">
-      <p class="pro-name">
-        <a :href="'details?id='+data.id" title>{{data.cate_name}}</a>
-      </p>
-      <div>
-        <p class="have-exchange">已兑{{data.purchased}}件</p>
-        <div class="pro-price">
-          <em>{{data.integral}}积分</em>
-          <a :href="'details?id='+data.id" :class="['btn-buy',statusClass] ">{{btnName}}</a>
+  <transition appear appear-class="appear" appear-active-class="appear-active">
+    <div class="pro-item card-score-row"  :style="{transitionDelay: index * 100 + 'ms'}">
+      <div class="pro-feature">
+        <a :href="'details?id='+data.id">
+          <img :src="baseUrl + data.picture" alt />
+        </a>
+      </div>
+      <div class="pro-info-wrap">
+        <p class="pro-name">
+          <a :href="'details?id='+data.id" title>{{data.cate_name}}</a>
+        </p>
+        <div>
+          <p class="have-exchange">已兑{{data.purchased}}件</p>
+          <div class="pro-price">
+            <em>{{data.integral}}积分</em>
+            <a :href="'details?id='+data.id" :class="['btn-buy',statusClass] ">{{btnName}}</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
 export default {
   props: {
+    index: {
+      type: Number
+    },
     data: {
       type: Object
     }

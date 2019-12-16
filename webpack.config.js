@@ -420,11 +420,6 @@ const pages = [
 	// 	chunks: ['reset', 'Supply']
 	// },
 	// {
-	// 	template: './src/views/Cooperate/cooperate.html',
-	// 	filename: 'cooperate.html',
-	// 	chunks: ['reset', 'Cooperate']
-	// },
-	// {
 	// 	template: './src/views/test/test.html',
 	// 	filename: 'test.html',
 	// 	chunks: ['reset', 'test']

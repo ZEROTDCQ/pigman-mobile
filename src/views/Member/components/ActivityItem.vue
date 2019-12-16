@@ -1,23 +1,28 @@
 <template>
   <!-- 推荐、会员活动项组件 -->
-  <div class="activity-item style1">
-    <div class="ai-feature">
-      <img :src="baseUrl + data.picture" alt />
-    </div>
-    <div class="ai-text">
-      <h3 class="at-title">{{data.title}}</h3>
-      <p class="at-abstract">{{data.sketch}}</p>
-      <div class="at-ticket-info">
-        <em class="ticket-price">¥{{data.price}}</em>
-        <span class="have-booked">{{data.number}}人已报名</span>
+  <transition appear appear-class="appear" appear-active-class="appear-active">
+    <div class="activity-item style1"  :style="{transitionDelay: index * 100 + 'ms'}">
+      <div class="ai-feature">
+        <img :src="baseUrl + data.picture" alt />
+      </div>
+      <div class="ai-text">
+        <h3 class="at-title">{{data.title}}</h3>
+        <p class="at-abstract">{{data.sketch}}</p>
+        <div class="at-ticket-info">
+          <em class="ticket-price">¥{{data.price}}</em>
+          <span class="have-booked">{{data.number}}人已报名</span>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
 export default {
   props: {
+    index: {
+      type: Number
+    },
     data: {
       type: Object
     }
@@ -37,7 +42,7 @@ export default {
     width: 140px;
     height: 140px;
     background: #ccc;
-    img{
+    img {
       width: 100%;
       height: 100%;
     }

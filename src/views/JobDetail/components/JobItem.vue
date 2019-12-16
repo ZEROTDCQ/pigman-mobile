@@ -46,6 +46,8 @@ export default {};
     justify-content: space-between;
     align-items: center;
     .job-title {
+      font-size: 16px;
+      height: 100%;
       color: #333;
     }
     .wages {
