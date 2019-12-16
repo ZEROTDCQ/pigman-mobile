@@ -2,9 +2,9 @@
   <!-- 搜索页筛选组件 -->
   <div class="search-filter-wrap">
     <div class="layer-sub-title hide" id="filterSelBlock" v-if="withSubTit">
-      <strong>已选{{filterData[allIndex].name}}：</strong>
-      <span id="filterSelTips" class="words_10">304不锈钢、316不锈钢、400系列不锈钢</span>
-      <span>等3个</span>
+      <strong>选择{{filterData[allIndex].name}}：</strong>
+      <span id="filterSelTips" class="words_10"></span>
+      <span></span>
     </div>
     <div class="layer-con" v-if="!withSubTit">
       <ul class="mod_list" v-for="(item, index) in filterData" :key="item.name + index">
@@ -162,7 +162,7 @@ export default {
 }
 .search-filter-wrap {
   position: fixed;
-  width: 85%;
+  width: 320px;
   top: 0;
   bottom: 0;
   left: 100%;
@@ -217,9 +217,9 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
     bottom: 0;
     z-index: 1;
+    width: 100%;
     padding-bottom: 50px;
     &.with_sub_title {
       top: 46px;
@@ -334,8 +334,10 @@ export default {
       transform: scaleY(0.5);
     }
     .filterlayer_price_area {
+      width: 100%;
       display: flex;
       justify-content: space-between;
+      overflow: hidden;
     }
     .filterlayer_price_area_input {
       width: 132.5px;

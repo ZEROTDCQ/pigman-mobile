@@ -27,10 +27,7 @@
         </div>
       </div>
       <div class="head-btn-right">
-        <div class="btn-more" @click="moreHandler" v-show="!extend">
-          <div class="bm-line" v-for="i in 3" :key="i"></div>
-        </div>
-        <div class="btn-search">
+        <div class="btn-search" @click="searchBtnAction">
           <a href="javascript:;">搜索</a>
         </div>
       </div>
@@ -63,13 +60,21 @@
         <li
           v-for="(item, index) in tempDropDownList.length > 0 ? tempDropDownList : dropDownList"
           :key="item + index"
-          @click="searchAction(item.name)"
+          @click="searchAction(item.title)"
         >
-          <a href="javascript:;">{{item.name}}</a>
+          <a href="javascript:;">
+            <span class="pro-name">{{item.title}}</span>
+            <span
+              class="pro-btn"
+              v-for="(i, j) in item.son"
+              :key="j"
+              @click.stop="proBtnClick(i.title + item.title)"
+            >{{i.title}}</span>
+          </a>
         </li>
       </ul>
       <div class="clear-toast clearToast" ref="toast">
-        <div class="ground-toast">
+        <div :class="['ground-toast']">
           <div class="toast-content">确定要清空吗?</div>
           <div class="toast-btn">
             <a class="no" id="msClearCancel" @click="clearToastHandle(0)">取消</a>
@@ -113,14 +118,14 @@ export default {
   methods: {
     inputClick() {
       this.extend = true;
-      this.$emit('update:showResult', false);
+      this.$emit("update:showResult", false);
       this.$emit("toggleSearchToolBar", false);
     },
     searchBack() {
       this.keyword = this.tempKeyword;
       this.tempDropDownList = [];
       this.extend = false;
-      this.$emit('update:showResult', true);
+      this.$emit("update:showResult", true);
       this.$emit("toggleSearchToolBar", true);
     },
     clearInput() {
@@ -136,8 +141,9 @@ export default {
         this.$refs.toast.style.display = "none";
       } else {
         // 清空历史搜索记录
-        this.rencentSearch = [];
+        this.searchHistory = [];
         // console.log(this.rencentSearch);
+        localStorage.setItem("search_history", JSON.stringify([]));
         this.$refs.toast.style.display = "none";
       }
     },
@@ -157,6 +163,9 @@ export default {
       if (e.keyCode == 13 || e.which == 13) {
         this.searchAction(this.keyword);
       }
+    },
+    searchBtnAction() {
+      this.searchAction(this.keyword);
     },
     searchAction(kw) {
       // 点击搜索事件，设置localStorage，记录历史搜索记录
@@ -180,6 +189,9 @@ export default {
       localStorage.setItem("search_history", JSON.stringify(old));
       location.href = `home_search.html?keyword=${kw}`;
     },
+    proBtnClick(keywrod) {
+      this.searchAction(keywrod);
+    },
     getRelatedKeyWord(time, mode) {
       // 获取当前关键词相关的关键词
       if (!this.keyword) {
@@ -193,11 +205,17 @@ export default {
           // console.log(res);
           if (time >= this.time) {
             this.time = time;
+            var data = res.data.data.slice(0, 10).map(item => {
+              return {
+                title: item.title,
+                son: item.son.slice(0, 3)
+              };
+            });
             // 截取结果前10条
             if (mode == "init") {
-              this.dropDownList = res.data.data.slice(0, 10);
+              this.dropDownList = data;
             } else {
-              this.tempDropDownList = res.data.data.slice(0, 10);
+              this.tempDropDownList = data;
             }
           } else {
             console.log("我不是最后的搜索结果");
@@ -206,9 +224,6 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    },
-    moreHandler() {
-      console.log(111);
     }
   },
   created() {
@@ -397,11 +412,35 @@ export default {
         transform: scaleY(0.5);
       }
       a {
-        display: block;
+        display: flex;
         height: 42px;
-        line-height: 42px;
         font-size: 13px;
         color: #333;
+        overflow: hidden;
+        align-items: center;
+        .pro-name {
+          display: block;
+          color: #232326;
+          font-size: 13px;
+          padding-top: 1px;
+          padding-bottom: 1px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          flex: 1;
+        }
+        .pro-btn {
+          color: #686868;
+          font-size: 12px;
+          display: block;
+          height: 23px;
+          padding-left: 10px;
+          padding-right: 10px;
+          background-color: #f0f2f5;
+          border-radius: 3px;
+          line-height: 23px;
+          margin-left: 10px;
+        }
       }
     }
   }

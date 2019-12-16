@@ -2,25 +2,29 @@
   <!-- 主站搜索页 -->
   <div class="search">
     <SearchHeader @toggleSearchToolBar="toggleSearchToolBar" :showResult.sync="showResult" />
-    <SearchToolBar :class="{floatTop: floatTop}" :tabs-list="tabsList" :tabs-index.sync="tabsIndex" @changeTab="changeTab" />
-    <div class="tabs-content">
+    <SearchToolBar
+      v-show="showResult"
+      :class="{floatTop: isFloatTop}"
+      :tabs-list="tabsList"
+      :tabs-index.sync="tabsIndex"
+      @changeTab="changeTab"
+    />
+    <div class="tabs-content" v-show="showResult">
       <div class="tabs_track" :style="{transform: 'translateX(' + -tabsIndex * 100 + '%)'}">
         <div :class="['tab__pane-wrapper', {'tab__pane-wrapper--inactive': tabsIndex != 0}]">
-          <div class="tab__pane">
-            <h1 v-for="i in 30" :key="i">菜谱pane</h1>
-            <MenuItem v-for="(item, index) in paneData1" :key="index" />
+          <div class="tab__pane menu__pane">
+            <MenuItem v-for="(item, index) in paneData1" :data="item" :key="index" />
           </div>
         </div>
         <div :class="['tab__pane-wrapper', {'tab__pane-wrapper--inactive': tabsIndex != 1}]">
-          <div class="tab__pane">
-            <h1 v-for="i in 30" :key="i">视频pane</h1>
-            <VideoItem v-for="(item, index) in paneData2" :key="index" />
+          <div class="tab__pane video__pane">
+            <VideoItem v-for="(item, index) in paneData2" :data="item" :key="index" />
           </div>
         </div>
         <div :class="['tab__pane-wrapper', {'tab__pane-wrapper--inactive': tabsIndex != 2}]">
-          <div class="tab__pane">
-            资讯pane
-            <NewsItem v-for="(item, index) in paneData3" :key="index" />
+          <div class="tab__pane news__pane">
+            <!-- 资讯pane -->
+            <NewsItem v-for="(item, index) in paneData3" :data="item" :key="index" />
           </div>
         </div>
       </div>
@@ -50,7 +54,8 @@ export default {
   },
   data() {
     return {
-      floatTop: false,
+      isFloatTop: false,
+      floatTop: 0,
       keyword: "",
       tabsList: [
         { label: "菜谱", id: 0 },
@@ -82,12 +87,12 @@ export default {
   },
   mounted() {
     // 触发tab吸顶悬浮的高度
-    var floatTop = $(".tabs-wrap").offset().top;
+    this.floatTop = $(".tabs-wrap").offset().top;
     $(document).on("scroll", () => {
-      if ($(document).scrollTop() >= floatTop) {
-        this.floatTop = true;
+      if ($(document).scrollTop() >= this.floatTop) {
+        this.isFloatTop = true;
       } else {
-        this.floatTop = false;
+        this.isFloatTop = false;
       }
     });
   },
@@ -95,10 +100,13 @@ export default {
     changeTab(index) {
       console.log(index);
       this.tabsIndex = index;
-      this.$nextTick(()=>{
-        $(document).scrollTop($(".tabs-wrap").offset().top);
-        $('.tabs-wrap').parent().scrollTop($(".tabs-wrap").offset().top);
-      })
+      this.$nextTick(() => {
+        $(document).scrollTop(this.floatTop);
+      });
+
+      // 请求新数据
+      this.page = 1;
+      this.getData();
     },
     toggleSearchToolBar(toogle) {
       this.showSearchToolBar = toogle;
@@ -181,5 +189,24 @@ body {
 .tab__pane-wrapper--inactive {
   height: 0;
   overflow: visible;
+}
+.tab__pane {
+  padding: 10px;
+}
+.menu__pane,
+.video__pane,
+.news__pane {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .menu-item,
+  .video-item,
+  .news-item {
+    margin-bottom: 10px;
+  }
+  .news-item {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
 }
 </style>

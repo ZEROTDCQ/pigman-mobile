@@ -178,7 +178,7 @@ export default {
         }
       }
       localStorage.setItem("search_history", JSON.stringify(old));
-      location.href = `home_search.html?keyword=${kw}`;
+      location.href = `menu_search.html?keyword=${kw}`;
     },
     getRelatedKeyWord(time, mode) {
       // 获取当前关键词相关的关键词
@@ -347,7 +347,7 @@ export default {
 }
 .content-wrap {
   position: relative;
-  z-index: 1;
+  z-index: 11;
   background: #fff;
   overflow: hidden;
   .cw-box {

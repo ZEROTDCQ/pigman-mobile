@@ -1,10 +1,19 @@
 <template >
   <div id="menuDetail" class="menu-detail" v-if="detailData" v-show="showr">
     <div class="menu-feature">
+      <div class="img-box" v-show="videoImg" @click="playVideo">
+        <img :src="baseUrl + detailData.picture" alt />
+        <i class="play-video" v-if="detailData.video"></i>
+      </div>
+      <div class="video-box" v-if="detailData.video">
+        <video controls id="video" ref="video">
+          <source :src="baseUrl + detailData.video" type="video/mp4" />
+        </video>
+      </div>
       <!-- if -->
-      <img v-if="!ifvideo" :src="baseUrl + detailData.picture" alt />
+      <!-- <img v-if="!ifvideo" :src="baseUrl + detailData.picture" alt /> -->
       <!-- else-if -->
-      <div v-else-if="ifvideo" id="video-box">
+      <!-- <div v-else-if="ifvideo" id="video-box">
         <video controls id="video">
           <source :src="baseUrl + detailData.video" type="video/mp4" />
         </video>
@@ -12,7 +21,7 @@
           <img :src="baseUrl + detailData.picture" alt />
           <i class="play-video" @click="playVideo"></i>
         </div>
-      </div>
+      </div>-->
     </div>
     <div class="intro">
       <h3 class="menu-tit">{{detailData.title}}</h3>
@@ -47,7 +56,7 @@
         <!-- <div class="ingred-open" @click="open" v-show="openShow">
           展开全部
           <i>&gt;</i>
-        </div> -->
+        </div>-->
       </div>
     </div>
 
@@ -86,12 +95,12 @@
         <div class="mh-title">为你推荐</div>
         <a href="javascript:;" :class="['mh-link', {loading: loading}]" @click="changeOthers">
           换一换
-          <i class="iconfont icon-change">&#xe635;</i>``
+          <i class="iconfont icon-change">&#xe635;</i>
         </a>
       </div>
       <div class="ma-body">
         <div class="tuijian" v-if="recommendData">
-          <MenuItem v-for="(item,index) in recommendData" :key="index" :data="item" />
+          <MenuItem v-for="(item,index) in recommendData" :key="item.title + index" :data="item" />
         </div>
       </div>
     </div>
@@ -115,7 +124,7 @@ export default {
 
       detailData: null, //数据
       materialsData: null, //用料
-      recommendData: null //底部推荐
+      recommendData: [] //底部推荐
     };
   },
   computed: {
@@ -132,12 +141,12 @@ export default {
   },
   beforeMount() {
     this.getData();
-    this.getAnotherChange();
+    this.changeOthers();
   },
   methods: {
     getData() {
       let id = this.getUrlParam("id");
-      this.$instance.post("api/Mobileapi/menuDetail", { id: id }).then(res => {
+      this.$instance.post("/api/Mobileapi/menuDetail", { id: id }).then(res => {
         let data = res.data.data;
         this.detailData = data.top;
         this.materialsData = this.getJson(data.top);
@@ -151,23 +160,29 @@ export default {
 
     // 推荐换一换获取数据
     getAnotherChange() {
-      this.$instance.post("api/Mobileapi/anotherChange").then(res => {
-        let data = res.data.data;
-        this.recommendData = data;
-      });
+      this.recommendData = [];
+      this.loading = true;
+      this.$instance
+        .post("/api/Mobileapi/anotherChange")
+        .then(res => {
+          let data = res.data.data;
+          this.recommendData = data;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
 
     playVideo() {
-      $("#video")[0].play();
-      this.videoImg = false;
+      if (this.detailData.video) {
+        this.$refs.video.play();
+        this.videoImg = false;
+      }
     },
-
     changeOthers() {
-      this.loading = true;
-      this.getAnotherChange();
-      setTimeout(() => {
-        this.loading = false;
-      }, 1000);
+      if (!this.loading) {
+        this.getAnotherChange();
+      }
     },
 
     /**返回地址栏指定参数 */
@@ -332,9 +347,6 @@ body {
   }
 }
 .food-list {
-  // height: 150px;
-  // overflow: hidden;
-  // transition: all 0.3s;
   li {
     position: relative;
     padding: 0 10px;
@@ -358,7 +370,6 @@ body {
     .fl-name {
       flex: 4;
       color: $primarycolor;
-      // color: #666;
       letter-spacing: 0.1em;
     }
     .fl-count {
@@ -382,19 +393,17 @@ body {
       height: 100%;
       line-height: 20px;
       text-align: justify;
-
       span {
         display: content;
         display: inline-block;
         margin-bottom: 4px;
         width: 18px;
         height: 18px;
+        line-height: 18px;
         font-size: 14px;
-        line-height: 20px;
         text-align: center;
         color: $primarycolor;
         position: relative;
-        // transform: translateY(-1dpx);
         font-weight: bold;
         &::after {
           content: "";
@@ -424,6 +433,7 @@ body {
 }
 
 /deep/.tuijian {
+  overflow: hidden;
   .menu-item {
     margin-bottom: 6px;
     &:last-child {
@@ -432,34 +442,29 @@ body {
   }
 }
 
-#video-box {
+.menu-feature {
   position: relative;
   width: 100%;
   height: 260px;
-  overflow: hidden;
   background-color: rgb(25, 29, 29);
-
-  video {
+  .img-box,
+  .video-box {
+    position: relative;
     width: 100%;
     height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 3;
+    overflow: hidden;
   }
   .img-box {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
     z-index: 4;
     img {
+      position: absolute;
+      left: 0;
+      top: 50%;
       width: 100%;
-      height: 100%;
+      min-height: 100%;
+      transform: translateY(-50%);
     }
     i {
-      display: block;
       content: "";
       position: absolute;
       top: 50%;
@@ -473,6 +478,19 @@ body {
       background-size: 50%;
       background-position: 58% 50%;
       background-repeat: no-repeat;
+    }
+  }
+  .video-box {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    video {
+      display: block;
+      width: 50%;
+      height: 50%;
+      transform-origin: left top;
+      transform: scale(2);
     }
   }
 }

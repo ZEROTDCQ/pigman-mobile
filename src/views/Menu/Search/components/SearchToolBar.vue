@@ -1,15 +1,17 @@
 <template>
   <div class="tabs-wrap">
-    <div
-      v-for="(item, index) in tabsList"
-      :class="['tabs-item', {'tab-active': tabsIndex == index}]"
-      :key="index"
-      ref="tabsItem"
-      @click="changeTab(index)"
-    >
-      <span>{{item.label}}</span>
+    <div class="tabs-inner">
+      <div
+        v-for="(item, index) in tabsList"
+        :class="['tabs-item', {'tab-active': tabsIndex == index}]"
+        :key="index"
+        ref="tabsItem"
+        @click="changeTab(index)"
+      >
+        <span>{{item.label}}</span>
+      </div>
+      <div class="tabs-line" ref="line"></div>
     </div>
-    <div class="tabs-line" ref="line"></div>
   </div>
 </template>
 
@@ -39,7 +41,7 @@ export default {
   methods: {
     changeTab(index) {
       this.activeIndex = index;
-      this.$emit('changeTab', index);
+      this.$emit("changeTab", index);
       this.$emit("update:tabsIndex", index);
       this.$nextTick(() => {
         this.transformLine();
@@ -56,25 +58,35 @@ export default {
 <style lang="scss">
 .tabs-wrap {
   position: relative;
-  z-index: 10;
   width: 100%;
-  display: flex;
+  height: 44px;
   background: #fff;
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
+  .tabs-inner {
+    position: relative;
+    z-index: 10;
     width: 100%;
-    height: 0;
-    border-bottom: 1px solid #eee;
-    transform-origin: center bottom;
-    transform: scaleY(0.5);
+    height: 44px;
+    display: flex;
+    background: #fff;
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 0;
+      border-bottom: 1px solid #eee;
+      transform-origin: center bottom;
+      transform: scaleY(0.5);
+    }
   }
+
   &.floatTop {
-    position: fixed;
-    top: 0;
-    left: 0;
+    .tabs-inner {
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
   }
   .tabs-item {
     flex: 1;

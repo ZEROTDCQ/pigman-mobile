@@ -37,8 +37,8 @@ module.exports = {
 	mode: 'development',
 	entry: {
 		// Home: './src/views/Home/home.js',		//首页--@
-		HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
-		Home_Header: './src/views/HomeHeader/HomeHeader.js',		//首页头部
+		// HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
+		// Home_Header: './src/views/HomeHeader/HomeHeader.js',		//首页头部
 		HomeSearch: './src/views/HomeSearch/search.js',		//主站搜索页
 		// HomeNews: './src/views/HomeNews/news.js', //主站新闻，热门资讯--@
 		// NewsDetail: './src/views/NewsDetail/newsdetail.js',		//新闻详情--@
@@ -55,7 +55,7 @@ module.exports = {
 		// Report: './src/views/Report/report.js',		//廉政举报
 		// Cooperate: './src/views/Cooperate/Cooperate.js', //供货合作
 		// Supply: './src/views/Supply/Supply.js',		//供货合作申请单
-		Footer: './src/views/Footer/Footer.js',		//公共底部
+		// Footer: './src/views/Footer/Footer.js',		//公共底部
 
 		// ----------------------------------- 测试页面 -----------------------------------
 		// test: './src/views/test/test.js',		//商品卡片测试页面
@@ -70,7 +70,7 @@ module.exports = {
 
 		// ----------------------------------- 饮食指南 -----------------------------------
 		// MenuHome: './src/views/Menu/Home/home.js',		//饮食指南首页
-		MenuSearch: './src/views/Menu/Search/search.js',		//饮食指南搜索页
+		// MenuSearch: './src/views/Menu/Search/search.js',		//饮食指南搜索页
 		// MenuDetail: './src/views/Menu/MenuDetail/MenuDetail.js',		//菜谱详情--@
 		// MenuNews: './src/views/Menu/News/News.js',		//饮食资讯--$
 		// Video: './src/views/Menu/Video/video.js',		//视频一级--@
@@ -172,7 +172,7 @@ module.exports = {
 			// 设置代理
 			// proxy all requests starting with /api to jsonplaceholder
 			'/api': {
-				target: 'http://192.168.0.101/', //真实请求的目标地址
+				target: 'http://192.168.0.100/', //真实请求的目标地址
 				changeOrigin: true,
 				pathRewrite: {
 					'^/api': '/api'
@@ -324,16 +324,16 @@ const pages = [
 	// 	filename: 'home.html',
 	// 	chunks: ['reset', 'Home']
 	// },
-	{
-		template: './src/views/HomeHeader/header.html',
-		filename: 'header.html',
-		chunks: ['reset', 'HomeHeader']
-	},
-	{
-		template: './src/views/HomeHeader/home_header.html',
-		filename: 'home_header.html',
-		chunks: ['reset', 'Home_Header']
-	},
+	// {
+	// 	template: './src/views/HomeHeader/header.html',
+	// 	filename: 'header.html',
+	// 	chunks: ['reset', 'HomeHeader']
+	// },
+	// {
+	// 	template: './src/views/HomeHeader/home_header.html',
+	// 	filename: 'home_header.html',
+	// 	chunks: ['reset', 'Home_Header']
+	// },
 	{
 		template: './src/views/HomeSearch/search.html',
 		filename: 'home_search.html',
@@ -424,11 +424,11 @@ const pages = [
 	// 	filename: 'test.html',
 	// 	chunks: ['reset', 'test']
 	// },
-	{
-		template: './src/views/Footer/footer.html',
-		filename: 'footer.html',
-		chunks: ['reset', 'Footer']
-	},
+	// {
+	// 	template: './src/views/Footer/footer.html',
+	// 	filename: 'footer.html',
+	// 	chunks: ['reset', 'Footer']
+	// },
 
 	// ----------------------------------- 营销活动 -----------------------------------
 	// {
@@ -458,11 +458,11 @@ const pages = [
 	// 	filename: 'menu_home.html',
 	// 	chunks: ['reset', 'MenuHome']
 	// },
-	{
-		template: './src/views/Menu/Search/search.html',
-		filename: 'menu_search.html',
-		chunks: ['reset', 'MenuSearch']
-	},
+	// {
+	// 	template: './src/views/Menu/Search/search.html',
+	// 	filename: 'menu_search.html',
+	// 	chunks: ['reset', 'MenuSearch']
+	// },
 	// {
 	// 	template: './src/views/Menu/MenuDetail/MenuDetail.html',
 	// 	filename: 'menu_detail.html',

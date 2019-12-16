@@ -2,7 +2,12 @@
   <!-- 主站搜索页 -->
   <div class="search">
     <SearchHeader @toggleSearchToolBar="toggleSearchToolBar" :showResult.sync="showResult" />
-    <SearchToolBar v-show="showSearchToolBar" :sort.sync="sort" :showFilter.sync="showFilter" />
+    <SearchToolBar
+      v-show="showSearchToolBar"
+      :sort.sync="sort"
+      :showFilter.sync="showFilter"
+      :class="{floatTop: isFloatTop}"
+    />
     <div class="search-result" v-show="showResult">
       <SearchProduction v-for="(item, index) in proList" :key="index" :data="item" />
     </div>
@@ -40,7 +45,9 @@ export default {
       showResult: true,
       proList: [],
       init: true,
-      sort: 1
+      sort: 1,
+      floatTop: 0,
+      isFloatTop: false
     };
   },
   computed: {
@@ -52,6 +59,7 @@ export default {
   },
   watch: {
     sort() {
+      this.proList = [];
       this.getData();
     }
   },
@@ -64,6 +72,17 @@ export default {
     document.title = this.keyword + " - 商品搜索 - 猪先生";
 
     this.getData();
+  },
+  mounted() {
+    // 触发tab吸顶悬浮的高度
+    this.floatTop = $(".filter-wrap").offset().top;
+    $(document).on("scroll", () => {
+      if ($(document).scrollTop() >= this.floatTop) {
+        this.isFloatTop = true;
+      } else {
+        this.isFloatTop = false;
+      }
+    });
   },
   methods: {
     toggleSearchToolBar(toogle) {
