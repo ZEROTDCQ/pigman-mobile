@@ -1,6 +1,6 @@
 <template>
   <!-- 公共头部 -->
-  <div :class="['header-wrap', {extend: extend}]">
+  <div id="indexHeader" :class="['header-wrap', {extend: extend}]">
     <div class="search-wrap">
       <div class="head-logo" v-show="!extend">猪先生logog</div>
       <div class="head-btn-left" v-show="extend">

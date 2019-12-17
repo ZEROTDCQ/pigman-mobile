@@ -34,12 +34,12 @@ const {
 const WebpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = {
 	// production, development
-	mode: 'development',
+	mode: 'production',
 	entry: {
 		// Home: './src/views/Home/home.js',		//首页--@
-		// HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
+		HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
 		// Home_Header: './src/views/HomeHeader/HomeHeader.js',		//首页头部
-		HomeSearch: './src/views/HomeSearch/search.js',		//主站搜索页
+		// HomeSearch: './src/views/HomeSearch/search.js',		//主站搜索页
 		// HomeNews: './src/views/HomeNews/news.js', //主站新闻，热门资讯--@
 		// NewsDetail: './src/views/NewsDetail/newsdetail.js',		//新闻详情--@
 		// Resume: './src/views/Resume/resume.js',		//公司介绍
@@ -85,7 +85,7 @@ module.exports = {
 		//在生产模式下，构建后会用该值代替html中的静态资源引用的相对路径，即静态资源将要部署至线上的位置，
 		//该值还决定了通过import()异步加载的静态文件(js,css)的路径，同时决定了css文件中引入的资源路径
 		//注意：纯拼接替换，不会语法解析
-		publicPath: ''
+		publicPath: '/mobile/index_header/'
 	},
 	module: {
 		rules: [{
@@ -107,7 +107,7 @@ module.exports = {
 			test: /\.(sc|sa|c)ss$/,
 			// MiniCssExtractPlugin.loader
 			use: [
-				'style-loader',
+				MiniCssExtractPlugin.loader,
 				'css-loader',
 				'postcss-loader',
 				'sass-loader',
@@ -324,21 +324,21 @@ const pages = [
 	// 	filename: 'home.html',
 	// 	chunks: ['reset', 'Home']
 	// },
-	// {
-	// 	template: './src/views/HomeHeader/header.html',
-	// 	filename: 'header.html',
-	// 	chunks: ['reset', 'HomeHeader']
-	// },
+	{
+		template: './src/views/HomeHeader/header.html',
+		filename: 'header.html',
+		chunks: ['reset', 'HomeHeader']
+	},
 	// {
 	// 	template: './src/views/HomeHeader/home_header.html',
 	// 	filename: 'home_header.html',
 	// 	chunks: ['reset', 'Home_Header']
 	// },
-	{
-		template: './src/views/HomeSearch/search.html',
-		filename: 'home_search.html',
-		chunks: ['reset', 'HomeSearch']
-	},
+	// {
+	// 	template: './src/views/HomeSearch/search.html',
+	// 	filename: 'home_search.html',
+	// 	chunks: ['reset', 'HomeSearch']
+	// },
 	// {
 	// 	template: './src/views/HomeNews/news.html',
 	// 	filename: 'home_news.html',
