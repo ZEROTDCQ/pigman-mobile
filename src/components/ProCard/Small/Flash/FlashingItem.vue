@@ -87,16 +87,16 @@ export default {
   }
   .pro-progress {
     margin-bottom: 10px;
-    height: 12px;
-    line-height: 12px;
+    height: 14px;
+    line-height: 14px;
     overflow: hidden;
     .precent-back {
       float: left;
       position: relative;
       width: 100px;
-      height: 12px;
+      height: 14px;
       text-align: center;
-      border-radius: 6px;
+      border-radius: 7px;
       color: #fff;
       background: #aef3ab;
       overflow: hidden;
@@ -105,7 +105,7 @@ export default {
         top: 0;
         left: 0;
         height: 100%;
-        border-radius: 8px;
+        border-radius: 7px;
         background: #54b64f;
       }
       .precent-value {
@@ -114,7 +114,7 @@ export default {
         left: 50%;
         top: 0;
         height: 100%;
-        font-size: 8px;
+        font-size: 12px;
         transform: translateX(-50%);
       }
     }

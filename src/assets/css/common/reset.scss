@@ -168,3 +168,29 @@ body {
     overflow: hidden;
   }
 }
+
+.van-pagination {
+  font-size: 14px;
+  line-height: 40px;
+  padding: 10px;
+}
+.van-pagination__item {
+  min-width: 36px;
+  height: 40px;
+  color: $primarycolor;
+}
+.van-pagination__item--active,
+.van-pagination__item:active {
+  color: #fff;
+  background-color: $primarycolor;
+}
+.van-pagination__item--disabled,
+.van-pagination__item--disabled:active {
+  color: #7d7e80;
+  background-color: #f8f8f8;
+  opacity: 0.5;
+}
+.van-pagination__next,
+.van-pagination__prev {
+  padding: 0 4px;
+}

@@ -13,7 +13,7 @@
   <script>
     document.documentElement.style.fontSize = document.documentElement.clientWidth / 3.75 + 'px';
   </script>
-  <title>商品详情 - 猪先生</title>
+  <title>新品尝鲜商品详情 - 猪先生</title>
 </head>
 
 <body style="font-size: 0.16rem;">
@@ -51,22 +51,22 @@
       </div>
       <div id="priceWrap">
         <div class="price_wrap" id="priceBlock">
-          <span class="priceTitle">抢购价</span>
+          <span class="priceTitle">售价</span>
           <span class="price lagre_size" id="priceSize">
             ¥
             <em>21</em>
             .00
           </span>
-          <span class="origin_price">原价:¥35.00</span>
+          <span class="origin_price">市场价¥35.00</span>
         </div>
       </div>
       <div class="other_discount" id="anyDiscount">
-        <li class="od_item"><span class="oi_tag"></span>VIP会员在结算时可继续打折</li>
+        <li class="od_item"><span class="oi_tag"></span>VIP会员购买此商品最低可享9.6折</li>
       </div>
       <div class="activity_banner" id="activityBanner">
         <div class="ab_inner">
-          <span class="activity-status">正在疯抢 还剩0件</span>
-          <span class="activity-count">已抢100%</span>
+          <span class="activity-status">已有{$detail.purchased}名客户购买此商品</span>
+          <span class="activity-count">今日本商品还剩{$detail.sy}件</span>
         </div>
       </div>
 
@@ -260,8 +260,15 @@
         <div class="btn btn_more">
           <span class="txt">查看更多商品</span>
         </div>
-        <div class="btn btn_buy">
-          <span class="txt">立即抢购</span>
+        <div class="btn btn_buy btn-multiple">
+          <a href="javascript:;" class="btn-item alone">
+            <span class="mode-price">¥35.00</span>
+            <span class="mode-txt">单独购买</span>
+          </a>
+          <a href="javascript:;" class="btn-item together">
+            <span class="mode-price">¥34.00</span>
+            <span class="mode-txt">发起拼单</span>
+          </a>
         </div>
       </div>
     </div>

@@ -34,12 +34,12 @@ const {
 const WebpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = {
 	// production, development
-	mode: 'development',
+	mode: 'production',
 	entry: {
 		// Home: './src/views/Home/home.js',		//首页--@
 		// HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
 		// Home_Header: './src/views/HomeHeader/HomeHeader.js',		//首页头部
-		HomeSearch: './src/views/HomeSearch/search.js',		//主站搜索页
+		// HomeSearch: './src/views/HomeSearch/search.js',		//主站搜索页
 		// HomeNews: './src/views/HomeNews/news.js', //主站新闻，热门资讯--@
 		// NewsDetail: './src/views/NewsDetail/newsdetail.js',		//新闻详情--@
 		// Resume: './src/views/Resume/resume.js',		//公司介绍
@@ -55,7 +55,7 @@ module.exports = {
 		// Report: './src/views/Report/report.js',		//廉政举报
 		// Cooperate: './src/views/Cooperate/Cooperate.js', //供货合作
 		// Supply: './src/views/Supply/Supply.js',		//供货合作申请单
-		// Footer: './src/views/Footer/Footer.js',		//公共底部
+		Footer: './src/views/Footer/Footer.js',		//公共底部
 
 		// ----------------------------------- 测试页面 -----------------------------------
 		// test: './src/views/test/test.js',		//商品卡片测试页面
@@ -87,9 +87,9 @@ module.exports = {
 		chunkFilename: 'js/[name].chunk.[hash:8].js',
 		//在开发模式下，项目运行的地址将基于publicPath，http://devServer.host:devServer.port/publicPath/dir   默认''
 		//在生产模式下，构建后会用该值代替html中的静态资源引用的相对路径，即静态资源将要部署至线上的位置，
-		//该值还决定了通过import()异步加载的静态文件(js,css)的路径，同时决定了css文件中引入的资源路径
-		//注意：纯拼接替换，不会语法解析
-		publicPath: ''
+		//该值还决定了通过import()异步加载的静态文件(js,css)构建后的路径，同时决定了css文件中引入的资源(图片、字体等)路径
+		//注意：纯拼接替换，不会语法解析..
+		publicPath: '/mobile/index_footer/'
 	},
 	module: {
 		rules: [{
@@ -111,7 +111,7 @@ module.exports = {
 			test: /\.(sc|sa|c)ss$/,
 			// MiniCssExtractPlugin.loader
 			use: [
-				'style-loader',
+				MiniCssExtractPlugin.loader,
 				'css-loader',
 				'postcss-loader',
 				'sass-loader',
@@ -159,8 +159,7 @@ module.exports = {
 					}
 				}
 			}]
-		}
-		]
+		}]
 	},
 	devServer: {
 		host: '0.0.0.0',
@@ -176,7 +175,7 @@ module.exports = {
 			// 设置代理
 			// proxy all requests starting with /api to jsonplaceholder
 			'/api': {
-				target: 'http://192.168.0.100/', //真实请求的目标地址
+				target: 'http://192.168.0.101/', //真实请求的目标地址
 				changeOrigin: true,
 				pathRewrite: {
 					'^/api': '/api'
@@ -201,7 +200,7 @@ module.exports = {
 		"element-ui": 'ELEMENT',
 		axios: 'axios'
 	},
-	devtool: 'cheap-module-eval-source-map',
+	devtool: 'none',
 	// 当webpack打包源代码时，可能会很难追踪到错误和警告在源代码中的原始位置。
 	// 例如，如果将三个源文件（a.js, b.js 和 c.js）打包到一个 bundle（bundle.js）中，
 	// 而其中一个源文件包含一个错误，那么堆栈跟踪就会简单地指向到 bundle.js。
@@ -338,11 +337,11 @@ const pages = [
 	// 	filename: 'home_header.html',
 	// 	chunks: ['reset', 'Home_Header']
 	// },
-	{
-		template: './src/views/HomeSearch/search.html',
-		filename: 'home_search.html',
-		chunks: ['reset', 'HomeSearch']
-	},
+	// {
+	// 	template: './src/views/HomeSearch/search.html',
+	// 	filename: 'home_search.html',
+	// 	chunks: ['reset', 'HomeSearch']
+	// },
 	// {
 	// 	template: './src/views/HomeNews/news.html',
 	// 	filename: 'home_news.html',
@@ -384,7 +383,7 @@ const pages = [
 	// 	chunks: ['reset', 'Member']
 	// },
 	// {
-	// 	template: './src/views/Detail/detail.html',
+	// 	template: './src/views/Detail/Newtaste.html',
 	// 	filename: 'detail.html',
 	// 	chunks: ['reset', 'Detail']
 	// },
@@ -428,11 +427,11 @@ const pages = [
 	// 	filename: 'test.html',
 	// 	chunks: ['reset', 'test']
 	// },
-	// {
-	// 	template: './src/views/Footer/footer.html',
-	// 	filename: 'footer.html',
-	// 	chunks: ['reset', 'Footer']
-	// },
+	{
+		template: './src/views/Footer/footer.html',
+		filename: 'footer.html',
+		chunks: ['reset', 'Footer']
+	},
 
 	// ----------------------------------- 营销活动 -----------------------------------
 	// {

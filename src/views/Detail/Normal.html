@@ -51,22 +51,22 @@
       </div>
       <div id="priceWrap">
         <div class="price_wrap" id="priceBlock">
-          <span class="priceTitle">抢购价</span>
+          <span class="priceTitle">拼团价</span>
           <span class="price lagre_size" id="priceSize">
             ¥
             <em>21</em>
             .00
           </span>
-          <span class="origin_price">原价:¥35.00</span>
+          <span class="origin_price">原价¥35.00</span>
         </div>
       </div>
       <div class="other_discount" id="anyDiscount">
-        <li class="od_item"><span class="oi_tag"></span>VIP会员在结算时可继续打折</li>
+        <li class="od_item"><span class="oi_tag"></span>VIP会员购买此商品最低可享9.6折</li>
       </div>
       <div class="activity_banner" id="activityBanner">
         <div class="ab_inner">
-          <span class="activity-status">正在疯抢 还剩0件</span>
-          <span class="activity-count">已抢100%</span>
+          <span class="activity-status">已有{$detail.purchased}人在今日购买此商品</span>
+          <span class="activity-count">此商品还剩{$detail.limited-$detail.purchased}件</span>
         </div>
       </div>
 
@@ -75,7 +75,7 @@
           <span class="title">配送</span>
           <div class="content">
             <span>3公里内提供配送服务</span>
-            <span>最快10：15-10：45送达</span>
+            <span>最晚{$detail.config_time}前停止配送</span>
           </div>
         </div>
         <div class="summary line summary_freight">
@@ -107,8 +107,8 @@
         <div class="summary line summary_notice">
           <span class="title">提示</span>
           <div class="content">
-            <span class="notice">每人限购2件 | 需提前付款</span>
-            <span class="notice">每人限购2件 | 需提前付款</span>
+            <span class="notice">仅限在当日20:00前购买此商品</span>
+            <span class="notice">2人成团，拼团人数越多，产品价格越低</span>
           </div>
         </div>
       </div>
@@ -260,8 +260,15 @@
         <div class="btn btn_more">
           <span class="txt">查看更多商品</span>
         </div>
-        <div class="btn btn_buy">
-          <span class="txt">立即抢购</span>
+        <div class="btn btn_buy btn-multiple">
+          <a href="javascript:;" class="btn-item alone">
+            <span class="mode-price">¥35.00</span>
+            <span class="mode-txt">单独购买</span>
+          </a>
+          <a href="javascript:;" class="btn-item together">
+            <span class="mode-price">¥34.00</span>
+            <span class="mode-txt">发起拼单</span>
+          </a>
         </div>
       </div>
     </div>

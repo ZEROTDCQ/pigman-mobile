@@ -1,6 +1,6 @@
 <template>
   <!-- 公共头部 -->
-  <div :class="['header-wrap', {extend: extend}]">
+  <div id="indexHeader" :class="['header-wrap', {extend: extend, menu: slideMenu}]">
     <div class="search-wrap">
       <div class="head-logo" v-show="!extend">猪先生logog</div>
       <div class="head-btn-left" v-show="extend">
@@ -16,6 +16,7 @@
             v-model="keyword"
             @focus="inputClick"
             @input="onInput"
+            @keydown="inputKeyDown"
             ref="input"
           />
         </div>
@@ -30,40 +31,54 @@
         <div class="btn-more" @click="menuHandler" v-show="!extend">
           <div class="bm-line" v-for="i in 3" :key="i"></div>
         </div>
-        <div class="btn-search" v-show="extend">
+        <div class="btn-search" v-show="extend" @click="searchBtnAction">
           <a href="javascript:;">搜索</a>
         </div>
       </div>
     </div>
     <div class="content-wrap" v-show="extend">
-      <div class="recent-search cw-box" v-show="!inputing && searchHistory.length > 0">
-        <div class="cb-head">
-          <p class="ch-tit">最近搜索</p>
-          <div class="ch-btn">
-            <i class="iconfont" @click="clearHistory">&#xe62e;</i>
+      <div class="content-inner">
+        <div class="recent-search cw-box" v-show="!inputing && searchHistory.length > 0">
+          <div class="cb-head">
+            <p class="ch-tit">最近搜索</p>
+            <div class="ch-btn">
+              <i class="iconfont" @click="clearHistory">&#xe62e;</i>
+            </div>
+          </div>
+          <div class="cb-body">
+            <span v-for="i in searchHistory" :key="i">
+              <a href="javascript:;" @click="searchAction(i)">{{i}}</a>
+            </span>
           </div>
         </div>
-        <div class="cb-body">
-          <span v-for="i in searchHistory" :key="i">
-            <a href="javascript:;">{{i}}</a>
-          </span>
+        <div class="hot-search cw-box" v-show="!inputing">
+          <div class="cb-head">
+            <p class="ch-tit">热门搜索</p>
+          </div>
+          <div class="cb-body">
+            <span v-for="(item, index) in hotKeyword" :key="item + index">
+              <a href="javascript:;" @click="searchAction(item.hot)">{{item.hot}}</a>
+            </span>
+          </div>
         </div>
+        <ul class="keys" v-show="inputing">
+          <li
+            v-for="(item, index) in dropDownList"
+            :key="item + index"
+            @click="searchAction(item.title)"
+          >
+            <a href="javascript:;">
+              <span class="pro-name">{{item.title}}</span>
+              <span
+                class="pro-btn"
+                v-for="(i, j) in item.son"
+                :key="j"
+                @click.stop="proBtnClick(i.title + item.title)"
+              >{{i.title}}</span>
+            </a>
+          </li>
+        </ul>
       </div>
-      <div class="hot-search cw-box" v-show="!inputing">
-        <div class="cb-head">
-          <p class="ch-tit">热门搜索</p>
-        </div>
-        <div class="cb-body">
-          <span v-for="(item, index) in hotKeyword" :key="item + index">
-            <a href="javascript:;">{{item.hot}}</a>
-          </span>
-        </div>
-      </div>
-      <ul class="keys" v-show="inputing">
-        <li v-for="(item, index) in dropDownList" :key="item + index" @click="searchAction(index)">
-          <a href="javascript:;">{{item.name}}</a>
-        </li>
-      </ul>
       <transition name="fade-in">
         <div class="overlay" v-if="clearToast"></div>
       </transition>
@@ -153,7 +168,8 @@ export default {
       matchTimer: null,
       time: 0,
       // 相关关键词
-      dropDownList: []
+      dropDownList: [],
+      scrollTop: 0
     };
   },
   computed: {
@@ -176,8 +192,26 @@ export default {
       });
   },
   methods: {
+    setBodyScroll() {
+      if (this.extend || this.slideMenu) {
+        this.scrollTop = $(document).scrollTop();
+        $("body")
+          .children()
+          .filter('div:not("#indexHeader")')
+          .hide();
+        $("body").css("overflow", "hidden");
+      } else {
+        $("body")
+          .children()
+          .filter('div:not("#indexHeader")')
+          .show();
+        $("body").css("overflow", "");
+        $(document).scrollTop(this.scrollTop);
+      }
+    },
     menuHandler() {
       this.slideMenu = !this.slideMenu;
+      this.setBodyScroll();
     },
     slideDownMenu(index) {
       if (index == this.menuActiveIndex) {
@@ -192,35 +226,60 @@ export default {
     },
     inputClick() {
       this.extend = true;
+      this.slideMenu = false;
+      this.setBodyScroll();
     },
-    onInput(e) {
-      var value = e.target.value || e.srcElement.value;
+    onInput() {
       // 搜索框正在输入事件，延迟250ms后获取相关搜索词
       clearTimeout(this.matchTimer);
       this.matchTimer = setTimeout(() => {
         var time = Date.now();
-        this.$instance
-          .post("/api/mobileapi/relatedWords", {
-            keyword: value
-          })
-          .then(res => {
-            console.log(res);
-            if (time >= this.time) {
-              this.time = time;
-              // 截取结果前10条
-              this.dropDownList = res.data.data.slice(0, 10);
-            } else {
-              console.log("我不是最后的搜索结果");
-            }
-          })
-          .catch(error => {
-            console.log(error);
-          });
+        this.getRelatedKeyWord(time);
       }, 250);
     },
-    searchAction(index) {
+    inputKeyDown(e) {
+      // 回车搜索事件监听
+      if (e.keyCode == 13 || e.which == 13) {
+        this.searchAction(this.keyword);
+      }
+    },
+    searchBtnAction() {
+      if (!this.keyword) {
+        return;
+      }
+      this.searchAction(this.keyword);
+    },
+    getRelatedKeyWord(time) {
+      // 获取当前关键词相关的关键词
+      if (!this.keyword) {
+        console.log(this.keyword);
+        return;
+      }
+      this.$instance
+        .post("/api/mobileapi/relatedWords", {
+          keyword: this.keyword
+        })
+        .then(res => {
+          // console.log(res);
+          if (time >= this.time) {
+            this.time = time;
+            var data = res.data.data.slice(0, 10).map(item => {
+              return {
+                title: item.title,
+                son: item.son.slice(0, 3)
+              };
+            });
+            this.dropDownList = data;
+          } else {
+            console.log("我不是最后的搜索结果");
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    searchAction(kw) {
       // 点击搜索事件，设置localStorage，记录历史搜索记录
-      var kw = this.dropDownList[index].name;
       var old = JSON.parse(
         localStorage.getItem("search_history")
           ? localStorage.getItem("search_history")
@@ -241,6 +300,10 @@ export default {
       localStorage.setItem("search_history", JSON.stringify(old));
       location.href = `home_search.html?keyword=${kw}`;
     },
+    proBtnClick(keywrod) {
+      this.searchAction(keywrod);
+    },
+
     clearHistory() {
       this.clearToast = true;
     },
@@ -253,8 +316,12 @@ export default {
       this.clearToast = false;
     },
     searchBack() {
-      this.keyword = "";
-      this.extend = false;
+      if (this.extend && this.keyword) {
+        this.keyword = "";
+      } else {
+        this.extend = false;
+        this.setBodyScroll();
+      }
     },
     clearInput() {
       this.keyword = "";
@@ -266,6 +333,9 @@ export default {
 
 
 <style lang="scss">
+.overhidden {
+  overflow: hidden;
+}
 ::-webkit-scrollbar {
   width: 0;
   background: transparent;
@@ -371,8 +441,14 @@ export default {
   height: 44px;
   background: $primarycolor;
   .search-wrap {
-    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10001;
+    width: 100%;
+    height: 44px;
     overflow: hidden;
+    background: $primarycolor;
   }
   .head-logo {
     float: left;
@@ -475,6 +551,18 @@ export default {
   }
 }
 .content-wrap {
+  position: fixed;
+  z-index: 1001;
+  top: 44px;
+  bottom: 0;
+  width: 100%;
+  background: #f5f5f5;
+  overflow: hidden;
+  overflow-y: auto;
+  .content-inner {
+    background: #fff;
+    overflow: hidden;
+  }
   .cw-box {
     padding-left: 10px;
     margin-top: 10px;
@@ -521,11 +609,35 @@ export default {
         transform: scaleY(0.5);
       }
       a {
-        display: block;
+        display: flex;
         height: 42px;
-        line-height: 42px;
         font-size: 13px;
         color: #333;
+        overflow: hidden;
+        align-items: center;
+        .pro-name {
+          display: block;
+          color: #232326;
+          font-size: 13px;
+          padding-top: 1px;
+          padding-bottom: 1px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          flex: 1;
+        }
+        .pro-btn {
+          color: #686868;
+          font-size: 12px;
+          display: block;
+          height: 23px;
+          padding-left: 10px;
+          padding-right: 10px;
+          background-color: #f0f2f5;
+          border-radius: 3px;
+          line-height: 23px;
+          margin-left: 10px;
+        }
       }
     }
   }
@@ -582,29 +694,40 @@ export default {
   }
 }
 
-.header-wrap.extend {
-  background: #fff;
-  .search-wrap {
-    position: relative;
-    &::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 1px;
-      background: #e5e5e5;
-      transform: scaleY(0.5);
-    }
+.header-wrap {
+  &.extend,
+  &.menu {
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
   }
-  .search-input {
-    margin: 7px 55px 0 40px;
-    flex-direction: row-reverse;
-    background: #f5f5f5;
-    .search-inner {
-      input {
-        padding-right: 15px;
-        padding-left: 0;
+  &.extend {
+    background: #fff;
+    .search-wrap {
+      position: relative;
+      background: #fff;
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 1px;
+        background: #e5e5e5;
+        transform: scaleY(0.5);
+      }
+    }
+    .search-input {
+      margin: 7px 55px 0 40px;
+      flex-direction: row-reverse;
+      background: #f5f5f5;
+      .search-inner {
+        input {
+          padding-right: 15px;
+          padding-left: 0;
+        }
       }
     }
   }
