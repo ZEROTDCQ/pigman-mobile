@@ -66,6 +66,9 @@ module.exports = {
 		// OneYuan: './src/views/YingXiao/OneYuan/oneyuan.js',		//一元购
 		// Booking: './src/views/YingXiao/Booking/booking.js',		//预定商品
 		// HelpFree: './src/views/YingXiao/HelpFree/helpfree.js',		//助力免费拿
+		YMember: './src/views/YingXiao/Member/member.js',		//会员专享
+		Lively: './src/views/YingXiao/Lively/lively.js',		//畅销商品
+		NewTaste: './src/views/YingXiao/NewTaste/newTaste.js',		//新品尝鲜
 
 
 		// ----------------------------------- 饮食指南 -----------------------------------
@@ -76,6 +79,7 @@ module.exports = {
 		// Video: './src/views/Menu/Video/video.js',		//视频一级--@
 		// VideoHot: './src/views/Menu/VideoHot/VideoHot.js',		//热门视频--@
 		// VideoClass: './src/views/Menu/VideoClass/VideoClass.js',		//视频分类--@
+		MenuClass: './src/views/Menu/MenuClass/MenuClass.js', //菜谱分类
 	},
 	output: {
 		path: resolve('dist'),
@@ -451,6 +455,21 @@ const pages = [
 	// 	filename: 'helpfree.html',
 	// 	chunks: ['reset', 'HelpFree']
 	// },
+	{
+		template: './src/views/YingXiao/Member/member.html',
+		filename: 'ymember.html',
+		chunks: ['reset', 'YMember']
+	},
+	{
+		template: './src/views/YingXiao/Lively/lively.html',
+		filename: 'lively.html',
+		chunks: ['reset', 'Lively']
+	},
+	{
+		template: './src/views/YingXiao/NewTaste/newTaste.html',
+		filename: 'newTaste.html',
+		chunks: ['reset', 'NewTaste']
+	},
 
 	// ----------------------------------- 饮食指南 -----------------------------------
 	// {
@@ -488,6 +507,11 @@ const pages = [
 	// 	filename: 'videoclass.html',
 	// 	chunks: ['reset', 'VideoClass']
 	// },
+	{
+		template: './src/views/Menu/MenuClass/MenuClass.html',
+		filename: 'menuclass.html',
+		chunks: ['reset','MenuClass']
+	}
 ]
 
 function createHtml({
