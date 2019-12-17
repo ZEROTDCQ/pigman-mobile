@@ -1,18 +1,19 @@
-import '@/assets/css/common/reset.scss'
+// import '@/assets/css/common/reset.scss'
 import './css/detail.scss'
 
 // 创建轮播图
 (function () {
   let pagination = document.getElementsByClassName('ms_pagination')[0];
-  let swiper1 = new Swiper('.swiper-container', {
+  let swiper1 = new Swiper('.swiper-container-wheel', {
+    loop: true,
     on: {
       imagesReady: function () {
-        pagination.innerText = this.activeIndex + 1 + '/' + this.slides.length;
+        pagination.innerText = this.realIndex + 1 + '/' + (this.slides.length - 2);
       },
       slideChangeTransitionEnd: function () {
-        let activeIndex = this.activeIndex;
+        let activeIndex = this.realIndex;
         let length = this.slides.length;
-        pagination.innerText = activeIndex + 1 + '/' + length;
+        pagination.innerText = activeIndex + 1 + '/' + (length - 2);
       }
     }
   });

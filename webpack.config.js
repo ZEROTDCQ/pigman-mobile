@@ -37,7 +37,7 @@ module.exports = {
 	mode: 'production',
 	entry: {
 		// Home: './src/views/Home/home.js',		//首页--@
-		HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
+		// HomeHeader: './src/views/HomeHeader/header.js',		//首页头部
 		// Home_Header: './src/views/HomeHeader/HomeHeader.js',		//首页头部
 		// HomeSearch: './src/views/HomeSearch/search.js',		//主站搜索页
 		// HomeNews: './src/views/HomeNews/news.js', //主站新闻，热门资讯--@
@@ -48,7 +48,7 @@ module.exports = {
 		// ActivityApply: './src/views/ActivityApply/ActivityApply.js',		//活动报名
 		// Member: './src/views/Member/member.js',		//会员专区
 		// Category: './src/views/Category/category.js',		//产品分类
-		// Detail: './src/views/Detail/detail.js',		//商品详情
+		Detail: './src/views/Detail/detail.js',		//商品详情
 		// Job: './src/views/Job/job.js',		//人才招聘
 		// JobDetail: './src/views/JobDetail/jobdetail.js',		//职位详情
 		// JobApply: './src/views/JobApply/JobApply.js', //职位申请
@@ -83,9 +83,9 @@ module.exports = {
 		chunkFilename: 'js/[name].chunk.[hash:8].js',
 		//在开发模式下，项目运行的地址将基于publicPath，http://devServer.host:devServer.port/publicPath/dir   默认''
 		//在生产模式下，构建后会用该值代替html中的静态资源引用的相对路径，即静态资源将要部署至线上的位置，
-		//该值还决定了通过import()异步加载的静态文件(js,css)的路径，同时决定了css文件中引入的资源路径
-		//注意：纯拼接替换，不会语法解析
-		publicPath: '/mobile/index_header/'
+		//该值还决定了通过import()异步加载的静态文件(js,css)构建后的路径，同时决定了css文件中引入的资源(图片、字体等)路径
+		//注意：纯拼接替换，不会语法解析..
+		publicPath: '/mobile/detail/'
 	},
 	module: {
 		rules: [{
@@ -172,7 +172,7 @@ module.exports = {
 			// 设置代理
 			// proxy all requests starting with /api to jsonplaceholder
 			'/api': {
-				target: 'http://192.168.0.100/', //真实请求的目标地址
+				target: 'http://192.168.0.101/', //真实请求的目标地址
 				changeOrigin: true,
 				pathRewrite: {
 					'^/api': '/api'
@@ -324,11 +324,11 @@ const pages = [
 	// 	filename: 'home.html',
 	// 	chunks: ['reset', 'Home']
 	// },
-	{
-		template: './src/views/HomeHeader/header.html',
-		filename: 'header.html',
-		chunks: ['reset', 'HomeHeader']
-	},
+	// {
+	// 	template: './src/views/HomeHeader/header.html',
+	// 	filename: 'header.html',
+	// 	chunks: ['reset', 'HomeHeader']
+	// },
 	// {
 	// 	template: './src/views/HomeHeader/home_header.html',
 	// 	filename: 'home_header.html',
@@ -379,11 +379,11 @@ const pages = [
 	// 	filename: 'member.html',
 	// 	chunks: ['reset', 'Member']
 	// },
-	// {
-	// 	template: './src/views/Detail/detail.html',
-	// 	filename: 'detail.html',
-	// 	chunks: ['reset', 'Detail']
-	// },
+	{
+		template: './src/views/Detail/detail.html',
+		filename: 'detail.html',
+		chunks: ['reset', 'Detail']
+	},
 	// {
 	// 	template: './src/views/Job/job.html',
 	// 	filename: 'job.html',

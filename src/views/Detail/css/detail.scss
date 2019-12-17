@@ -9,7 +9,8 @@ body {
   width: 100%;
   height: 340px;
   background: #e8e8ed;
-  .swiper-container {
+  overflow: hidden;
+  .swiper-container-wheel {
     height: 100%;
   }
   .swiper-slide {
@@ -379,7 +380,7 @@ body {
   background: #fff;
   overflow: hidden;
   .area-head {
-    margin-bottom: 0;
+    margin: 0;
     padding: 0 10px;
     height: 32px;
     line-height: 32px;
