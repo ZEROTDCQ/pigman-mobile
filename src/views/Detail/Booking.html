@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./public/css/swiper.min.css">
+  <script src="./public/js/jquery.min.js"></script>
+  <script src="./public/js/swiper.min.js"></script>
+  <script src="https://unpkg.com/axios@0.19.0/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+  <script>
+    document.documentElement.style.fontSize = document.documentElement.clientWidth / 3.75 + 'px';
+  </script>
+  <title>预定商品详情 - 猪先生</title>
+</head>
+
+<body style="font-size: 0.16rem;">
+  <div id="pro_main">
+    <div class="mod_silder" id="loopImgDiv">
+      <div class="swiper-container-wheel">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img src="http://192.168.0.101/uploads/admin/images/20191031/bcf2667850dc7ab0ffe5cb48d2e15464.jpg" alt="">
+          </div>
+          <div class="swiper-slide">
+            <img src="http://192.168.0.101/uploads/admin/images/20191030/06d78f5cb0618aeecbe6fee1c76e58cb.jpg" alt="">
+          </div>
+          <div class="swiper-slide">
+            <img src="http://192.168.0.101/uploads/admin/images/20191030/4a91cf69a864f0d3fd289b8d36ef6147.jpg" alt="">
+          </div>
+          <div class="swiper-slide">
+            <img src="http://192.168.0.101/uploads/admin/images/20191030/4a91cf69a864f0d3fd289b8d36ef6147.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="ms_pagination"></div>
+    </div>
+
+    <div class="buy_area new_ver" id="buyArea">
+      <div class="fn_wrap">
+        <h1 class="fn fn_goods_name">
+          <div class="fn_text_wrap">
+            春江潮水连海平，海上明月共潮生。潋滟随波千万里，何处春江无月明！江流宛转绕芳甸，月照花林皆似霰。空里流霜不觉飞，汀上白沙看不见。
+          </div>
+        </h1>
+        <h1 class="fn fn_goods_desc">
+          <div class="fn_text_wrap">西蓝花，俗称青花菜。原产意大利，是常见蔬菜。通称绿花菜，也被称为西兰花。二年生草本植物，是甘蓝的一种变种。叶子大，主茎顶端形成肥大的花球，绿色或紫绿色</div>
+        </h1>
+      </div>
+      <div id="priceWrap">
+        <div class="price_wrap" id="priceBlock">
+          <span class="priceTitle">预定价</span>
+          <span class="price lagre_size" id="priceSize">
+            ¥
+            <em>21</em>
+            .00
+          </span>
+          <span class="origin_price">今日价¥35.00</span>
+        </div>
+      </div>
+      <div class="other_discount" id="anyDiscount">
+        <li class="od_item"><span class="oi_tag"></span>会员专享预定价¥20.00</li>
+      </div>
+      <div class="activity_banner" id="activityBanner">
+        <div class="ab_inner">
+          <span class="activity-status">预定已结束</span>
+          <span class="activity-count">已有300人预定</span>
+        </div>
+      </div>
+
+      <div class="summary_wrap">
+        <div class="summary gap more summary_logistics" data-panel="logistics">
+          <span class="title">配送</span>
+          <div class="content">
+            <span>3公里内提供配送服务</span>
+            <span>最快10：15-10：45送达</span>
+          </div>
+        </div>
+        <div class="summary line summary_freight">
+          <span class="title">运费</span>
+          <div class="content">
+            <span>购物满30元免运费购物满30元免运费购物满30元免运费购物满30元免运费购物满30元免运费购物满30元免运费购物满30元免运费</span>
+          </div>
+        </div>
+        <div class="summary line more summary_coupon">
+          <span class="title">满减</span>
+          <div class="content">
+            <span class="coupon">满30减2</span>
+            <span class="coupon">满30减2</span>
+            <span class="coupon">满30减2</span>
+            <span class="coupon">满30减2</span>
+            <span class="coupon">满30减2</span>
+            <span class="coupon">满30减2</span>
+          </div>
+        </div>
+        <div class="summary line more summary_assured" data-panel="assured">
+          <span class="title">服务</span>
+          <div class="content">
+            <span class="assured">最快半小时内送达</span>
+            <span class="assured">免费退换货</span>
+            <span class="assured">产地直采</span>
+            <span class="assured">称重退差价</span>
+          </div>
+        </div>
+        <!-- <div class="summary line summary_notice">
+          <span class="title">提示</span>
+          <div class="content">
+            <span class="notice"></span>
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="area-box">
+      <div class="area-head clearfix">
+        <h3 class="ah-title">推荐做法</h3>
+      </div>
+      <div class="area-body menu-list">
+        <div class="swiper-container-make">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide menu-item">
+              <div class="mi-feature">
+                <img src="http://192.168.0.101/uploads/admin/images/20191031/9c9aa69fc7d97b5a801dfd8e9fdc00ba.jpg"
+                  alt="">
+              </div>
+              <div class="mi-txt">
+                <p class="mt-tit"><a href="javascript:;">芒果沙冰</a></p>
+                <p class="mt-desc">生鲜自营商品的破损或腐坏等问题，请在...</p>
+              </div>
+            </div>
+            <div class="swiper-slide menu-item">
+              <div class="mi-feature">
+                <img src="http://192.168.0.101/uploads/admin/images/20191031/9c9aa69fc7d97b5a801dfd8e9fdc00ba.jpg"
+                  alt="">
+              </div>
+              <div class="mi-txt">
+                <p class="mt-tit"><a href="javascript:;">芒果沙冰</a></p>
+                <p class="mt-desc">生鲜自营商品的破损或腐坏等问题，请在...</p>
+              </div>
+            </div>
+            <div class="swiper-slide menu-item">
+              <div class="mi-feature">
+                <img src="http://192.168.0.106/uploads/admin/images/20191031/9c9aa69fc7d97b5a801dfd8e9fdc00ba.jpg"
+                  alt="">
+              </div>
+              <div class="mi-txt">
+                <p class="mt-tit"><a href="javascript:;">芒果沙冰</a></p>
+                <p class="mt-desc">生鲜自营商品的破损或腐坏等问题，请在...</p>
+              </div>
+            </div>
+            <div class="swiper-slide menu-item">
+              <div class="mi-feature">
+                <img src="http://192.168.0.106/uploads/admin/images/20191031/9c9aa69fc7d97b5a801dfd8e9fdc00ba.jpg"
+                  alt="">
+              </div>
+              <div class="mi-txt">
+                <p class="mt-tit"><a href="javascript:;">芒果沙冰</a></p>
+                <p class="mt-desc">生鲜自营商品的破损或腐坏等问题，请在...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="area-box">
+      <div class="area-head clearfix">
+        <h3 class="ah-title">推荐商品</h3>
+      </div>
+      <div class="area-body menu-list">
+        <div class="swiper-container-recommend">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide menu-item">
+              <div class="mi-feature">
+                <img src="http://192.168.0.106/uploads/admin/images/20191031/9c9aa69fc7d97b5a801dfd8e9fdc00ba.jpg"
+                  alt="">
+              </div>
+              <div class="mi-txt">
+                <p class="mt-tit"><a href="javascript:;">芒果沙冰</a></p>
+                <p class="mt-desc">生鲜自营商品的破损或腐坏等问题，请在...</p>
+              </div>
+            </div>
+            <div class="swiper-slide menu-item">
+              <div class="mi-feature">
+                <img src="http://192.168.0.106/uploads/admin/images/20191031/9c9aa69fc7d97b5a801dfd8e9fdc00ba.jpg"
+                  alt="">
+              </div>
+              <div class="mi-txt">
+                <p class="mt-tit"><a href="javascript:;">芒果沙冰</a></p>
+                <p class="mt-desc">生鲜自营商品的破损或腐坏等问题，请在...</p>
+              </div>
+            </div>
+            <div class="swiper-slide menu-item">
+              <div class="mi-feature">
+                <img src="http://192.168.0.106/uploads/admin/images/20191031/9c9aa69fc7d97b5a801dfd8e9fdc00ba.jpg"
+                  alt="">
+              </div>
+              <div class="mi-txt">
+                <p class="mt-tit"><a href="javascript:;">芒果沙冰</a></p>
+                <p class="mt-desc">生鲜自营商品的破损或腐坏等问题，请在...</p>
+              </div>
+            </div>
+            <div class="swiper-slide menu-item">
+              <div class="mi-feature">
+                <img src="http://192.168.0.101/uploads/admin/images/20191031/9c9aa69fc7d97b5a801dfd8e9fdc00ba.jpg"
+                  alt="">
+              </div>
+              <div class="mi-txt">
+                <p class="mt-tit"><a href="javascript:;">芒果沙冰</a></p>
+                <p class="mt-desc">生鲜自营商品的破损或腐坏等问题，请在...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail_info_wrap">
+      <div class="detail_tab" id="detailTab">
+        <div class="item curr">商品详情</div>
+        <div class="item">服务说明</div>
+      </div>
+      <div class="detail_list">
+        <div class="detail_item p_desc curr">
+          商品详情
+        </div>
+        <div class="detail_item p_service">
+          <dl>
+            <dt>生鲜“优鲜赔”绿色通道</dt>
+            <dd>
+              生鲜自营商品的破损或腐坏等问题，请在商品签收后48小时内提交“优鲜赔”申请，100分钟内审核通过后即享补偿，无需返回商品；非鲜活易腐类商品需上门取件。
+            </dd>
+          </dl>
+          <dl>
+            <dt>猪先生承诺</dt>
+            <dd>京东平台卖家销售并发货的商品，由平台卖家提供发票和相应的售后服务。请您放心购买！</dd>
+            <dd>注：因厂家会在没有任何提前通知的情况下更改产品包装、产地或者一些附件，本司不能确保客户收到的货物与商城图片、产地、附件说明完全一致。</dd>
+            <dd>只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！</dd>
+          </dl>
+          <dl>
+            <dt>无忧退货</dt>
+            <dd>京东平台卖家销售并发货的商品，由平台卖家提供发票和相应的售后服务。请您放心购买！</dd>
+            <dd>注：因厂家会在没有任何提前通知的情况下更改产品包装、产地或者一些附件，本司不能确保客户收到的货物与商城图片、产地、附件说明完全一致。</dd>
+            <dd>只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="btn_wrap" id="btnTools">
+    <div class="btn_row btn_bar">
+      <div class="icon_btn icon_kefu">
+        <i class="icon iconfont">&#xe6bc;</i>
+        <span class="txt">在线客服</span>
+      </div>
+      <div class="btn_group">
+        <div class="btn btn_more">
+          <span class="txt">查看更多商品</span>
+        </div>
+        <div class="btn btn_buy">
+          <span class="txt">立即预定</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cover_bg"></div>
+  <div class="cover_panel panel_logistics">
+    <div class="header">
+      配送说明
+      <i class="panel_close"></i>
+    </div>
+    <div class="body">
+      <h1>3公里内提供配送服务</h1>
+      <h1>3公里内提供配送服务</h1>
+      <h1>3公里内提供配送服务</h1>
+      <h1>3公里内提供配送服务</h1>
+      <h1>3公里内提供配送服务</h1>
+      <h1>3公里内提供配送服务</h1>
+      <h1>3公里内提供配送服务</h1>
+      <h1>3公里内提供配送服务</h1>
+      <h1>3公里内提供配送服务</h1>
+      <h1>3公里内提供配送服务</h1>
+      <h1>3公里内提供配送服务</h1>
+      <h1>3公里内提供配送服务</h1>
+      <h1>3公里内提供配送服务</h1>
+      <h1>3公里内提供配送服务</h1>
+      <h1>3公里内提供配送服务</h1>
+      <span>最快10：15-10：45送达</span>
+    </div>
+  </div>
+  <div class="cover_panel panel_assured">
+    <div class="header">
+      服务说明
+      <i class="panel_close"></i>
+    </div>
+    <div class="body">
+      <p>最快半小时内送达</p>
+      <p>免费退换货</p>
+      <p>产地直采</p>
+      <p>如发现缺斤少两现象，我司将补双倍差价</p>
+    </div>
+  </div>
+</body>
+
+</html>
