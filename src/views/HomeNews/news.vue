@@ -14,9 +14,14 @@
       </div>
       <NewsTabs @upData="eventData" />
       <div class="news-list">
-        <template v-if="bottomData">
-          <NewsItem v-for="(item,index) in bottomData" :key="index" :data="item" />
-        </template>
+        <NewsItem v-for="(item,index) in bottomData" :key="index" :data="item" />
+        <van-pagination
+          v-show="total > limit"
+          v-model="currentPage"
+          :total-items="total"
+          :items-per-page="limit"
+          @change="currentChange"
+        />
       </div>
     </div>
   </div>
@@ -34,42 +39,62 @@ export default {
   },
   data() {
     return {
+      id: -1,
       swiper: null,
       bottomData: null,
       brannerData: null,
-      page: 1,
-      limit: 6
+      currentPage: 1,
+      total: 0,
+      limit: 6,
+      lastTime: 0, //最后一次请求数据的时间戳
+      mode: "type" //数据变更模式，page：分页(不重置轮播图)，type：类型
     };
   },
-  created() {
-    //----初始化轮播图和新闻列表
-    this.getSectData(5);
-  },
-  mounted() {},
-  updated() {
-    this.initSwiper();
-  },
   methods: {
-    getSectData(id) {
+    currentChange() {
+      this.mode = "page";
+      // 返回顶部
+      $(document).scrollTop($(".news-tabs-wrap").offset().top);
+      this.getSectData();
+    },
+    getSectData() {
+      var time = Date.now();
       this.$instance
-        .post("api/mobileapi/news", {
-          id: id,
+        .post("/api/mobileapi/news", {
+          id: this.id,
           lang: "sc",
-          page: this.page,
+          page: this.currentPage,
           limit: this.limit,
           type: 0 //主站新闻
         })
         .then(res => {
-          let data = res.data.data;
+          if (time < this.lastTime) {
+            return;
+          }
+          this.lastTime = time;
+          var data = res.data.data;
+          this.total = data.total;
           this.brannerData = data.adv;
+          this.$nextTick(() => {
+            this.initSwiper();
+          });
           this.bottomData = data.news;
         });
     },
     eventData(son) {
-      this.getSectData(son);
+      this.id = son;
+      this.mode = "type";
+      this.currentPage = 1;
+      this.total = 0;
+      this.getSectData();
     },
     initSwiper() {
-      console.log("初始化");
+      if (this.mode == "page") {
+        return;
+      }
+      if (this.swiper) {
+        this.swiper.destroy();
+      }
       this.swiper = new Swiper(this.$refs.swiper, {
         loop: true,
         autoplay: {

@@ -42,7 +42,7 @@
         </div>
         <div class="cb-body">
           <span v-for="(item, index) in searchHistory" :key="item + index">
-            <a href="javascript:;">{{item}}</a>
+            <a href="javascript:;" @click="searchAction(item)">{{item}}</a>
           </span>
         </div>
       </div>
@@ -52,7 +52,11 @@
         </div>
         <div class="cb-body">
           <span v-for="(item, index) in hotKeyword" :key="item + index">
-            <a href="javascript:;">{{item.hot}}</a>
+            <a
+              href="javascript:;"
+              :class="{'hot-search-red': index < 3}"
+              @click="searchAction(item.hot)"
+            >{{item.hot}}</a>
           </span>
         </div>
       </div>
@@ -387,7 +391,11 @@ export default {
           height: 24px;
           line-height: 24px;
           font-size: 12px;
+          color: #666;
           background: #f0f2f5;
+        }
+        .hot-search-red{
+          color: #e93b3d;
         }
       }
     }

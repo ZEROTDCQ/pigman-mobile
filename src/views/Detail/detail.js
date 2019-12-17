@@ -17,15 +17,6 @@ import './css/detail.scss'
       }
     }
   });
-
-
-  let makeSwiper = new Swiper('.swiper-container-make', {
-    slidesPerView: 'auto',
-  });
-
-  let recommSwiper = new Swiper('.swiper-container-recommend', {
-    slidesPerView: 'auto',
-  });
 }());
 
 // 遮罩上拉

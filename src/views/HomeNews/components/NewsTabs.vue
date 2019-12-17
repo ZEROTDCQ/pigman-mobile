@@ -5,7 +5,7 @@
         :class="['tl-item', {active: activeIndex == index}]"
         v-for="(item, index) in tabList"
         :key="index"
-        @click="changeTab(index,item.id)"
+        @click="changeTab(index)"
       >
         <a href="javascript:;">{{item.title}}</a>
       </li>
@@ -18,23 +18,26 @@ export default {
   data() {
     return {
       tabList: [],
-      activeIndex: 0,
+      activeIndex: 0
     };
   },
   methods: {
-    changeTab(index,id) {
+    changeTab(index) {
       this.activeIndex = index;
-      this.$emit("upData",id);
+      this.$emit("upData", this.tabList[index].id);
     }
   },
   beforeCreate() {
     this.$instance
-      .post("api/mobileapi/newTop", {
+      .post("/api/mobileapi/newTop", {
         type: 0
       })
       .then(res => {
         let data = res.data.data;
         this.tabList = data;
+        this.$nextTick(() => {
+          this.changeTab(0);
+        });
       });
   }
 };

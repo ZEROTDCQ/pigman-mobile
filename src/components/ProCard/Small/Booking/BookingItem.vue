@@ -39,7 +39,7 @@ export default {
   },
   data() {
     return {
-      //---今日截单倒计时时间搓
+      //---今日截单倒计时时间戳
       diffTime: null,
       timer: null
     };
@@ -142,8 +142,8 @@ export default {
     }
   }
   .pro-countdown {
-    height: 12px;
-    line-height: 12px;
+    height: 16px;
+    line-height: 16px;
     overflow: hidden;
     .had-booked {
       float: right;
@@ -152,7 +152,7 @@ export default {
     }
     .countdown {
       float: left;
-      font-size: 10px;
+      font-size: 12px;
       span {
         float: left;
       }
@@ -160,9 +160,9 @@ export default {
         margin: 0 2px;
       }
       .countdown-item {
-        width: 12px;
-        height: 12px;
-        font-size: 8px;
+        width: 16px;
+        height: 16px;
+        font-size: 12px;
         display: flex;
         justify-content: center;
         align-items: center;

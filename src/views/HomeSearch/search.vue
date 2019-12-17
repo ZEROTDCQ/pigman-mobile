@@ -10,6 +10,13 @@
     />
     <div class="search-result" v-show="showResult">
       <SearchProduction v-for="(item, index) in proList" :key="index" :data="item" />
+      <van-pagination
+        v-show="total > limit"
+        v-model="currentPage"
+        :total-items="total"
+        :items-per-page="limit"
+        @change="currentChange"
+      />
     </div>
     <div :class="['layer_bg', {show: showFilter}]" @click="hideFilter"></div>
     <SearchFilter
@@ -47,7 +54,11 @@ export default {
       init: true,
       sort: 1,
       floatTop: 0,
-      isFloatTop: false
+      isFloatTop: false,
+      currentPage: 1,
+      total: 0,
+      limit: 2,
+      lastTime: 0 //最后一次请求数据的时间戳
     };
   },
   computed: {
@@ -60,6 +71,9 @@ export default {
   watch: {
     sort() {
       this.proList = [];
+      // 重置页码
+      this.currentChange = 1;
+      this.total = 0;
       this.getData();
     }
   },
@@ -91,6 +105,10 @@ export default {
     hideFilter() {
       this.showFilter = false;
     },
+    currentChange() {
+      $(document).scrollTop(this.floatTop);
+      this.getData();
+    },
     getData() {
       var selectorData = this.$store.state.selectorData;
       // 解析筛选的条件
@@ -106,6 +124,7 @@ export default {
       }
       console.log(type);
       this.showFilter = false;
+      var time = Date.now();
       this.$instance
         .post("/api/api/search", {
           keyword: this.keyword,
@@ -114,12 +133,16 @@ export default {
           type: type.join(","),
           sort: this.sort,
           price: this.priceArea,
-          page: 1,
-          limit: 10
+          page: this.currentPage,
+          limit: this.limit
         })
         .then(res => {
-          console.log(res);
+          if (time < this.lastTime) {
+            return;
+          }
+          this.lastTime = time;
           var data = res.data.data;
+          this.total = data.bottom.total;
           this.proList = data.bottom.son;
           if (this.init) {
             this.$store.commit("setFilterData", data.top);
@@ -153,5 +176,33 @@ body {
     opacity: 1;
     visibility: visible;
   }
+}
+</style>
+
+<style lang="scss">
+.van-pagination {
+  font-size: 14px;
+  line-height: 40px;
+  padding: 10px;
+}
+.van-pagination__item {
+  min-width: 36px;
+  height: 40px;
+  color: $primarycolor;
+}
+.van-pagination__item--active,
+.van-pagination__item:active {
+  color: #fff;
+  background-color: $primarycolor;
+}
+.van-pagination__item--disabled,
+.van-pagination__item--disabled:active {
+  color: #7d7e80;
+  background-color: #f8f8f8;
+  opacity: 0.5;
+}
+.van-pagination__next,
+.van-pagination__prev {
+  padding: 0 4px;
 }
 </style>

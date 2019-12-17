@@ -48,14 +48,14 @@ module.exports = {
 		// ActivityApply: './src/views/ActivityApply/ActivityApply.js',		//活动报名
 		// Member: './src/views/Member/member.js',		//会员专区
 		// Category: './src/views/Category/category.js',		//产品分类
-		Detail: './src/views/Detail/detail.js',		//商品详情
+		// Detail: './src/views/Detail/detail.js',		//商品详情
 		// Job: './src/views/Job/job.js',		//人才招聘
 		// JobDetail: './src/views/JobDetail/jobdetail.js',		//职位详情
 		// JobApply: './src/views/JobApply/JobApply.js', //职位申请
 		// Report: './src/views/Report/report.js',		//廉政举报
 		// Cooperate: './src/views/Cooperate/Cooperate.js', //供货合作
 		// Supply: './src/views/Supply/Supply.js',		//供货合作申请单
-		// Footer: './src/views/Footer/Footer.js',		//公共底部
+		Footer: './src/views/Footer/Footer.js',		//公共底部
 
 		// ----------------------------------- 测试页面 -----------------------------------
 		// test: './src/views/test/test.js',		//商品卡片测试页面
@@ -85,7 +85,7 @@ module.exports = {
 		//在生产模式下，构建后会用该值代替html中的静态资源引用的相对路径，即静态资源将要部署至线上的位置，
 		//该值还决定了通过import()异步加载的静态文件(js,css)构建后的路径，同时决定了css文件中引入的资源(图片、字体等)路径
 		//注意：纯拼接替换，不会语法解析..
-		publicPath: '/mobile/detail/'
+		publicPath: '/mobile/index_footer/'
 	},
 	module: {
 		rules: [{
@@ -155,8 +155,7 @@ module.exports = {
 					}
 				}
 			}]
-		}
-		]
+		}]
 	},
 	devServer: {
 		host: '0.0.0.0',
@@ -197,7 +196,7 @@ module.exports = {
 		"element-ui": 'ELEMENT',
 		axios: 'axios'
 	},
-	devtool: 'cheap-module-eval-source-map',
+	devtool: 'none',
 	// 当webpack打包源代码时，可能会很难追踪到错误和警告在源代码中的原始位置。
 	// 例如，如果将三个源文件（a.js, b.js 和 c.js）打包到一个 bundle（bundle.js）中，
 	// 而其中一个源文件包含一个错误，那么堆栈跟踪就会简单地指向到 bundle.js。
@@ -379,11 +378,11 @@ const pages = [
 	// 	filename: 'member.html',
 	// 	chunks: ['reset', 'Member']
 	// },
-	{
-		template: './src/views/Detail/detail.html',
-		filename: 'detail.html',
-		chunks: ['reset', 'Detail']
-	},
+	// {
+	// 	template: './src/views/Detail/Newtaste.html',
+	// 	filename: 'detail.html',
+	// 	chunks: ['reset', 'Detail']
+	// },
 	// {
 	// 	template: './src/views/Job/job.html',
 	// 	filename: 'job.html',
@@ -424,11 +423,11 @@ const pages = [
 	// 	filename: 'test.html',
 	// 	chunks: ['reset', 'test']
 	// },
-	// {
-	// 	template: './src/views/Footer/footer.html',
-	// 	filename: 'footer.html',
-	// 	chunks: ['reset', 'Footer']
-	// },
+	{
+		template: './src/views/Footer/footer.html',
+		filename: 'footer.html',
+		chunks: ['reset', 'Footer']
+	},
 
 	// ----------------------------------- 营销活动 -----------------------------------
 	// {

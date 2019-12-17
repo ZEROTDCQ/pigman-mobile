@@ -1,6 +1,6 @@
 <template>
   <!-- 公共头部 -->
-  <div id="indexHeader" :class="['header-wrap', {extend: extend}]">
+  <div id="indexHeader" :class="['header-wrap', {extend: extend, menu: slideMenu}]">
     <div class="search-wrap">
       <div class="head-logo" v-show="!extend">猪先生logog</div>
       <div class="head-btn-left" v-show="extend">
@@ -168,7 +168,8 @@ export default {
       matchTimer: null,
       time: 0,
       // 相关关键词
-      dropDownList: []
+      dropDownList: [],
+      scrollTop: 0
     };
   },
   computed: {
@@ -191,8 +192,26 @@ export default {
       });
   },
   methods: {
+    setBodyScroll() {
+      if (this.extend || this.slideMenu) {
+        this.scrollTop = $(document).scrollTop();
+        $("body")
+          .children()
+          .filter('div:not("#indexHeader")')
+          .hide();
+        $("body").css("overflow", "hidden");
+      } else {
+        $("body")
+          .children()
+          .filter('div:not("#indexHeader")')
+          .show();
+        $("body").css("overflow", "");
+        $(document).scrollTop(this.scrollTop);
+      }
+    },
     menuHandler() {
       this.slideMenu = !this.slideMenu;
+      this.setBodyScroll();
     },
     slideDownMenu(index) {
       if (index == this.menuActiveIndex) {
@@ -208,6 +227,7 @@ export default {
     inputClick() {
       this.extend = true;
       this.slideMenu = false;
+      this.setBodyScroll();
     },
     onInput() {
       // 搜索框正在输入事件，延迟250ms后获取相关搜索词
@@ -296,8 +316,12 @@ export default {
       this.clearToast = false;
     },
     searchBack() {
-      this.keyword = "";
-      this.extend = false;
+      if (this.extend && this.keyword) {
+        this.keyword = "";
+      } else {
+        this.extend = false;
+        this.setBodyScroll();
+      }
     },
     clearInput() {
       this.keyword = "";
@@ -309,6 +333,9 @@ export default {
 
 
 <style lang="scss">
+.overhidden {
+  overflow: hidden;
+}
 ::-webkit-scrollbar {
   width: 0;
   background: transparent;
@@ -414,8 +441,14 @@ export default {
   height: 44px;
   background: $primarycolor;
   .search-wrap {
-    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10001;
+    width: 100%;
+    height: 44px;
     overflow: hidden;
+    background: $primarycolor;
   }
   .head-logo {
     float: left;
@@ -661,29 +694,40 @@ export default {
   }
 }
 
-.header-wrap.extend {
-  background: #fff;
-  .search-wrap {
-    position: relative;
-    &::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 1px;
-      background: #e5e5e5;
-      transform: scaleY(0.5);
-    }
+.header-wrap {
+  &.extend,
+  &.menu {
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
   }
-  .search-input {
-    margin: 7px 55px 0 40px;
-    flex-direction: row-reverse;
-    background: #f5f5f5;
-    .search-inner {
-      input {
-        padding-right: 15px;
-        padding-left: 0;
+  &.extend {
+    background: #fff;
+    .search-wrap {
+      position: relative;
+      background: #fff;
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 1px;
+        background: #e5e5e5;
+        transform: scaleY(0.5);
+      }
+    }
+    .search-input {
+      margin: 7px 55px 0 40px;
+      flex-direction: row-reverse;
+      background: #f5f5f5;
+      .search-inner {
+        input {
+          padding-right: 15px;
+          padding-left: 0;
+        }
       }
     }
   }

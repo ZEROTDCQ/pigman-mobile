@@ -301,6 +301,24 @@ body {
       background: $primarycolor;
     }
   }
+  .btn-multiple {
+    display: flex;
+    flex: unset !important;
+    .btn-item {
+      padding: 0 15px;
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+      justify-content: center;
+      .mode-price {
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
+    }
+    .together {
+      background: #459a41;
+    }
+  }
 }
 
 .cover_bg {
@@ -472,6 +490,27 @@ body {
     }
     .p_desc {
       padding: 0;
+    }
+    .p_service {
+      dl {
+        margin-bottom: 10px;
+        line-height: 1.5;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+      dt {
+        margin-bottom: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        color: $primarycolor;
+      }
+      dd {
+        margin-bottom: 5px;
+        font-size: 14px;
+        text-align: justify;
+        color: #666;
+      }
     }
   }
 }
